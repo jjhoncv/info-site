@@ -19,6 +19,9 @@ export default defineConfig({
   reporter: process.env.CI
     ? [["github"], ["list"], ["json", { outputFile: "test-results/resultados.json" }]]
     : [["list"], ["json", { outputFile: "test-results/resultados.json" }]],
+  // Imágenes base de las pruebas visuales (ADR 0002): se versionan fuera de .features-gen.
+  snapshotPathTemplate: "features/visual/{arg}-{platform}{ext}",
+  expect: { toHaveScreenshot: { maxDiffPixelRatio: 0.01 } },
   use: { baseURL, trace: "retain-on-failure" },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: process.env.BASE_URL

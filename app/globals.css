@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+/* Tokens de diseño: la guía está en docs/diseno.md. Cambiar un color es cambiar una línea. */
+@theme {
+  --color-marca-50: #eef4ff;
+  --color-marca-100: #dbe7ff;
+  --color-marca-600: #1f4fd8;
+  --color-marca-700: #1a3fb0;
+  --color-marca-900: #0c1f4d;
+  --color-acento-100: #d9f7ee;
+  --color-acento-500: #14b88a;
+  --color-acento-700: #0b7a5c;
+  --color-tinta: #14213d;
+  --color-tinta-suave: #4a5775;
+  --color-linea: #dfe5f1;
+  --color-fondo: #ffffff;
+  --color-fondo-suave: #f5f8fd;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --radius-tarjeta: 1rem;
+  --shadow-tarjeta: 0 1px 2px rgb(12 31 77 / 0.06), 0 8px 24px rgb(12 31 77 / 0.08);
+}
+
+body {
+  background: var(--color-fondo);
+  color: var(--color-tinta);
+  font-family: var(--font-sans);
+}
