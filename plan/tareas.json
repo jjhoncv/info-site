@@ -1,0 +1,308 @@
+{
+  "fases": [
+    {
+      "numero": 1,
+      "nombre": "Servicios y demo segura",
+      "entregable": "Sitio con diseño propio, servicios en lista y detalle, admin de servicios con imagen y demo pública segura con «Restaurar demo»"
+    },
+    {
+      "numero": 2,
+      "nombre": "Portada y proyectos",
+      "entregable": "Portada con banners y proyectos en lista y detalle, editables desde el admin"
+    },
+    {
+      "numero": 3,
+      "nombre": "Empresa y contacto",
+      "entregable": "Datos de la empresa y logo editables, visibles en encabezado, pie y /contact"
+    },
+    {
+      "numero": 4,
+      "nombre": "Lista para mostrar",
+      "entregable": "Contenido profesional, restauración nocturna, SEO por página y calidad ≥ 90"
+    }
+  ],
+  "tareas": [
+    {
+      "id": "T1",
+      "fase": 1,
+      "titulo": "Boceto y guía de diseño del sitio",
+      "escenarios": [
+        {
+          "archivo": "features/fase-1-servicios-y-demo-segura.feature",
+          "gherkin": "Escenario: El sitio se ve como el diseño aprobado\n  Cuando entro a /services en la computadora y en el celular\n  Entonces la página se ve igual al diseño que aprobé"
+        },
+        {
+          "archivo": "features/fase-1-servicios-y-demo-segura.feature",
+          "gherkin": "Escenario: En el celular no hay nada fuera de pantalla\n  Cuando entro a cualquier página pública desde un celular\n  Entonces no tengo que desplazarme hacia los lados para leerla"
+        },
+        {
+          "archivo": "features/fase-1-servicios-y-demo-segura.feature",
+          "gherkin": "Escenario: Un servicio que no existe\n  Cuando entro a /services/no-existe\n  Entonces veo la página \"No encontramos esta página\""
+        }
+      ],
+      "que": "Tailwind 4 con los tokens de diseño en `@theme` y la guía en `docs/diseno.md` (colores, tipografía, espaciado, botones). Encabezado, pie, /services en lista y en detalle con datos inventados (sin base de datos) y página 404 propia. Nivel de diseño: **producto**, se ve terminado y profesional: diseño propio inspirado en el estilo de FinExpert sin reusar nada suyo, ilustraciones SVG propias (nada de cajas con texto en vez de imagen), jerarquía tipográfica clara, botones con aspecto final. Pruebas visuales con `toHaveScreenshot` en computadora y celular; las imágenes base se generan en el CI (ADR 0002). Fusionar este PR = aprobar el diseño. Puede pasar de 300 líneas (aprobado por el dueño).",
+      "hecho": "Los escenarios «El sitio se ve como el diseño aprobado», «En el celular no hay nada fuera de pantalla», «Un servicio que no existe» en verde.",
+      "necesita": ""
+    },
+    {
+      "id": "T2",
+      "fase": 1,
+      "titulo": "Módulo de servicios desde MySQL (módulo de referencia)",
+      "escenarios": [
+        {
+          "archivo": "features/fase-1-servicios-y-demo-segura.feature",
+          "gherkin": "Escenario: El visitante ve los servicios\n  Dado que la demo tiene el servicio \"Asesoría contable\"\n  Cuando entro a /services\n  Entonces veo la tarjeta \"Asesoría contable\" con su imagen"
+        },
+        {
+          "archivo": "features/fase-1-servicios-y-demo-segura.feature",
+          "gherkin": "Escenario: El visitante ve el detalle de un servicio\n  Dado que la demo tiene el servicio \"Asesoría contable\"\n  Cuando entro a /services/asesoria-contable\n  Entonces veo el título \"Asesoría contable\" y su descripción"
+        }
+      ],
+      "que": "Primer módulo completo según `docs/convenciones.md`: migración de `services` (y `sections`), repository/mapper/model/schema con sus pruebas, tipos generados, semilla de la demo con datos inventados e imágenes originales en el repo. Las páginas públicas de T1 pasan a leer de MySQL, con `generateMetadata` en el detalle.",
+      "hecho": "Los escenarios «El visitante ve los servicios», «El visitante ve el detalle de un servicio» en verde.",
+      "necesita": "Conexión a TiDB de staging y producción (las bases `info_site` y los usuarios `.app` ya existen). **GitHub → Settings → Environments** → `staging` y `production` → secrets `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER` (= `PREFIJO.root`, lo usa el Guardián para las migraciones), `MYSQL_PASSWORD`, `MYSQL_DATABASE` (= `info_site`). **Netlify → Site configuration → Environment variables**, marcadas como secretas y con valor distinto por contexto (*Production* = producción; *Deploy previews* y *Branch deploys* = staging): las mismas variables pero `MYSQL_USER` = `PREFIJO.app` (solo SELECT/INSERT/UPDATE/DELETE), más `MYSQL_SSL=1`."
+    },
+    {
+      "id": "T3",
+      "fase": 1,
+      "titulo": "Login del admin con el usuario demo",
+      "escenarios": [
+        {
+          "archivo": "features/fase-1-servicios-y-demo-segura.feature",
+          "gherkin": "Escenario: Sin sesión no se entra al admin\n  Cuando entro a /admin/services sin iniciar sesión\n  Entonces veo el formulario de login"
+        }
+      ],
+      "que": "Login con usuario y clave usando iron-session + bcryptjs (ADR 0005): formulario de login, sesión en cookie cifrada, `proxy.ts` que manda a /login a quien entra a /admin sin sesión y `withAdmin` que responde 401/403 en `/api/admin/*`. Pruebas: login correcto, clave incorrecta, API sin sesión → 401.",
+      "hecho": "El escenario «Sin sesión no se entra al admin» en verde.",
+      "necesita": "En **Netlify → Environment variables**, marcadas como secretas y con valor distinto en *Production* y en *Deploy previews*/*Branch deploys*: `SESSION_SECRET` (32 caracteres o más, aleatorio), `DEMO_USER` (el usuario que les darás a los clientes) y `DEMO_PASSWORD_HASH` (hash bcrypt de la clave; el PR trae el comando para generarlo)."
+    },
+    {
+      "id": "T4",
+      "fase": 1,
+      "titulo": "Límite de intentos de login",
+      "escenarios": [
+        {
+          "archivo": "features/fase-1-servicios-y-demo-segura.feature",
+          "gherkin": "Escenario: Demasiados intentos de login\n  Cuando escribo mal la clave 5 veces seguidas\n  Entonces veo el mensaje \"Demasiados intentos; espera 15 minutos\" y no puedo entrar aunque ponga la clave correcta"
+        }
+      ],
+      "que": "Después de 5 claves incorrectas seguidas, el login se bloquea 15 minutos aunque la clave sea correcta. Los intentos se guardan en MySQL (migración nueva), no en memoria, porque Netlify corre varias funciones. Pruebas del contador y de la ventana de 15 minutos.",
+      "hecho": "El escenario «Demasiados intentos de login» en verde.",
+      "necesita": ""
+    },
+    {
+      "id": "T5",
+      "fase": 1,
+      "titulo": "Perfil del admin sin cambio de clave para la demo",
+      "escenarios": [
+        {
+          "archivo": "features/fase-1-servicios-y-demo-segura.feature",
+          "gherkin": "Escenario: El usuario demo no cambia su clave\n  Dado que inicié sesión con el usuario demo\n  Cuando entro a mi perfil\n  Entonces no veo la opción de cambiar la clave"
+        }
+      ],
+      "que": "Página de perfil en el admin: muestra el usuario y no ofrece cambiar la clave. No existe ninguna ruta de API para cambiarla, así que tampoco se puede llamar a mano.",
+      "hecho": "El escenario «El usuario demo no cambia su clave» en verde.",
+      "necesita": ""
+    },
+    {
+      "id": "T6",
+      "fase": 1,
+      "titulo": "Lista de servicios en el admin",
+      "escenarios": [
+        {
+          "archivo": "features/fase-1-servicios-y-demo-segura.feature",
+          "gherkin": "Escenario: Las páginas se pueden leer y usar\n  Cuando reviso /services y /admin/services\n  Entonces los textos se leen bien, las imágenes tienen descripción y cada campo tiene su etiqueta"
+        }
+      ],
+      "que": "Layout del admin con la UI de info-site-next adaptada a Next 16 / React 19 / Tailwind 4 (`LayoutPageAdmin`, `PageUI`, `DynamicTable`) y la lista de /admin/services. API `GET`/`DELETE` de servicios con `withAdmin` y sus pruebas (200, 401, 403). Revisión de accesibilidad con `@axe-core/playwright` en /services y /admin/services (ADR 0003).",
+      "hecho": "El escenario «Las páginas se pueden leer y usar» en verde.",
+      "necesita": ""
+    },
+    {
+      "id": "T7",
+      "fase": 1,
+      "titulo": "Crear y editar servicios",
+      "escenarios": [
+        {
+          "archivo": "features/fase-1-servicios-y-demo-segura.feature",
+          "gherkin": "Escenario: El cliente edita un servicio y lo ve en el sitio\n  Dado que inicié sesión con el usuario demo\n  Cuando cambio el título de \"Asesoría contable\" a \"Contabilidad para pymes\" y guardo\n  Entonces en /services veo la tarjeta \"Contabilidad para pymes\""
+        },
+        {
+          "archivo": "features/fase-1-servicios-y-demo-segura.feature",
+          "gherkin": "Escenario: El formulario avisa lo que falta\n  Dado que inicié sesión con el usuario demo\n  Cuando intento crear un servicio sin título\n  Entonces veo el mensaje \"El título es obligatorio\""
+        }
+      ],
+      "que": "`FormCreate` reconstruido en piezas (convenciones §7b) con `servicesFields.ts` y el esquema zod de `Service.schema.ts`, el mismo en la UI y en la API (`POST`/`PATCH`, lista permitida de campos, auditoría). Páginas /admin/services/new y /admin/services/[id]. Sin imágenes todavía: el campo de imagen llega en T8.",
+      "hecho": "Los escenarios «El cliente edita un servicio y lo ve en el sitio», «El formulario avisa lo que falta» en verde.",
+      "necesita": ""
+    },
+    {
+      "id": "T8",
+      "fase": 1,
+      "titulo": "Subida de imágenes de servicios",
+      "escenarios": [
+        {
+          "archivo": "features/fase-1-servicios-y-demo-segura.feature",
+          "gherkin": "Escenario: Solo se suben imágenes válidas\n  Dado que inicié sesión con el usuario demo\n  Cuando subo un archivo que no es JPG, PNG ni WebP, o que pesa más de 2 MB\n  Entonces veo un mensaje que explica por qué no se aceptó y la imagen no se guarda"
+        }
+      ],
+      "que": "Campo de imagen del formulario y subida a Netlify Blobs (ADR 0006). El servidor valida el tipo real del archivo (JPG, PNG o WebP, por su contenido y no solo por la extensión) y el peso (2 MB como máximo), y muestra un mensaje que explica el rechazo. Las imágenes originales de la semilla siguen en el repo.",
+      "hecho": "El escenario «Solo se suben imágenes válidas» en verde.",
+      "necesita": ""
+    },
+    {
+      "id": "T9",
+      "fase": 1,
+      "titulo": "Tope de imágenes subidas en la demo",
+      "escenarios": [
+        {
+          "archivo": "features/fase-1-servicios-y-demo-segura.feature",
+          "gherkin": "Escenario: La demo tiene un tope de imágenes subidas\n  Dado que ya se subieron 30 imágenes desde la última restauración\n  Cuando intento subir otra\n  Entonces veo el mensaje \"La demo llegó al límite de imágenes; restáurala para seguir probando\""
+        }
+      ],
+      "que": "Contador de imágenes subidas desde la última restauración; al llegar a 30, la subida se rechaza en el servidor con el mensaje del escenario.",
+      "hecho": "El escenario «La demo tiene un tope de imágenes subidas» en verde.",
+      "necesita": ""
+    },
+    {
+      "id": "T10",
+      "fase": 1,
+      "titulo": "Botón «Restaurar demo»",
+      "escenarios": [
+        {
+          "archivo": "features/fase-1-servicios-y-demo-segura.feature",
+          "gherkin": "Escenario: Restaurar la demo\n  Dado que el servicio \"Asesoría contable\" se renombró a \"Prueba\" y se subió una imagen nueva\n  Cuando pulso \"Restaurar demo\" y confirmo\n  Entonces en /services veo otra vez \"Asesoría contable\" con su imagen original, no veo \"Prueba\"\n  Y la imagen subida ya no existe"
+        }
+      ],
+      "que": "Acción del admin, con confirmación, que vuelve a cargar la semilla de la demo, borra todos los blobs subidos y pone en cero el contador de imágenes. No toca el usuario demo ni su clave. Queda como una función reutilizable para la restauración nocturna (T16).",
+      "hecho": "El escenario «Restaurar la demo» en verde.",
+      "necesita": ""
+    },
+    {
+      "id": "T11",
+      "fase": 2,
+      "titulo": "Portada con banners",
+      "escenarios": [
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: La portada muestra los banners\n  Dado que la demo tiene el banner \"Tu empresa, en buenas manos\"\n  Cuando entro a la portada\n  Entonces veo el banner \"Tu empresa, en buenas manos\""
+        }
+      ],
+      "que": "Módulo `banners` copiado del módulo de servicios (migración, core, semilla) y portada con los banners en el diseño aprobado en T1. La restauración de la demo incluye los banners.",
+      "hecho": "El escenario «La portada muestra los banners» en verde.",
+      "necesita": ""
+    },
+    {
+      "id": "T12",
+      "fase": 2,
+      "titulo": "Admin de banners",
+      "escenarios": [
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: El cliente cambia un banner\n  Dado que inicié sesión con el usuario demo\n  Cuando cambio el título del banner a \"Crecemos contigo\" y guardo\n  Entonces en la portada veo \"Crecemos contigo\""
+        }
+      ],
+      "que": "Lista, creación y edición de banners en /admin/banners, con imagen, copiando el admin de servicios.",
+      "hecho": "El escenario «El cliente cambia un banner» en verde.",
+      "necesita": ""
+    },
+    {
+      "id": "T13",
+      "fase": 2,
+      "titulo": "Proyectos en lista y en detalle",
+      "escenarios": [
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: El visitante ve un proyecto\n  Dado que la demo tiene el proyecto \"Auditoría Grupo Andino\"\n  Cuando entro a /projects y lo abro\n  Entonces veo el título \"Auditoría Grupo Andino\", su descripción y sus imágenes"
+        }
+      ],
+      "que": "Módulo `projects` copiado de servicios, con varias imágenes por proyecto: /projects y /projects/[slug] con datos de la semilla. La restauración de la demo incluye los proyectos.",
+      "hecho": "El escenario «El visitante ve un proyecto» en verde.",
+      "necesita": ""
+    },
+    {
+      "id": "T13b",
+      "fase": 2,
+      "titulo": "Admin de proyectos",
+      "escenarios": [
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: El cliente edita un proyecto\n  Dado que inicié sesión con el usuario demo\n  Cuando cambio el título de \"Auditoría Grupo Andino\" a \"Auditoría Andina\" y guardo\n  Entonces en /projects veo \"Auditoría Andina\""
+        }
+      ],
+      "que": "Lista, creación y edición de proyectos en /admin/projects, con sus imágenes, copiando el admin de servicios. Las subidas cuentan para el tope de 30.",
+      "hecho": "El escenario «El cliente edita un proyecto» en verde.",
+      "necesita": ""
+    },
+    {
+      "id": "T14",
+      "fase": 3,
+      "titulo": "Datos de la empresa y logo",
+      "escenarios": [
+        {
+          "archivo": "features/fase-3-empresa-y-contacto.feature",
+          "gherkin": "Escenario: El cliente cambia el logo\n  Dado que inicié sesión con el usuario demo\n  Cuando subo un logo nuevo en \"Empresa\" y guardo\n  Entonces el encabezado del sitio muestra el logo nuevo"
+        }
+      ],
+      "que": "Sección «Empresa» en el admin (nombre, logo, teléfono, correo, dirección, WhatsApp), con un solo registro. El encabezado y el pie leen esos datos. El logo usa la misma subida validada de T8, y la restauración devuelve los datos originales.",
+      "hecho": "El escenario «El cliente cambia el logo» en verde.",
+      "necesita": ""
+    },
+    {
+      "id": "T15",
+      "fase": 3,
+      "titulo": "Página de contacto",
+      "escenarios": [
+        {
+          "archivo": "features/fase-3-empresa-y-contacto.feature",
+          "gherkin": "Escenario: Los datos de contacto se ven en el sitio\n  Dado que el teléfono de la empresa es \"+51 999 888 777\"\n  Cuando entro a /contact\n  Entonces veo \"+51 999 888 777\" y un botón de WhatsApp"
+        }
+      ],
+      "que": "/contact con los datos de la empresa y un botón de WhatsApp (enlace `wa.me` con el número). Sin formulario de correo (Parking lot).",
+      "hecho": "El escenario «Los datos de contacto se ven en el sitio» en verde.",
+      "necesita": ""
+    },
+    {
+      "id": "T16",
+      "fase": 4,
+      "titulo": "Restauración nocturna de la demo",
+      "escenarios": [
+        {
+          "archivo": "features/fase-4-lista-para-mostrar.feature",
+          "gherkin": "Escenario: La demo amanece limpia\n  Dado que ayer un cliente borró el servicio \"Asesoría contable\"\n  Cuando pasa la restauración de la noche\n  Entonces en /services veo otra vez \"Asesoría contable\""
+        }
+      ],
+      "que": "Función programada de Netlify que todas las noches (hora de Lima) llama a la restauración de T10. Lo que no se puede probar en local (el horario real de Netlify) se explica en el PR, con el paso para comprobarlo en staging.",
+      "hecho": "El escenario «La demo amanece limpia» en verde.",
+      "necesita": ""
+    },
+    {
+      "id": "T17",
+      "fase": 4,
+      "titulo": "SEO básico por página",
+      "escenarios": [
+        {
+          "archivo": "features/fase-4-lista-para-mostrar.feature",
+          "gherkin": "Escenario: Cada página tiene su título para buscadores\n  Cuando entro a /services/asesoria-contable\n  Entonces el título de la pestaña es el meta título del servicio"
+        }
+      ],
+      "que": "`generateMetadata` en todas las páginas públicas (meta título y meta descripción desde la base, con un valor por defecto), Open Graph básico, `sitemap.ts` y `robots.ts` (el admin no se indexa).",
+      "hecho": "El escenario «Cada página tiene su título para buscadores» en verde.",
+      "necesita": ""
+    },
+    {
+      "id": "T18",
+      "fase": 4,
+      "titulo": "Contenido profesional y calidad ≥ 90",
+      "escenarios": [
+        {
+          "archivo": "features/fase-4-lista-para-mostrar.feature",
+          "gherkin": "Escenario: El sitio carga rápido y con buena calidad\n  Cuando reviso la portada, /services y /projects\n  Entonces cada una saca 90 o más en rendimiento, accesibilidad, buenas prácticas y SEO"
+        }
+      ],
+      "que": "Contenido de ejemplo profesional en todas las secciones (textos e imágenes propias, sin marcadores de posición) y Lighthouse CI (ADR 0007) sobre la portada, /services y /projects, con 90 o más en rendimiento, accesibilidad, buenas prácticas y SEO; se corrige lo que baje de 90.",
+      "hecho": "El escenario «El sitio carga rápido y con buena calidad» en verde.",
+      "necesita": ""
+    }
+  ]
+}

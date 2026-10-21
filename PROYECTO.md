@@ -134,6 +134,11 @@ Escenario: El visitante ve un proyecto
   Cuando entro a /projects y lo abro
   Entonces veo el título "Auditoría Grupo Andino", su descripción y sus imágenes
 
+Escenario: El cliente edita un proyecto
+  Dado que inicié sesión con el usuario demo
+  Cuando cambio el título de "Auditoría Grupo Andino" a "Auditoría Andina" y guardo
+  Entonces en /projects veo "Auditoría Andina"
+
 ### Fase 3
 Escenario: El cliente cambia el logo
   Dado que inicié sesión con el usuario demo
@@ -186,3 +191,9 @@ Escenario: El sitio carga rápido y con buena calidad
 | 2026-10-20 | Demo pública segura desde la Fase 1: subida limitada (tipo, peso, cantidad), «Restaurar demo» borra las imágenes subidas, límite de intentos de login, usuario demo sin cambio de clave | El admin queda abierto en internet para cualquier cliente. |
 | 2026-10-20 | Un usuario demo compartido | Lo justo para mostrar; usuarios por cliente van al Parking lot. |
 | 2026-10-20 | Sin dominio propio | Presupuesto 0. |
+| 2026-10-21 | Las pruebas usan datos inventados: la semilla de la demo y fixtures, en un MySQL temporal del CI; no hay correos | Nunca datos reales en las pruebas; la demo no envía correo. |
+| 2026-10-21 | Escenario «El cliente edita un proyecto» (Fase 2) | La Fase 2 dice «editables desde el admin» y no tenía escenario para proyectos. |
+| 2026-10-21 | El contenido de ejemplo profesional va en la tarea de calidad (Fase 4); la revisión en el celular la cubre «En el celular no hay nada fuera de pantalla» | Sin escenario propio no hay tarea; Lighthouse mide sobre el contenido real. |
+| 2026-10-21 | Login con iron-session + bcryptjs; Auth.js descartado (ADR 0005) | Un solo usuario demo; Auth.js v5 nunca salió estable y está en mantenimiento. |
+| 2026-10-21 | Herramientas: Tailwind 4, pruebas visuales de Playwright, axe, mysql2 + sql-ts, Netlify Blobs, Lighthouse CI (ADR 0001–0007) | El alcance dejó a `/guardian-planificar` decidir con qué. |
+| 2026-10-21 | Usuarios de TiDB: `PREFIJO.root` solo para las migraciones (GitHub Environments); `PREFIJO.app` (SELECT/INSERT/UPDATE/DELETE) para la página (Netlify) | Permisos mínimos: la página no puede cambiar tablas. |
