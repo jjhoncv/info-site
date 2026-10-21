@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin · Colegio (demo)</title><link rel="stylesheet" href="estilo.css"></head><body>
+<div class="app"><aside class="side"><a class="logo" href="index.html">Horizonte</a><a class="i on" href="admin.html">Noticias</a><a class="i" href="#">Niveles</a><a class="i" href="#">Solicitudes</a><a class="i" href="index.html">Ver sitio ↗</a></aside>
+<main class="main"><h1>Noticias</h1>
+<div class="kpi"><div><b>3</b>publicadas</div><div><b>1</b>borrador</div><div><b>14</b>solicitudes nuevas</div></div>
+<table><thead><tr><th>Título</th><th>Fecha</th><th>Estado</th></tr></thead><tbody>
+<tr><td>Feria de ciencias</td><td>12 oct</td><td><span class="tag on">Publicada</span></td></tr>
+<tr><td>Taller para padres</td><td>05 oct</td><td><span class="tag on">Publicada</span></td></tr>
+<tr><td>Olimpiadas deportivas</td><td>28 sep</td><td><span class="tag on">Publicada</span></td></tr>
+<tr><td>Calendario de exámenes</td><td>—</td><td><span class="tag">Borrador</span></td></tr></tbody></table>
+<form id="f" novalidate><h2 style="font-size:20px;margin:0">Nueva noticia</h2>
+<label>Título<input id="n" placeholder="Ej. Día del logro"><span class="msg" id="en"></span></label>
+<label>Fecha<input id="d" type="date"><span class="msg" id="ed"></span></label>
+<label>Texto<textarea rows="4"></textarea></label><button class="btn" type="submit">Publicar</button><span class="ok" id="ok"></span></form>
+</main></div>
+<script>
+f.onsubmit=function(e){e.preventDefault();var a=!n.value.trim(),b=!d.value;en.textContent=a?"El título es obligatorio":"";ed.textContent=b?"Elige una fecha":"";n.className=a?"err":"";d.className=b?"err":"";ok.textContent=a||b?"":"Publicada (demo, no se envía nada)"}
+</script></body></html>

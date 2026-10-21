@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin · Restaurante (demo)</title><link rel="stylesheet" href="estilo.css"></head><body>
+<div class="app"><aside class="side"><a class="logo" href="index.html">La Brasa</a><a class="i on" href="admin.html">Platos</a><a class="i" href="#">Horarios</a><a class="i" href="#">Fotos</a><a class="i" href="index.html">Ver sitio ↗</a></aside>
+<main class="main"><h1>Platos de la carta</h1>
+<table><thead><tr><th>Plato</th><th>Categoría</th><th>Precio</th><th>Estado</th></tr></thead><tbody>
+<tr><td>Costillar a la brasa</td><td>Fondo</td><td>S/ 58</td><td><span class="tag on">Publicado</span></td></tr>
+<tr><td>Ceviche clásico</td><td>Entrada</td><td>S/ 38</td><td><span class="tag on">Publicado</span></td></tr>
+<tr><td>Flan de la casa</td><td>Postre</td><td>S/ 16</td><td><span class="tag on">Publicado</span></td></tr>
+<tr><td>Risotto de hongos</td><td>Fondo</td><td>S/ 36</td><td><span class="tag">Agotado hoy</span></td></tr></tbody></table>
+<h2 style="font-size:20px">Nuevo plato</h2>
+<form id="f" novalidate><label>Nombre<input id="n" placeholder="Ej. Lomo saltado"><span class="msg" id="en"></span></label>
+<label>Categoría<select><option>Entrada</option><option>Fondo</option><option>Postre</option><option>Bebida</option></select></label>
+<label>Precio (S/)<input id="p" inputmode="decimal" placeholder="0.00"><span class="msg" id="ep"></span></label>
+<label>Descripción<textarea rows="3"></textarea></label><button class="btn" type="submit">Guardar plato</button><span class="ok" id="ok"></span></form>
+</main></div>
+<script>
+f.onsubmit=function(e){e.preventDefault();var a=!n.value.trim(),b=!(parseFloat(p.value)>0);en.textContent=a?"El nombre es obligatorio":"";ep.textContent=b?"Escribe un precio mayor a 0":"";n.className=a?"err":"";p.className=b?"err":"";ok.textContent=a||b?"":"Guardado (demo, no se envía nada)"}
+</script></body></html>

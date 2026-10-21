@@ -1,0 +1,32 @@
+*{box-sizing:border-box;margin:0}
+body{font:16px/1.6 system-ui,sans-serif;background:#0f0f0f;color:#ece7dc}
+a{color:inherit;text-decoration:none}
+.w{max-width:1040px;margin:0 auto;padding:0 20px}
+.top{border-bottom:1px solid #2a2a2a}.top .w{display:flex;justify-content:space-between;align-items:center;min-height:68px;flex-wrap:wrap}
+.logo{font:700 22px Impact,"Arial Narrow",sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#c9a24b}
+nav a{margin-left:24px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#a8a296}
+nav a.cta{background:#c9a24b;color:#0f0f0f;padding:10px 18px;font-weight:700}
+.hero{padding:90px 0 60px;text-align:center}
+.hero h1{font:700 clamp(44px,9vw,96px)/1 Impact,"Arial Narrow",sans-serif;text-transform:uppercase;letter-spacing:.03em}
+.hero h1 span{color:#c9a24b}
+.hero p{color:#a8a296;margin:18px auto 28px;max-width:520px}
+.btn{display:inline-block;background:#c9a24b;color:#0f0f0f;padding:13px 26px;font:700 13px system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;border:0;cursor:pointer}
+.foto{background:repeating-linear-gradient(135deg,#1a1a1a 0 14px,#222 14px 28px);min-height:200px;display:flex;align-items:end;padding:14px;font-size:13px;color:#8a8478}
+.equipo{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:0 0 60px}
+h2{font:700 30px Impact,"Arial Narrow",sans-serif;letter-spacing:.1em;text-transform:uppercase;margin:0 0 22px}
+.lista{max-width:720px;margin:0 auto;padding-bottom:64px}
+.item{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;padding:16px 0;border-bottom:1px solid #2a2a2a}
+.item h3{font-size:17px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}.item i{flex:1;border-bottom:1px dashed #3a3a3a}
+.item em{font-style:normal;color:#c9a24b;font-weight:700}.item p{flex-basis:100%;color:#8a8478;font-size:14px;order:5}
+.pie{border-top:1px solid #2a2a2a;padding:24px 0;font-size:14px;color:#8a8478}.pie .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.app{display:grid;grid-template-columns:200px 1fr;min-height:100vh;font-size:15px}
+.side{background:#171717;padding:22px;border-right:1px solid #2a2a2a}.side .logo{display:block;font-size:18px;margin-bottom:24px}
+.side a.i{display:block;padding:9px 0;color:#a8a296}.side a.on{color:#c9a24b}
+.main{padding:30px;max-width:900px}.main h1{font:700 28px Impact,"Arial Narrow",sans-serif;letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;margin-bottom:34px}th,td{text-align:left;padding:11px 8px;border-bottom:1px solid #2a2a2a}th{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#8a8478}
+.tag{font-size:12px;padding:2px 8px;border:1px solid #3a3a3a}.tag.on{border-color:#c9a24b;color:#c9a24b}
+form{background:#171717;padding:22px;display:grid;gap:14px;max-width:520px}
+label{display:grid;gap:5px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#a8a296}
+input,select,textarea{font:inherit;text-transform:none;letter-spacing:0;padding:10px;background:#0f0f0f;border:1px solid #3a3a3a;color:#ece7dc}
+input.err{border-color:#e5604d}.msg{color:#e5604d;font-size:13px;min-height:1em;text-transform:none;letter-spacing:0}.ok{color:#8fcf91;font-size:14px}
+@media(max-width:760px){.equipo{grid-template-columns:1fr}.app{grid-template-columns:1fr}nav a{margin:0 12px 0 0}}
