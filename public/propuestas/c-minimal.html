@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Propuesta C · Minimal cálido</title>
+<style>
+:root{--base:#f2f4ef;--bosque:#1f3a2e;--salvia:#dfe6da;--tinta:#18221d;--suave:#5f6b63;--ocre:#c28a2c}
+*{box-sizing:border-box;margin:0}
+body{background:var(--base);color:var(--tinta);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+.w{max-width:1120px;margin:0 auto;padding:0 28px}
+header .w{display:flex;justify-content:space-between;align-items:center;padding-top:28px;padding-bottom:28px}
+.logo{font-weight:700;font-size:20px;letter-spacing:-.02em;color:var(--bosque)}
+.logo::before{content:"";display:inline-block;width:12px;height:12px;background:var(--ocre);border-radius:50%;margin-right:10px}
+nav a{margin-left:32px;color:var(--tinta);text-decoration:none;font-size:15px;font-weight:500}
+nav a.cta{background:var(--bosque);color:#fff;padding:10px 20px;border-radius:8px}
+nav a.cta:hover{background:#2b5240}
+.hero{padding:72px 0 64px}
+h1{font-size:clamp(42px,8vw,92px);line-height:.98;letter-spacing:-.04em;font-weight:600;color:var(--bosque);max-width:12ch}
+.hero .r{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-end;justify-content:space-between;margin-top:40px}
+.hero p{max-width:40ch;color:var(--suave);font-size:19px}
+.lnk{color:var(--bosque);font-weight:600;text-decoration:none;border-bottom:2px solid var(--ocre);padding-bottom:2px}
+.lnk:hover{border-color:var(--bosque)}
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;padding-bottom:96px}
+.t{background:var(--salvia);border-radius:20px;padding:32px;min-height:220px;display:flex;flex-direction:column;justify-content:space-between;text-decoration:none;color:inherit;grid-column:span 2}
+.t:hover{background:#d3ddcd}
+.t.g{grid-column:span 3}
+.t.o{background:var(--bosque);color:#e8efe9}
+.t.o:hover{background:#2b5240}
+.t.o p{color:#b4c4ba}
+.t small{font-size:13px;color:var(--suave);font-weight:600}
+.t.o small{color:var(--ocre)}
+.t h3{font-size:24px;letter-spacing:-.02em;line-height:1.2;margin:40px 0 8px}
+.t p{color:var(--suave);font-size:15px}
+footer{border-top:1px solid #cfd7cb;padding:36px 0;color:var(--suave);font-size:14px}
+footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+@media(max-width:820px){.bento{grid-template-columns:1fr}.t,.t.g{grid-column:auto;min-height:0}nav a:not(.cta){display:none}.hero{padding:40px 0}}
+</style></head><body>
+<header><div class="w"><div class="logo">Info Site</div><nav><a href="#">Servicios</a><a href="#">Nosotros</a><a class="cta" href="#">Contacto</a></nav></div></header>
+<main class="w">
+<section class="hero"><h1>Tu empresa en orden, sin vueltas.</h1>
+<div class="r"><p>Contabilidad, legal y gestión en un solo equipo cercano. Hablamos claro y cumplimos los plazos.</p><a class="lnk" href="#s">Explorar servicios ↓</a></div></section>
+<section class="bento" id="s">
+<a class="t g o" href="#"><small>01</small><div><h3>Asesoría contable</h3><p>Libros al día y números claros para decidir con calma.</p></div></a>
+<a class="t g" href="#"><small>02</small><div><h3>Asesoría legal</h3><p>Contratos y trámites sin sorpresas.</p></div></a>
+<a class="t" href="#"><small>03</small><div><h3>Consultoría de gestión</h3><p>Procesos más simples para equipos que crecen.</p></div></a>
+<a class="t" href="#"><small>04</small><div><h3>Planificación tributaria</h3><p>Cumple a tiempo y paga solo lo justo.</p></div></a>
+<a class="t" href="#"><small>05</small><div><h3>Planillas y nómina</h3><p>Pagos puntuales y boletas en regla.</p></div></a>
+<a class="t g" href="#"><small>06</small><div><h3>Auditoría interna</h3><p>Una mirada externa antes de que lo haga alguien más.</p></div></a>
+</section></main>
+<footer><div class="w"><span>© Info Site · Empresa de servicios de ejemplo (demo)</span><span>contacto@infosite.example</span></div></footer>
+</body></html>

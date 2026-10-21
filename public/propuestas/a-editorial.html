@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Propuesta A · Editorial</title>
+<style>
+:root{--papel:#f6f3ec;--tinta:#1c1b19;--suave:#6b675e;--linea:#d9d4c7;--acento:#9a3b1f}
+*{box-sizing:border-box;margin:0}
+body{background:var(--papel);color:var(--tinta);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+.w{max-width:1080px;margin:0 auto;padding:0 24px}
+header .w{display:flex;justify-content:space-between;align-items:center;height:76px;border-bottom:1px solid var(--linea)}
+.logo{font:700 22px Georgia,"Times New Roman",serif;letter-spacing:-.01em}
+nav a{margin-left:28px;color:var(--suave);text-decoration:none;font-size:15px}
+nav a:hover{color:var(--tinta)}
+.hero{padding:96px 0 72px}
+.hero small,.lbl{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--acento);font-weight:600}
+h1{font:400 clamp(40px,7vw,72px)/1.05 Georgia,"Times New Roman",serif;letter-spacing:-.02em;margin:20px 0 24px;max-width:15ch}
+.hero p{max-width:46ch;color:var(--suave);font-size:19px}
+.btn{display:inline-block;margin-top:36px;padding:14px 26px;background:var(--tinta);color:var(--papel);text-decoration:none;font-weight:500;border-radius:2px}
+.btn:hover{background:var(--acento)}
+.lista{border-top:1px solid var(--tinta);margin-bottom:96px}
+.fila{display:grid;grid-template-columns:64px 1fr 1.4fr 40px;gap:24px;align-items:baseline;padding:28px 0;border-bottom:1px solid var(--linea);text-decoration:none;color:inherit}
+.fila:hover h3{color:var(--acento)}
+.fila span{font:400 15px Georgia,serif;color:var(--suave)}
+.fila h3{font:400 26px Georgia,serif;letter-spacing:-.01em}
+.fila p{color:var(--suave);font-size:16px}
+.fila i{font-style:normal;text-align:right}
+footer{background:var(--tinta);color:#c9c4b8;padding:56px 0;font-size:15px}
+footer .w{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer b{font:400 22px Georgia,serif;color:var(--papel)}
+@media(max-width:700px){.fila{grid-template-columns:36px 1fr 24px}.fila p{grid-column:2/3}.fila i{grid-row:1;grid-column:3}nav a:not(:last-child){display:none}.hero{padding:56px 0 48px}}
+</style></head><body>
+<header><div class="w"><div class="logo">Info Site</div><nav><a href="#">Servicios</a><a href="#">Nosotros</a><a href="#">Contacto</a></nav></div></header>
+<main class="w">
+<section class="hero"><small>Estudio de servicios empresariales</small>
+<h1>Números claros, decisiones tranquilas.</h1>
+<p>Acompañamos a empresas en contabilidad, trámites legales y gestión, con un trato directo y sin letra chica.</p>
+<a class="btn" href="#servicios">Ver servicios</a></section>
+<section id="servicios"><div class="lbl" style="margin-bottom:16px">Servicios</div>
+<div class="lista">
+<a class="fila" href="#"><span>01</span><h3>Asesoría contable</h3><p>Libros al día y números claros para decidir con calma.</p><i>→</i></a>
+<a class="fila" href="#"><span>02</span><h3>Asesoría legal</h3><p>Contratos y trámites sin sorpresas.</p><i>→</i></a>
+<a class="fila" href="#"><span>03</span><h3>Consultoría de gestión</h3><p>Procesos más simples para equipos que crecen.</p><i>→</i></a>
+<a class="fila" href="#"><span>04</span><h3>Planificación tributaria</h3><p>Cumple a tiempo y paga solo lo justo.</p><i>→</i></a>
+<a class="fila" href="#"><span>05</span><h3>Planillas y nómina</h3><p>Pagos puntuales y boletas en regla.</p><i>→</i></a>
+<a class="fila" href="#"><span>06</span><h3>Auditoría interna</h3><p>Una mirada externa antes de que lo haga alguien más.</p><i>→</i></a>
+</div></section></main>
+<footer><div class="w"><div><b>Info Site</b><p>Empresa de servicios de ejemplo (demo).</p></div><p>contacto@infosite.example<br>Lun–Vie · 9:00 a 18:00</p></div></footer>
+</body></html>
