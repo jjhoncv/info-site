@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ingresar · Admin (A · Editorial)</title><link rel="stylesheet" href="estilo.css"></head><body class="adm">
+<main class="login"><a class="logo" href="index.html" style="font-size:26px">Info Site</a>
+<h1 style="font-size:36px;margin:28px 0 8px">Panel de administración</h1>
+<p class="lead" style="font-size:16px;margin-bottom:28px">Ingresa con el usuario demo.</p>
+<form id="f" novalidate>
+<div class="campo" id="cu"><label for="u">Usuario</label><input id="u" value="demo" autocomplete="username"><p class="msg">Escribe tu usuario.</p></div>
+<div class="campo" id="cp"><label for="p">Contraseña</label><input id="p" type="password" autocomplete="current-password"><p class="msg">La contraseña es obligatoria.</p></div>
+<button class="btn" type="submit">Ingresar</button></form>
+<p class="dem">Demo pública: usuario <b>demo</b>. Tras 5 intentos fallidos se bloquea por 10 minutos.</p></main>
+<script>
+document.getElementById('f').onsubmit=function(e){e.preventDefault();var ok=true;
+[['u','cu'],['p','cp']].forEach(function(x){var v=document.getElementById(x[0]).value.trim();document.getElementById(x[1]).classList.toggle('err',!v);if(!v)ok=false});
+if(ok)location.href='admin-dashboard.html'};
+</script></body></html>

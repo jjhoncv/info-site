@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Imagen · Admin (A · Editorial)</title><link rel="stylesheet" href="estilo.css"></head><body class="adm">
+<header><div class="w"><a class="logo" href="admin-dashboard.html">Info Site · Admin</a><nav><a href="admin-dashboard.html">Resumen</a><a class="on" href="admin-servicios.html">Servicios</a><a href="admin-empresa.html">Empresa</a><a href="index.html">Ver sitio ↗</a></nav></div></header>
+<main class="w" style="max-width:760px">
+<div class="tit"><div><a class="lbl" href="admin-servicio-form.html" style="text-decoration:none">← Asesoría contable</a><h1>Subir imagen</h1></div></div>
+<label for="a">Archivo</label>
+<label class="drop" for="a" style="display:block;font-weight:400;cursor:pointer"><b>Elige un archivo</b> o arrástralo aquí<br>JPG, PNG o WebP · máximo 2 MB</label>
+<input id="a" type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="document.getElementById('nm').textContent=this.files[0]?this.files[0].name:'—'">
+<p class="ayuda">Archivo elegido: <span id="nm">—</span></p>
+<h2 style="margin-top:36px">Estados</h2>
+<table><tbody>
+<tr><td style="width:40%">Subiendo</td><td><span class="ayuda">contable.jpg · 68 %</span><div class="prog"><i></i></div></td></tr>
+<tr><td>Subida correcta</td><td><span class="ok" style="display:block;margin:0">contable.jpg se subió (1,2 MB).</span></td></tr>
+<tr class="campo err"><td>Archivo no permitido</td><td><span style="color:#b3261e;font-size:14px">«contrato.pdf» no es una imagen. Usa JPG, PNG o WebP.</span></td></tr>
+<tr class="campo err"><td>Archivo muy pesado</td><td><span style="color:#b3261e;font-size:14px">«foto.png» pesa 5,4 MB. El máximo es 2 MB.</span></td></tr></tbody></table>
+<p style="margin-top:28px"><a class="btn" href="admin-servicio-form.html">Usar esta imagen</a> &nbsp; <a class="btn ghost" href="admin-servicio-form.html">Cancelar</a></p>
+</main></body></html>

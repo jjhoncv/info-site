@@ -1,0 +1,89 @@
+/* Propuesta A · Editorial — sitio y admin */
+:root{--papel:#f6f3ec;--tinta:#1c1b19;--suave:#6b675e;--linea:#d9d4c7;--acento:#9a3b1f;--ok:#2f6b3a;--serif:Georgia,"Times New Roman",serif}
+*{box-sizing:border-box;margin:0}
+body{background:var(--papel);color:var(--tinta);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:inherit}
+.w{max-width:1080px;margin:0 auto;padding:0 24px}
+header .w{display:flex;justify-content:space-between;align-items:center;height:76px;border-bottom:1px solid var(--linea)}
+.logo{font:700 22px var(--serif);letter-spacing:-.01em;text-decoration:none}
+nav a{margin-left:28px;color:var(--suave);text-decoration:none;font-size:15px}
+nav a:hover,nav a.on{color:var(--tinta)}
+nav a.on{border-bottom:1px solid var(--acento);padding-bottom:3px}
+.lbl{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--acento);font-weight:600}
+h1{font:400 clamp(36px,6vw,64px)/1.05 var(--serif);letter-spacing:-.02em;margin:16px 0 20px}
+h2{font:400 28px var(--serif);letter-spacing:-.01em;margin-bottom:12px}
+.lead{max-width:50ch;color:var(--suave);font-size:19px}
+.hero{padding:80px 0 56px}
+.hero h1{max-width:15ch}
+.cab{padding:64px 0 40px}
+.btn{display:inline-block;padding:13px 24px;background:var(--tinta);color:var(--papel);text-decoration:none;font:500 16px system-ui,sans-serif;border:0;border-radius:2px;cursor:pointer}
+.btn:hover{background:var(--acento)}
+.btn.ghost{background:none;color:var(--tinta);padding-left:0;padding-right:0;border-bottom:1px solid var(--tinta);border-radius:0}
+.btn.ghost:hover{background:none;color:var(--acento);border-color:var(--acento)}
+.lista{border-top:1px solid var(--tinta);margin-bottom:72px}
+.fila{display:grid;grid-template-columns:64px 1fr 1.4fr 40px;gap:24px;align-items:baseline;padding:28px 0;border-bottom:1px solid var(--linea);text-decoration:none}
+.fila:hover h3{color:var(--acento)}
+.fila span{font:400 15px var(--serif);color:var(--suave)}
+.fila h3{font:400 26px var(--serif)}
+.fila p{color:var(--suave);font-size:16px}
+.fila i{font-style:normal;text-align:right}
+.foto{aspect-ratio:16/9;background:linear-gradient(135deg,#e6dfd0,#cfc5ae);display:grid;place-items:center;font:italic 16px var(--serif);color:var(--suave)}
+.det{display:grid;grid-template-columns:1.2fr .8fr;gap:56px;padding-bottom:72px}
+.det ul{list-style:none;border-top:1px solid var(--tinta);margin-top:24px}
+.det li{padding:14px 0;border-bottom:1px solid var(--linea)}
+.aside{border-left:1px solid var(--linea);padding-left:32px;align-self:start}
+.proy{display:grid;grid-template-columns:repeat(2,1fr);gap:48px 32px;padding-bottom:72px}
+.proy h3{font:400 24px var(--serif);margin:16px 0 4px}
+.proy p{color:var(--suave);font-size:15px}
+.cont{display:grid;grid-template-columns:1fr 1fr;gap:56px;padding-bottom:72px}
+.cont dl dt{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--acento);margin-top:20px}
+.nf{padding:120px 0;text-align:left}
+.nf .n{font:400 clamp(96px,20vw,200px)/1 var(--serif);color:var(--linea)}
+form .campo{margin-bottom:22px}
+label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+input,textarea,select{width:100%;padding:11px 12px;font:inherit;font-size:16px;background:#fff;color:var(--tinta);border:1px solid var(--linea);border-radius:2px}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--acento);outline-offset:1px}
+.ayuda{font-size:13px;color:var(--suave);margin-top:4px}
+.campo.err input,.campo.err textarea{border-color:#b3261e;background:#fdf3f1}
+.msg{display:none;font-size:13px;color:#b3261e;margin-top:4px}
+.campo.err .msg{display:block}
+.ok{background:#e9f1e8;color:var(--ok);padding:12px 16px;border-left:3px solid var(--ok);margin-bottom:24px;font-size:15px}
+footer{background:var(--tinta);color:#c9c4b8;padding:48px 0;font-size:15px;margin-top:40px}
+footer .w{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer b{font:400 22px var(--serif);color:var(--papel)}
+/* admin */
+.adm header{background:var(--tinta)}
+.adm header .w{border:0;max-width:1180px;height:60px}
+.adm .logo{color:var(--papel);font-size:18px}
+.adm nav a{color:#b9b4a8}
+.adm nav a:hover,.adm nav a.on{color:#fff;border-color:var(--papel)}
+.adm main.w{max-width:1180px;padding-top:40px;padding-bottom:64px}
+.tit{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--tinta);padding-bottom:16px;margin-bottom:28px}
+.tit h1{font-size:38px;margin:4px 0 0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--tinta);margin-bottom:40px}
+.kpis div{padding:20px 20px 20px 0;border-bottom:1px solid var(--linea)}
+.kpis b{display:block;font:400 44px var(--serif)}
+.kpis span{color:var(--suave);font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{text-align:left;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--suave);padding:10px 12px 10px 0;border-bottom:1px solid var(--tinta)}
+td{padding:14px 12px 14px 0;border-bottom:1px solid var(--linea);vertical-align:middle}
+td .mini{width:64px;height:40px;display:block;background:linear-gradient(135deg,#e6dfd0,#cfc5ae)}
+.tag{font-size:12px;padding:2px 8px;border:1px solid var(--linea)}
+.tag.on{color:var(--ok);border-color:var(--ok)}
+.acc a{margin-right:14px;font-size:14px;color:var(--acento)}
+.bar{display:flex;gap:12px;margin-bottom:20px}
+.bar input{max-width:280px}
+.pag{display:flex;gap:16px;justify-content:flex-end;margin-top:20px;font-size:14px;color:var(--suave)}
+.formw{display:grid;grid-template-columns:1.4fr .6fr;gap:48px}
+.drop{border:1px dashed var(--suave);background:#fbf9f4;padding:40px 20px;text-align:center;color:var(--suave);font-size:15px}
+.drop b{color:var(--tinta)}
+.prog{height:4px;background:var(--linea);margin-top:10px}
+.prog i{display:block;height:100%;width:68%;background:var(--acento)}
+.login{max-width:400px;margin:96px auto;padding:0 24px}
+.login .btn{width:100%}
+.dem{font-size:13px;color:var(--suave);border-top:1px solid var(--linea);padding-top:16px;margin-top:24px}
+@media(max-width:760px){
+.fila{grid-template-columns:36px 1fr 24px}.fila p{grid-column:2/3}.fila i{grid-row:1;grid-column:3}
+.det,.cont,.formw{grid-template-columns:1fr;gap:32px}.proy{grid-template-columns:1fr}.aside{border:0;padding:0}
+nav a{margin-left:16px;font-size:14px}.hero{padding:48px 0 32px}.kpis{grid-template-columns:1fr 1fr}
+.tabla{overflow-x:auto}table{min-width:560px}.adm nav a:nth-child(n+4){display:none}}
