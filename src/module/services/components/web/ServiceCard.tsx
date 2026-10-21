@@ -4,10 +4,10 @@ import { ServiceIllustration } from "./ServiceIllustration";
 
 export function ServiceCard({ service }: Readonly<{ service: Servicio }>) {
   return (
-    <article className="overflow-hidden rounded-tarjeta bg-white shadow-tarjeta transition-shadow hover:shadow-lg">
+    <article className="flex flex-col overflow-hidden rounded-tarjeta bg-white shadow-tarjeta transition-colors hover:bg-marca-50">
       <ServiceIllustration type={service.illustration} label={`Ilustración de ${service.title}`} />
-      <div className="flex flex-col gap-3 p-6">
-        <h2 className="text-xl font-bold text-marca-900">{service.title}</h2>
+      <div className="flex flex-1 flex-col gap-3 p-6">
+        <h2 className="text-lg font-bold text-marca-900">{service.title}</h2>
         <p className="text-tinta-suave">{service.summary}</p>
         <Link
           href={`/services/${service.slug}`}

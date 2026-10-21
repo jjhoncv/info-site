@@ -1,36 +1,42 @@
 # Guía de diseño
 
-Diseño propio, inspirado en el estilo sobrio de FinExpert (azul corporativo, mucho aire, tarjetas con sombra suave); no reutiliza nada suyo. Los valores viven en `app/globals.css` → `@theme` (ADR 0001): cambiar un color es cambiar una línea. Nivel: **producto**, se ve terminado.
+Propuesta elegida: **B · Corporativo** (ADR 0008). Sobria, plana y fácil de recorrer con un cliente: cabecera y bandas de título azul noche, rejilla de líneas finas, botones de esquina suave y sin bordes. Los valores viven en `app/globals.css` → `@theme` (ADR 0001): cambiar un color es cambiar una línea, y por eso el mismo sistema se puede vestir para otro negocio. Nivel: **producto**, se ve terminado.
 
 ## Colores
 
 | Token | Valor | Uso |
 |---|---|---|
-| `marca-600` / `marca-700` | `#1f4fd8` / `#1a3fb0` | Botón primario, enlaces, fondo de ilustraciones |
-| `marca-900` | `#0c1f4d` | Títulos, pie |
-| `marca-50` / `marca-100` | `#eef4ff` / `#dbe7ff` | Fondos suaves, bandas de título |
-| `acento-500` / `acento-700` | `#14b88a` / `#0b7a5c` | Detalles y etiquetas (el 700 para texto: contraste ≥ 4.5) |
-| `tinta` / `tinta-suave` | `#14213d` / `#4a5775` | Texto principal / secundario |
-| `linea` | `#dfe5f1` | Bordes |
+| `marca-900` | `#0e1b2c` | Cabecera, bandas de título, títulos |
+| `marca-600` / `marca-700` | `#2b6cb0` / `#245a96` | Botón primario, enlaces, foco |
+| `marca-100` | `#b9c5d6` | Texto secundario sobre fondo oscuro |
+| `marca-50` | `#eef2f6` | Fondos suaves, pie, botón secundario |
+| `acento-500` | `#6fa8e6` | Detalle del logo y etiquetas sobre fondo oscuro |
+| `acento-700` | `#245a96` | Etiquetas sobre fondo claro (contraste ≥ 4.5) |
+| `tinta` / `tinta-suave` | `#1a2433` / `#5a6678` | Texto principal / secundario |
+| `linea` | `#e1e6ed` | Bordes de 1 px |
 
 ## Tipografía
 
-Pila del sistema (`--font-sans`): sin descargas, carga inmediata. Jerarquía: `h1` 4xl→5xl extrabold · `h2` xl bold · texto lg/base en `tinta-suave` · etiquetas sm en mayúsculas con `acento-700`.
+Pila del sistema (`--font-sans`): sin descargas, carga inmediata. Jerarquía: `h1` 4xl→5xl bold, espaciado cerrado · `h2` xl bold · texto lg/base en `tinta-suave` · etiquetas sm en mayúsculas.
 
 ## Espaciado y forma
 
-Contenedor `max-w-6xl`, relleno lateral `px-4` (celular) / `px-6`; secciones con `py-12`–`py-14`. Tarjetas: `rounded-tarjeta` (1rem) + `shadow-tarjeta`. Rejilla de servicios: 1 columna en celular, 2 desde `sm`, 3 desde `lg`.
+Contenedor `max-w-6xl`, relleno lateral `px-4` (celular) / `px-6`; secciones con `py-12`. Tarjetas: `rounded-tarjeta` (0.25rem) + `shadow-tarjeta` (un borde de 1 px, sin sombra difusa). Rejilla de servicios: 1 columna en celular, 2 desde `sm`, 3 desde `lg`. Cada página abre con una banda `marca-900` (título + frase).
 
 ## Botones
 
-Componente `ButtonLink` (`src/components/Button.tsx`): píldora, `px-6 py-3`, semibold.
+Componente `ButtonLink` (`src/components/Button.tsx`): esquina `rounded` (4 px), `px-6 py-3`, semibold, **sin borde**.
 - **Primario:** fondo `marca-600`, texto blanco; hover `marca-700`.
-- **Secundario:** borde `marca-600`, texto `marca-700`; hover `marca-50`.
+- **Secundario:** fondo `marca-50`, texto `tinta`; hover `linea`.
 - Foco visible en ambos (outline `marca-600`).
 
 ## Imágenes
 
-Ilustraciones SVG propias (`ServiceIllustration`), con `role="img"` y descripción. Cuando el admin suba imágenes reales (T-siguientes), se usan en el mismo marco 16:10.
+Ilustraciones SVG propias (`ServiceIllustration`) en la paleta azul, con `role="img"` y descripción. Cuando el admin suba imágenes reales (T-siguientes), se usan en el mismo marco 16:10.
+
+## Admin (referencia para T-siguientes)
+
+Barra lateral oscura (`marca-900`) con el logo y el menú; contenido sobre `marca-50`; tablas con filtros arriba y paginación abajo; formularios en una tarjeta con error en rojo bajo el campo; subida de imagen con zona punteada y barra de avance. Ver `public/propuestas/b/admin-*.html`.
 
 ## Pruebas visuales
 

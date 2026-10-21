@@ -2,24 +2,24 @@
 
 /* Tokens de diseño: la guía está en docs/diseno.md. Cambiar un color es cambiar una línea. */
 @theme {
-  --color-marca-50: #eef4ff;
-  --color-marca-100: #dbe7ff;
-  --color-marca-600: #1f4fd8;
-  --color-marca-700: #1a3fb0;
-  --color-marca-900: #0c1f4d;
-  --color-acento-100: #d9f7ee;
-  --color-acento-500: #14b88a;
-  --color-acento-700: #0b7a5c;
-  --color-tinta: #14213d;
-  --color-tinta-suave: #4a5775;
-  --color-linea: #dfe5f1;
+  --color-marca-50: #eef2f6;
+  --color-marca-100: #b9c5d6;
+  --color-marca-600: #2b6cb0;
+  --color-marca-700: #245a96;
+  --color-marca-900: #0e1b2c;
+  --color-acento-100: #dfe7f1;
+  --color-acento-500: #6fa8e6;
+  --color-acento-700: #245a96;
+  --color-tinta: #1a2433;
+  --color-tinta-suave: #5a6678;
+  --color-linea: #e1e6ed;
   --color-fondo: #ffffff;
-  --color-fondo-suave: #f5f8fd;
+  --color-fondo-suave: #eef2f6;
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
-  --radius-tarjeta: 1rem;
-  --shadow-tarjeta: 0 1px 2px rgb(12 31 77 / 0.06), 0 8px 24px rgb(12 31 77 / 0.08);
+  --radius-tarjeta: 0.25rem;
+  --shadow-tarjeta: 0 0 0 1px var(--color-linea);
 }
 
 body {
