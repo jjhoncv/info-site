@@ -1,0 +1,32 @@
+{
+  "proyecto": "info-site",
+  "fase": null,
+  "avance": {
+    "verdes": 0,
+    "total": 0,
+    "porcentaje": 0
+  },
+  "salud": {
+    "color": "verde",
+    "emoji": "🟢",
+    "motivos": [],
+    "alertas": [],
+    "diasAtraso": 0,
+    "pausa": false
+  },
+  "actualizado": "2026-10-21T04:37:21.758Z",
+  "vencimientos": [
+    {
+      "secreto": "ANTHROPIC_API_KEY",
+      "vence": "2026-11-05"
+    },
+    {
+      "secreto": "NETLIFY_AUTH_TOKEN",
+      "vence": "2026-11-07"
+    },
+    {
+      "secreto": "RELEASE_PLEASE_TOKEN",
+      "vence": "2027-01-19"
+    }
+  ]
+}
