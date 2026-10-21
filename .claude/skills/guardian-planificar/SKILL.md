@@ -1,0 +1,95 @@
+---
+name: guardian-planificar
+description: Pasos 3 y 4 del ciclo de vida del Guardián, dentro de un proyecto. Convierte el alcance (PROYECTO.md) en escenarios BDD en rojo y un plan de tareas aprobado por PR; al fusionarlo se crean los tickets. Úsala al empezar un proyecto creado con nuevo-proyecto.sh, o cuando el dueño cambie el alcance.
+---
+
+# /guardian-planificar — del alcance a escenarios y tickets
+
+Reglas que no se negocian (PROYECTO.md y ADR 0019):
+- **El dueño decide el alcance.** Tú preguntas, propones y redactas; no inventas funcionalidades.
+- **Idea nueva o "estaría bueno…" → Parking lot**, no al alcance.
+- **Máximo 5 fases.** Cada fase es un entregable usable en producción.
+- **Planifica todas las fases del `PROYECTO.md`**, con sus tareas y escenarios, aunque hoy solo se desarrolle la primera. El Guardián reparte las semanas de *Límites* entre **todas** las fases del plan para fijar la **fecha original** de cada una (la línea fija de la curva vs. el plan); si el plan trae solo la Fase 1, se le asignan todas las semanas y la curva queda mal. No hay riesgo de adelantarse: Claude no toma tickets de una fase que no está abierta.
+- **Sin escenario no hay tarea.** Cada tarea pone en verde al menos un escenario; cada escenario tiene una tarea.
+- **Nada se crea sin aprobación:** primero muestras, después escribes, y todo entra por PR.
+
+## Paso 1 — ¿Hay alcance?
+
+Lee `PROYECTO.md`. Está **en blanco o incompleto** si conserva textos de la plantilla como «Qué duele hoy y a quién.», `<nombre>`, `<entregable>`, `Escenario: <nombre>`, o si no tiene criterios de aceptación en Gherkin.
+
+- En blanco → lo normal es definirlo antes con **`/guardian-idea`** en el repo del Guardián. Si el dueño prefiere hacerlo aquí → **Paso 2 (entrevista de respaldo)**.
+- Completo → **Paso 3 (planificar)**.
+
+## Paso 2 — Entrevista de respaldo (solo si el alcance está en blanco)
+
+Una sección por vez, preguntas cortas, en el idioma del dueño. Después de cada respuesta, resume en una línea y sigue.
+
+1. **Problema:** ¿qué duele hoy y a quién?
+2. **Qué es:** en una o dos frases.
+3. **Qué NO es:** ¿qué podría esperar alguien y queda fuera a propósito?
+4. **Valor:** ¿qué cambia para el usuario cuando esté en producción?
+5. **Fases (máx. 5):** ¿cuál es el primer entregable usable? Propón un corte chico; empuja lo demás a fases siguientes o al Parking lot.
+6. **Criterios de aceptación:** por cada entregable, escenarios en Gherkin en español (`Escenario / Dado / Cuando / Entonces`), con un resultado **observable en la página**.
+
+Muestra el `PROYECTO.md` completo y **espera el OK** antes de seguir. Lo que el dueño mande al Parking lot va en su sección, con fecha y motivo.
+
+## Paso 3 — Planificar
+
+Si existe **`docs/convenciones.md`** (cómo programa el dueño), las tareas siguen su estructura y, si el proyecto repite un patrón (p. ej. módulos con admin), la **primera tarea construye el módulo de referencia completo** con sus pruebas; las siguientes lo copian.
+
+Antes de proponer el plan, **lee `docs/lecciones.md`**: lo que el plan le pida al dueño (cuentas, secretos, dónde cargarlos) tiene que seguir esas lecciones, porque se copia a cada ticket y Claude en la nube lo repite.
+
+**Escenarios** — un archivo por fase: `features/fase-<N>-<slug>.feature`.
+- Primera línea `# language: es`; `Característica:` con el entregable de la fase; cada escenario con la etiqueta `@fase-<N>`.
+- Copia los escenarios de los criterios de `PROYECTO.md` **sin cambiar su sentido**. Si uno no se puede probar en la página, propón reescribirlo y pregunta.
+- **No escribas pasos** (`features/steps/`): un escenario sin pasos queda *pendiente* (rojo) y no rompe el CI (ADR 0018). Los pasos llegan con cada tarea.
+- No toques los escenarios `@plantilla`.
+- **Datos de prueba:** los escenarios usan datos inventados (fixtures, mocks o una hoja de pruebas), nunca los datos reales; los correos se simulan. Anótalo en **Decisiones** del `PROYECTO.md`.
+- **`@smoke`:** marca solo los escenarios que pueden correr contra **producción** sin depender de datos específicos (p. ej. «la portada carga», «una página inexistente muestra un error»). El smoke test corre después de cada release.
+
+**Tareas** — `plan/tareas.json`:
+
+```json
+{
+  "fases": [{ "numero": 1, "nombre": "Lista básica", "entregable": "Agregar libros y marcarlos como leídos" }],
+  "tareas": [
+    {
+      "id": "T1",
+      "fase": 1,
+      "titulo": "Agregar un libro pendiente",
+      "escenarios": [{ "archivo": "features/fase-1-lista-basica.feature", "gherkin": "Escenario: Agregar un libro pendiente\n  Dado …\n  Cuando …\n  Entonces …" }],
+      "que": "Qué se construye, en dos o tres líneas.",
+      "hecho": "El escenario «Agregar un libro pendiente» en verde.",
+      "necesita": ""
+    }
+  ]
+}
+```
+
+- Una tarea = **un PR chico** (idealmente < 300 líneas). Si no entra, pártela.
+- Ordena las tareas en el orden en que conviene hacerlas: Claude toma la siguiente recién cuando el dueño fusiona la anterior, así que **el orden ya es la dependencia**.
+- **Proyecto con UI** (la página es lo que se vende o se usa): la **primera tarea es el boceto**: las pantallas principales completas con datos inventados, sin integraciones. Su preview es el boceto; el dueño pide cambios en el PR y **fusionarlo es aprobar el diseño**. Las tareas siguientes conectan los datos sobre ese diseño, así que **el boceto es la UI final**: en el «qué» del boceto escribe el **nivel de diseño** que pide el `PROYECTO.md` (Límites → Tipo y lo que diga de la UI) y el estándar concreto (p. ej. en un producto: sin marcadores de posición, ilustraciones y portadas propias, logos de pago, jerarquía clara). Si el alcance no dice qué nivel de diseño quiere el dueño, **pregúntaselo** antes de proponer el plan. _Ej.: chamba#3, chamba#19._
+- Trabajo sin escenario propio (boceto, configuración inicial) va **dentro de la primera tarea que lo necesita**, nunca como tarea aparte ni como trabajo fuera de un ticket.
+- `necesita`: solo lo que **entrega el dueño** (cuentas, credenciales, decisiones); vacío si nada. No pongas dependencias entre tareas: se publica en el issue como «Qué necesita del dueño».
+- Si una tarea va a pasar de 300 líneas por código generado (p. ej. componentes de shadcn/ui), dilo en el plan en vez de partirla sin preguntar.
+- **Si `plan/tareas.json` ya existe:** conserva los ids existentes y agrega las tareas nuevas con ids nuevos (los tickets ya creados no se repiten ni se borran).
+
+## Paso 4 — Mostrar y esperar
+
+Antes de escribir archivos, muestra al dueño:
+
+| Fase | Tarea | Escenarios |
+|---|---|---|
+
+más el total: «N escenarios en rojo, M tareas, K fases». **Espera su OK.**
+
+## Paso 5 — Escribir, verificar y abrir el PR
+
+1. Rama `docs/plan-<slug-de-la-fase>` desde `main`.
+2. Escribe los `.feature` y `plan/tareas.json` (y `PROYECTO.md` si hubo entrevista).
+3. Verifica en local: `npm run build && npm run e2e` → los escenarios nuevos aparecen **pendientes** (saltados) y nada falla.
+   La validación del plan (máximo 5 fases, cada tarea con escenario) la hace el check **«chequeo / ticket y escenario»** del PR, con el script del Guardián; el avance («0 de N») lo publica el CI. Los scripts del Guardián no están en el proyecto: no los busques.
+4. Commit y PR con título `docs(plan): <resumen>` (Conventional Commits). En el cuerpo: la tabla del Paso 4 y «Al fusionar este PR se crean M tickets (workflow *Tickets del plan*)».
+5. Dile al dueño qué revisar en el PR y que **fusionarlo = aprobar el plan**.
+
+Al fusionarlo, el workflow *Tickets del plan* crea un issue por tarea con su etiqueta `fase-N`; con *Auto-add* activado entran solos al tablero.

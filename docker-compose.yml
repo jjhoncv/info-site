@@ -1,0 +1,13 @@
+# MySQL 8 solo para tu Mac (ADR 0029 del Guardián). En el CI la base es temporal; en staging y producción, gestionada.
+# Uso: docker compose up -d mysql   ·   credenciales en .env.local (nunca en el repo)
+services:
+  mysql:
+    image: mysql:8.0
+    ports: ["3306:3306"]
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:?Falta MYSQL_PASSWORD en .env.local}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-app}
+    volumes:
+      - mysql:/var/lib/mysql
+volumes:
+  mysql: {}

@@ -1,0 +1,40 @@
+# Lecciones de revisión
+
+> **Criterio, no protocolo.** Las agrega el consultor del Guardián cuando revisa tus PRs (commits marcados `(consultor)`).
+> Antes de aplicar una, mira su **alcance** y el **tipo** del proyecto (`PROYECTO.md` → Límites). Si dudas, elige lo simple y explícalo en el PR.
+> **Ninguna lección justifica salirse del ticket**: si pide algo fuera de él, anótalo en el PR o propónlo para el Parking lot.
+>
+> Ciclo de vida: nace en una revisión (con su PR de ejemplo) → si se repite o es de «Siempre», se **gradúa** a una prueba o check y sale de aquí → si deja de aplicar, se **retira**. Tope: unas 15 vivas.
+
+## Siempre (cualquier tipo: son baratas y protegen igual)
+
+- **Autorización en el servidor.** Cuándo: una server action o ruta actúa a nombre de un usuario. Qué: verifica la sesión en el servidor y prueba «POST sin sesión → rechazado». Por qué: esconder un botón o formulario no protege nada. _Ej.: vitrina#33._
+- **URLs absolutas sin headers del visitante.** Cuándo: armas un enlace que sale del sitio (correo, redirección). Qué: origen fijo o lista permitida, nunca `Host` / `X-Forwarded-Host` tal cual. Por qué: con un host falso, el enlace (y su token) apunta al atacante. _Ej.: vitrina#20._
+- **Tokens fuera de la URL final.** Cuándo: usas un token de un enlace (entrada, invitación). Qué: después de validarlo, el destino no lo lleva. Por qué: queda en la barra y en el historial. _Ej.: vitrina#24._
+- **No reimplementes protocolos ni criptografía** (SMTP, OAuth, JWT…). Si hace falta una dependencia y no puedes instalarla, para y pídesela al dueño en el PR, con el paquete y el motivo. _Ej.: vitrina#20._
+- **Lo que no se prueba en local** (comportamiento del hosting, correo real): dilo en el PR y dale al dueño el paso exacto para comprobarlo en el preview. _Ej.: vitrina#20, #24._
+- **«Hoy» en la zona del dueño, no en UTC.** Cuándo: comparas fechas con el día de hoy (vencimientos, plazos). Qué: calcula la fecha con `Intl.DateTimeFormat("en-CA", { timeZone: "America/Lima" })` y pruébalo con una hora de la noche. Por qué: el servidor está en UTC; de 19:00 a 24:00 en Lima, en UTC ya es mañana y todo se corre un día. _Ej.: vencimientos#17._
+
+- **Archivos chicos, una responsabilidad.** Cuándo: un componente o función crece. Qué: la lógica en un hook, las transformaciones en funciones puras y el dibujo en componentes chicos; orientativo ≤ 150 líneas por componente y ≤ 40 por función, sin `any`, registro en vez de `switch` largo; cada pieza con su prueba. Por qué: el dueño tiene que poder leerlo y modificarlo él mismo. _Ej.: FormCreate de ajk-ecommerce (342 líneas, siete trabajos)._
+- **Migrar código viejo es adaptarlo, no copiarlo.** Cuándo: el ticket reutiliza código de otro repo del dueño. Qué: ajústalo a las versiones del proyecto (p. ej. Next 16: `await params`, `proxy.ts`; React 19: sin `findDOMNode`; Tailwind 4; Zod 4) y pruébalo. Por qué: lo que funcionaba en Next 14 o React 18 se rompe en silencio. _Ej.: info-site-next → Info Site._
+
+## Según el tipo de proyecto
+
+| Lección | Prueba / MVP rápido | Producto |
+|---|---|---|
+| **Texto libre que se guarda o se envía** | Largo máximo validado en el servidor | Además: limpieza, moderación y límite de envíos |
+| **Límite de pedidos** (login, formularios públicos) | No hace falta; anótalo en el Parking lot | Obligatorio |
+| **Dependencias nuevas** | Solo si evitan reimplementar algo delicado | Elegidas con criterio: mantenimiento, licencia, tamaño |
+| **Enlaces y sesiones** | Vencimiento corto basta | Un solo uso y sesiones revocables |
+| **Diseño de la UI** (chamba#19) | Simple y limpio: basta con que se entienda | **Se ve terminado y profesional**: nada de cajas con una palabra en vez de imagen; ilustraciones y portadas propias (SVG si no hay imágenes), jerarquía tipográfica, botones con aspecto final. Un boceto de producto es la UI que queda |
+| **Admin público o de demo** (cualquiera con el usuario entra) | Subidas limitadas (tipo, peso, cantidad) | Además: «restaurar» devuelve datos **y** archivos al original, límite de intentos de login, el usuario demo no cambia su clave ni la configuración del login |
+| **Una parte secundaria falla** (comentarios, recomendaciones…; vitrina#36) | La página sigue sin esa parte: `try/catch` y `console.error` | Además: aviso visible, reintento y alerta de monitoreo |
+
+## Según el stack (solo si el proyecto usa esa pieza)
+
+- **Netlify:** (1) una redirección sin query conserva la query original: usa un destino con query propia (vitrina#24). (2) Los secretos de ejecución van en las variables del sitio, marcadas como secretas; GitHub Secrets solo si un workflow los usa; dile al dueño cuáles y dónde. (3) Con el mismo valor para todos los contextos, **staging y producción comparten los datos** (la misma hoja, el mismo correo): en un MVP se acepta y se avisa; en un producto, valores distintos por contexto. (4) Cada PR tiene una URL de preview distinta: lo que exige una URL de retorno fija (OAuth, webhooks) no se puede probar ahí; se prueba en staging.
+- **Pagos (Mercado Pago u otra pasarela):** la notificación (webhook) solo avisa: verifica la firma (comparación en tiempo constante) y luego **consulta el pago a la API por su id**; nunca confíes en el estado que trae la notificación ni en la página de «gracias». Verifica que el **monto pagado = precio del pedido** calculado en el servidor, y que una notificación repetida no duplique ni cambie nada (la pasarela reintenta). La tienda nunca ve datos de tarjeta. _Ej.: chamba#3 (T10)._
+- **MySQL (ADR 0029 del Guardián):** (1) cada cambio de tablas es una migración nueva `db/migraciones/NNN-*.sql`; nunca edites una aplicada. (2) Solo agregar: borrar o renombrar en dos pasos (el rollback no deshace la base y los previews usan la de staging). (3) Consultas siempre con `?`, nunca concatenando. (4) La conexión de cada ambiente va en los Environments de GitHub (migraciones) y en Netlify por contexto (página); dile al dueño cuáles. _Ej.: Info Site._
+- **GitHub — diagramas Mermaid:** empieza con `%%{init: {"flowchart": {"htmlLabels": false, "wrappingWidth": 400}}}%%` (sin esas dos opciones, GitHub corta el texto de las cajas largas) y usa `flowchart TD`, de arriba hacia abajo, para leerlo en el celular. _Ej.: vitrina#36._
+- **Gmail SMTP:** unos 500 correos por día y riesgo de spam; sirve para una prueba. Para un producto, un proveedor transaccional.
+- **Google Sheets como base de datos (MVP):** service account con rol **Lector** para leer y **Editor** solo si se escribe; escribe con `valueInputOption=RAW` (lo del usuario no se vuelve fórmula); pide el permiso de escritura solo al escribir; la pestaña o columna que falte no debe tumbar la página. Dile al dueño exactamente qué pestañas y encabezados crear, y que en el proyecto de Google Cloud de la service account **habilite la Google Sheets API** (si no, Google responde 403 y la página sale vacía sin error visible). _Ej.: vitrina#2, #36; vencimientos#13._
