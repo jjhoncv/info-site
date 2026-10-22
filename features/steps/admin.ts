@@ -2,7 +2,7 @@ import { expect, type Page } from "@playwright/test";
 import { createBdd } from "playwright-bdd";
 import { executeQuery } from "../../src/lib/db";
 
-const { When, Then, After } = createBdd();
+const { Given, When, Then, After } = createBdd();
 
 // Usuario y clave que playwright.config.ts le da al servidor local de los E2E.
 const USUARIO_DEMO = "demo";
@@ -52,4 +52,23 @@ Then("veo el formulario de login", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1, name: "Iniciar sesión" })).toBeVisible();
   await expect(page.getByLabel("Usuario")).toBeVisible();
   await expect(page.getByLabel("Clave")).toBeVisible();
+});
+
+Given("que inicié sesión con el usuario demo", async ({ page }) => {
+  await limpiarIntentos();
+  await page.context().clearCookies();
+  await page.goto("/login");
+  await intentarLogin(page, CLAVE_DEMO_E2E);
+  await expect(page).not.toHaveURL(/\/login$/);
+});
+
+When("entro a mi perfil", async ({ page }) => {
+  await page.goto("/admin/profile");
+});
+
+Then("no veo la opción de cambiar la clave", async ({ page }) => {
+  await expect(page.getByRole("heading", { level: 1, name: "Mi perfil" })).toBeVisible();
+  await expect(page.getByText(/su clave no se puede cambiar/)).toBeVisible();
+  await expect(page.getByLabel(/clave/i)).toHaveCount(0);
+  await expect(page.getByRole("button", { name: /clave|guardar|cambiar/i })).toHaveCount(0);
 });
