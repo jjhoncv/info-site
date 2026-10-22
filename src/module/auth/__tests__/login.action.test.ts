@@ -54,6 +54,19 @@ describe("login con límite de intentos", () => {
     expect(await login({}, form("mala"))).toEqual({ error: "Demasiados intentos; espera 15 minutos" });
   });
 
+  it("la base falla: muestra el aviso, registra el error y no abre sesión", async () => {
+    const error = new Error("Table 'login_attempts' doesn't exist");
+    m.isBlocked.mockRejectedValue(error);
+    m.verifyCredentials.mockResolvedValue(true);
+    const consola = vi.spyOn(console, "error").mockImplementation(() => {});
+    expect(await login({}, form("correcta"))).toEqual({
+      error: "No pudimos verificar tu acceso; intenta en unos minutos",
+    });
+    expect(consola).toHaveBeenCalledWith(expect.any(String), error);
+    expect(m.save).not.toHaveBeenCalled();
+    consola.mockRestore();
+  });
+
   it("clave correcta: limpia los fallos y entra", async () => {
     m.verifyCredentials.mockResolvedValue(true);
     await expect(login({}, form("correcta"))).rejects.toThrow("REDIRECT:/admin/services");
