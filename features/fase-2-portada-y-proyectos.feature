@@ -17,12 +17,12 @@ Característica: Portada y proyectos
 
   @fase-2
   Escenario: El visitante ve un proyecto
-    Dado que la demo tiene el proyecto "Auditoría Grupo Andino"
+    Dado que la demo tiene el proyecto "Proyecto Grupo Andino"
     Cuando entro a /projects y lo abro
-    Entonces veo el título "Auditoría Grupo Andino", su descripción y sus imágenes
+    Entonces veo el título "Proyecto Grupo Andino", su descripción y sus imágenes
 
   @fase-2
   Escenario: El cliente edita un proyecto
     Dado que inicié sesión con el usuario demo
-    Cuando cambio el título de "Auditoría Grupo Andino" a "Auditoría Andina" y guardo
-    Entonces en /projects veo "Auditoría Andina"
+    Cuando cambio el título de "Proyecto Grupo Andino" a "Proyecto Andino" y guardo
+    Entonces en /projects veo "Proyecto Andino"

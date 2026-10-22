@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+/* Tokens de diseño: la guía está en docs/diseno.md. Cambiar un color es cambiar una línea.
+   Azul profundo (confianza) + un acento cálido que guía hacia «Solicitar cotización». */
+@theme {
+  --color-marca-50: #eef3f8;
+  --color-marca-100: #d5e1ee;
+  --color-marca-600: #2a5a8c;
+  --color-marca-700: #1f4a75;
+  --color-marca-800: #163b63;
+  --color-marca-900: #0e2a47;
+  --color-acento-50: #fbf1e9;
+  --color-acento-600: #c4652a;
+  --color-acento-700: #a85420;
+  --color-tinta: #16202c;
+  --color-tinta-suave: #4f5b69;
+  --color-linea: #e3e7ec;
+  --color-fondo: #ffffff;
+  --color-fondo-calido: #f6f4f0;
+
+  --font-sans: var(--font-texto), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-titulo: var(--font-titulos), ui-serif, Georgia, "Times New Roman", serif;
+
+  --radius-tarjeta: 0.375rem;
+}
+
+body {
+  background: var(--color-fondo);
+  color: var(--color-tinta);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-titulo);
+  text-wrap: balance;
+}
