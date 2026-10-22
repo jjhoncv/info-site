@@ -10,7 +10,7 @@
   --color-marca-800: #163b63;
   --color-marca-900: #0e2a47;
   --color-acento-50: #fbf1e9;
-  --color-acento-600: #c4652a;
+  --color-acento-600: #b4571f; /* contraste 4,8:1 con texto blanco (WCAG AA, ADR 0003) */
   --color-acento-700: #a85420;
   --color-tinta: #16202c;
   --color-tinta-suave: #4f5b69;

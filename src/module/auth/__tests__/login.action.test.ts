@@ -69,7 +69,7 @@ describe("login con límite de intentos", () => {
 
   it("clave correcta: limpia los fallos y entra", async () => {
     m.verifyCredentials.mockResolvedValue(true);
-    await expect(login({}, form("correcta"))).rejects.toThrow("REDIRECT:/admin/services");
+    await expect(login({}, form("correcta"))).rejects.toThrow("REDIRECT:/admin");
     expect(m.clear).toHaveBeenCalledWith("demo");
     expect(m.save).toHaveBeenCalled();
   });

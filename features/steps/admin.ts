@@ -54,14 +54,17 @@ Then("veo el formulario de login", async ({ page }) => {
   await expect(page.getByLabel("Clave")).toBeVisible();
 });
 
-Given("que inicié sesión con el usuario demo", async ({ page }) => {
+export const iniciarSesionDemo = async (page: Page) => {
   await limpiarIntentos();
   await page.context().clearCookies();
   await page.goto("/login");
   await intentarLogin(page, CLAVE_DEMO_E2E);
   await expect(page).not.toHaveURL(/\/login$/);
-});
+};
 
+Given("que inicié sesión con el usuario demo", async ({ page }) => {
+  await iniciarSesionDemo(page);
+});
 When("entro a mi perfil", async ({ page }) => {
   await page.goto("/admin/profile");
 });
