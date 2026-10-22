@@ -5,9 +5,9 @@
     "vence": "2026-11-01T00:00:00Z"
   },
   "avance": {
-    "verdes": 7,
+    "verdes": 8,
     "total": 23,
-    "porcentaje": 30
+    "porcentaje": 35
   },
   "salud": {
     "color": "verde",
@@ -17,7 +17,7 @@
     "diasAtraso": 0,
     "pausa": false
   },
-  "actualizado": "2026-10-22T05:47:43.364Z",
+  "actualizado": "2026-10-22T05:58:51.559Z",
   "vencimientos": [
     {
       "secreto": "ANTHROPIC_API_KEY",
