@@ -10,6 +10,9 @@ import "./globals.css";
 const titulos = Source_Serif_4({ subsets: ["latin"], weight: ["600", "700"], variable: "--font-titulos" });
 const texto = Public_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-texto" });
 
+// El pie lista los servicios de la base: la página no se congela en el build.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: leerNombreDelProyecto(),
 };

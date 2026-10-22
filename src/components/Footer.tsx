@@ -1,9 +1,20 @@
 import Link from "next/link";
-import { getServicios } from "@/src/module/services/services/demo";
+import { serviceModel } from "@/src/module/services/core";
 import { EMPRESA } from "./empresa";
 import { Logo } from "./Logo";
 
-export function Footer() {
+// Los enlaces a servicios son secundarios: si la base falla, el pie se dibuja sin ellos.
+async function getServiciosDelPie() {
+  try {
+    return await serviceModel.getServices();
+  } catch (error) {
+    console.error("No se pudieron leer los servicios del pie:", error);
+    return [];
+  }
+}
+
+export async function Footer() {
+  const servicios = await getServiciosDelPie();
   return (
     <footer id="contacto" className="bg-marca-900 text-marca-100">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr]">
@@ -14,7 +25,7 @@ export function Footer() {
         <nav aria-label="Pie">
           <h2 className="mb-4 font-sans text-xs font-semibold uppercase tracking-widest text-white">Servicios</h2>
           <ul className="flex flex-col gap-2 text-sm">
-            {getServicios().map((s) => (
+            {servicios.map((s) => (
               <li key={s.slug}>
                 <Link href={`/services/${s.slug}`} className="hover:text-white">
                   {s.title}

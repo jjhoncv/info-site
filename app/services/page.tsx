@@ -3,7 +3,10 @@ import Image from "next/image";
 import { ButtonLink } from "@/src/components/Button";
 import { EMPRESA } from "@/src/components/empresa";
 import { ServiceCard } from "@/src/module/services/components/web/ServiceCard";
-import { getServicios } from "@/src/module/services/services/demo";
+import { serviceModel } from "@/src/module/services/core";
+
+// Lee de MySQL en cada visita: lo que se edita en el admin se ve de inmediato.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = { title: `Servicios · ${EMPRESA.nombre}` };
 
@@ -21,7 +24,8 @@ const PASOS = [
   { titulo: "Lo hacemos y te acompañamos", texto: "Cumplimos lo acordado y seguimos disponibles después." },
 ];
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const servicios = await serviceModel.getServices();
   return (
     <main>
       <section className="bg-fondo-calido">
@@ -69,7 +73,7 @@ export default function ServicesPage() {
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <h2 className="max-w-xl text-3xl font-bold text-marca-900">Elige el servicio que necesitas</h2>
         <div className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          {getServicios().map((servicio) => (
+          {servicios.map((servicio) => (
             <ServiceCard key={servicio.slug} service={servicio} />
           ))}
         </div>
