@@ -13,10 +13,13 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "db:types": "node scripts/db-types.ts",
-    "e2e":"bddgen && playwright test"
+    "hash-clave": "node scripts/hash-clave.ts",
+    "e2e": "bddgen && playwright test"
   },
   "dependencies": {
     "@tailwindcss/postcss": "4.3.3",
+    "bcryptjs": "3.0.3",
+    "iron-session": "9.0.1",
     "mysql2": "3.24.6",
     "next": "16.4.0",
     "react": "19.3.0",

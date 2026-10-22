@@ -45,3 +45,16 @@ Fotos CC0 de StockSnap en `public/demo/` (créditos en `docs/creditos.md`), serv
 ## Pruebas visuales
 
 `toHaveScreenshot` en computadora (1280 px) y celular (390 px); las imágenes base están en `features/visual/` y se generan en el CI (ADR 0002). Si un PR cambia el diseño a propósito, se regeneran y se dice en el PR.
+
+## Admin (aprobado por el dueño el 2026-10-22)
+
+**Referencia visual: `docs/maquetas/admin.html`** (ábrela en el navegador: es navegable, con datos de ejemplo). Todo el admin se construye igual a esa maqueta.
+
+- **Es otra «aplicación», no una página del sitio:** el admin **no** usa el encabezado, el pie ni la franja de demostración del sitio. En Next, el sitio va en un grupo de rutas con su layout (p. ej. `app/(sitio)/layout.tsx` con Header/Footer) y el admin en otro (`app/admin/…` con su propio layout). El layout raíz solo pone fuentes y estilos.
+- **Login (`/admin/login` o `/login`):** pantalla dividida: a la izquierda un panel `marca-900` con el isotipo, «Tu Empresa · Panel de administración» y una frase; a la derecha el formulario (Usuario, Clave, «Entrar») y el aviso de bloqueo tras 5 intentos. En celular, el panel queda arriba y más bajo.
+- **Panel:** barra lateral fija `marca-900` (Resumen · Contenido: Banners, Servicios, Proyectos · Configuración: Datos de la empresa, Mi perfil · abajo: Ver el sitio, Salir); en celular se abre con un botón «Menú». Contenido sobre fondo `#f4f6f9`, tarjetas blancas sin borde, títulos en serif.
+- **Listas:** buscador + filtro de estado, tabla con miniatura, título y dirección, estado (Publicado / Borrador), fecha y acciones (ver, editar, eliminar con confirmación).
+- **Formularios:** secciones (Información básica · Imagen · Buscadores), error en rojo bajo el campo, contadores de caracteres, zona para arrastrar la imagen, panel lateral «Publicación» e «Información», barra «Guardar cambios» fija abajo.
+- **Misma marca que el sitio:** el admin y el sitio son la misma empresa. Usan los **mismos tokens** de `app/globals.css` (`@theme`: colores, radios), las **mismas fuentes** (Source Serif 4 en títulos, Public Sans en texto) y el **mismo logo** (`LogoMark` / `Logo` de `src/components/Logo.tsx`). Nada de colores, fuentes ni estilos propios del admin fuera de los tokens.
+- **Mismos componentes base, misma forma de usarlos:** los botones del admin son el mismo `Button` del sitio (primario = acento cálido para la acción principal, secundario = `marca-50`), con la misma API de variantes. Lo que solo existe en el admin (tabla, campos de formulario, zona de imagen, modal, aviso) va en `src/module/shared/components/` y se construye con esos mismos tokens. Si un componente sirve a los dos, se comparte; no se duplica.
+- El acento cálido solo para la acción principal de cada pantalla (Entrar, Guardar cambios, Nuevo…).

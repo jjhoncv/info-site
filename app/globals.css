@@ -17,6 +17,7 @@
   --color-linea: #e3e7ec;
   --color-fondo: #ffffff;
   --color-fondo-calido: #f6f4f0;
+  --color-error: #b42318;
 
   --font-sans: var(--font-texto), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --font-titulo: var(--font-titulos), ui-serif, Georgia, "Times New Roman", serif;

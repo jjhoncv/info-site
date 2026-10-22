@@ -12,6 +12,18 @@ const VARIANTES: Record<Variante, string> = {
   claro: "bg-white/10 text-white hover:bg-white/20",
 };
 
+export function Button({
+  variant = "primario",
+  children,
+  ...props
+}: Readonly<{ variant?: Variante; children: React.ReactNode } & React.ButtonHTMLAttributes<HTMLButtonElement>>) {
+  return (
+    <button className={`${BASE} ${VARIANTES[variant]} disabled:opacity-60`} {...props}>
+      {children}
+    </button>
+  );
+}
+
 export function ButtonLink({
   href,
   variant = "primario",
