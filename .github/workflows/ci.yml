@@ -15,6 +15,6 @@ concurrency:
 
 jobs:
   ci:
-    uses: jjhoncv/guardian/.github/workflows/guardian-ci.yml@v0.19.1
+    uses: jjhoncv/guardian/.github/workflows/guardian-ci.yml@v0.20.0
     with:
       base_de_datos: mysql

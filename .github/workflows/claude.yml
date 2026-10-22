@@ -21,5 +21,7 @@ permissions:
 
 jobs:
   claude:
-    uses: jjhoncv/guardian/.github/workflows/guardian-claude.yml@v0.19.1
+    uses: jjhoncv/guardian/.github/workflows/guardian-claude.yml@v0.20.0
+    with:
+      base_de_datos: mysql
     secrets: inherit
