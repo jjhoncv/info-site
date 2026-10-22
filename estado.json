@@ -5,9 +5,9 @@
     "vence": "2026-11-01T00:00:00Z"
   },
   "avance": {
-    "verdes": 0,
+    "verdes": 3,
     "total": 23,
-    "porcentaje": 0
+    "porcentaje": 13
   },
   "salud": {
     "color": "verde",
@@ -17,11 +17,15 @@
     "diasAtraso": 0,
     "pausa": false
   },
-  "actualizado": "2026-10-22T03:33:21.211Z",
+  "actualizado": "2026-10-22T03:38:24.210Z",
   "vencimientos": [
     {
       "secreto": "ANTHROPIC_API_KEY",
       "vence": "2026-11-05"
+    },
+    {
+      "secreto": "CLAUDE_CODE_OAUTH_TOKEN",
+      "vence": "2027-10-22"
     },
     {
       "secreto": "NETLIFY_AUTH_TOKEN",
