@@ -26,5 +26,16 @@ export default defineConfig({
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: process.env.BASE_URL
     ? undefined
-    : { command: "npm start", url: baseURL, reuseExistingServer: !process.env.CI, timeout: 60_000 },
+    : {
+        command: "npm start",
+        url: baseURL,
+        reuseExistingServer: !process.env.CI,
+        timeout: 60_000,
+        // Usuario de prueba solo para el servidor local de los E2E (la clave es CLAVE_DEMO_E2E en features/steps/admin.ts).
+        env: {
+          DEMO_USER: "demo",
+          DEMO_PASSWORD_HASH: "$2b$12$y5S3GD9yaKY8INg9frQm0O.eWXliRCR4mwreLpjKh6FINE/Pdr45C",
+          SESSION_SECRET: process.env.SESSION_SECRET ?? "secreto-solo-para-pruebas-e2e-32-caracteres",
+        },
+      },
 });
