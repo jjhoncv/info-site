@@ -54,14 +54,14 @@ Se la muestro a **5 clientes posibles** en las **4 semanas** siguientes a public
 
 ### Fase 1
 Escenario: El visitante ve los servicios
-  Dado que la demo tiene el servicio "Asesoría contable"
+  Dado que la demo tiene el servicio "Asesoría personalizada"
   Cuando entro a /services
-  Entonces veo la tarjeta "Asesoría contable" con su imagen
+  Entonces veo la tarjeta "Asesoría personalizada" con su imagen
 
 Escenario: El visitante ve el detalle de un servicio
-  Dado que la demo tiene el servicio "Asesoría contable"
-  Cuando entro a /services/asesoria-contable
-  Entonces veo el título "Asesoría contable" y su descripción
+  Dado que la demo tiene el servicio "Asesoría personalizada"
+  Cuando entro a /services/asesoria-personalizada
+  Entonces veo el título "Asesoría personalizada" y su descripción
 
 Escenario: Un servicio que no existe
   Cuando entro a /services/no-existe
@@ -85,8 +85,8 @@ Escenario: Sin sesión no se entra al admin
 
 Escenario: El cliente edita un servicio y lo ve en el sitio
   Dado que inicié sesión con el usuario demo
-  Cuando cambio el título de "Asesoría contable" a "Contabilidad para pymes" y guardo
-  Entonces en /services veo la tarjeta "Contabilidad para pymes"
+  Cuando cambio el título de "Asesoría personalizada" a "AsesorÃ­a para empresas" y guardo
+  Entonces en /services veo la tarjeta "AsesorÃ­a para empresas"
 
 Escenario: El formulario avisa lo que falta
   Dado que inicié sesión con el usuario demo
@@ -113,9 +113,9 @@ Escenario: El usuario demo no cambia su clave
   Entonces no veo la opción de cambiar la clave
 
 Escenario: Restaurar la demo
-  Dado que el servicio "Asesoría contable" se renombró a "Prueba" y se subió una imagen nueva
+  Dado que el servicio "Asesoría personalizada" se renombró a "Prueba" y se subió una imagen nueva
   Cuando pulso "Restaurar demo" y confirmo
-  Entonces en /services veo otra vez "Asesoría contable" con su imagen original, no veo "Prueba"
+  Entonces en /services veo otra vez "Asesoría personalizada" con su imagen original, no veo "Prueba"
   y la imagen subida ya no existe
 
 ### Fase 2
@@ -130,14 +130,14 @@ Escenario: El cliente cambia un banner
   Entonces en la portada veo "Crecemos contigo"
 
 Escenario: El visitante ve un proyecto
-  Dado que la demo tiene el proyecto "Auditoría Grupo Andino"
+  Dado que la demo tiene el proyecto "Proyecto Grupo Andino"
   Cuando entro a /projects y lo abro
-  Entonces veo el título "Auditoría Grupo Andino", su descripción y sus imágenes
+  Entonces veo el título "Proyecto Grupo Andino", su descripción y sus imágenes
 
 Escenario: El cliente edita un proyecto
   Dado que inicié sesión con el usuario demo
-  Cuando cambio el título de "Auditoría Grupo Andino" a "Auditoría Andina" y guardo
-  Entonces en /projects veo "Auditoría Andina"
+  Cuando cambio el título de "Proyecto Grupo Andino" a "Proyecto Andino" y guardo
+  Entonces en /projects veo "Proyecto Andino"
 
 ### Fase 3
 Escenario: El cliente cambia el logo
@@ -152,12 +152,12 @@ Escenario: Los datos de contacto se ven en el sitio
 
 ### Fase 4
 Escenario: La demo amanece limpia
-  Dado que ayer un cliente borró el servicio "Asesoría contable"
+  Dado que ayer un cliente borró el servicio "Asesoría personalizada"
   Cuando pasa la restauración de la noche
-  Entonces en /services veo otra vez "Asesoría contable"
+  Entonces en /services veo otra vez "Asesoría personalizada"
 
 Escenario: Cada página tiene su título para buscadores
-  Cuando entro a /services/asesoria-contable
+  Cuando entro a /services/asesoria-personalizada
   Entonces el título de la pestaña es el meta título del servicio
 
 Escenario: El sitio carga rápido y con buena calidad
@@ -197,3 +197,4 @@ Escenario: El sitio carga rápido y con buena calidad
 | 2026-10-21 | Login con iron-session + bcryptjs; Auth.js descartado (ADR 0005) | Un solo usuario demo; Auth.js v5 nunca salió estable y está en mantenimiento. |
 | 2026-10-21 | Herramientas: Tailwind 4, pruebas visuales de Playwright, axe, mysql2 + sql-ts, Netlify Blobs, Lighthouse CI (ADR 0001–0007) | El alcance dejó a `/guardian-planificar` decidir con qué. |
 | 2026-10-21 | Usuarios de TiDB: `PREFIJO.root` solo para las migraciones (GitHub Environments); `PREFIJO.app` (SELECT/INSERT/UPDATE/DELETE) para la página (Netlify) | Permisos mínimos: la página no puede cambiar tablas. |
+| 2026-10-21 | Sitio **agnóstico**: «Tu Empresa», servicios que calzan en cualquier negocio, fotos reales CC0 y azul con acento cálido (ADR 0008). Los datos de ejemplo de los escenarios pasan a «Asesoría personalizada» y «Proyecto Grupo Andino» | El dueño quiere que cualquier cliente vea su negocio en la demo |

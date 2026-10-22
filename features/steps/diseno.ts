@@ -5,7 +5,7 @@ const { When, Then } = createBdd();
 
 const COMPUTADORA = { width: 1280, height: 800 };
 const CELULAR = { width: 390, height: 844 };
-const PAGINAS_PUBLICAS = ["/", "/services", "/services/asesoria-contable", "/services/no-existe"];
+const PAGINAS_PUBLICAS = ["/", "/services", "/services/asesoria-personalizada", "/services/no-existe"];
 
 When(/^entro a (\/\S*)$/, async ({ page }, ruta: string) => {
   await page.goto(ruta);

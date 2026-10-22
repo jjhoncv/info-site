@@ -51,11 +51,11 @@
       "escenarios": [
         {
           "archivo": "features/fase-1-servicios-y-demo-segura.feature",
-          "gherkin": "Escenario: El visitante ve los servicios\n  Dado que la demo tiene el servicio \"Asesoría contable\"\n  Cuando entro a /services\n  Entonces veo la tarjeta \"Asesoría contable\" con su imagen"
+          "gherkin": "Escenario: El visitante ve los servicios\n  Dado que la demo tiene el servicio \"Asesoría personalizada\"\n  Cuando entro a /services\n  Entonces veo la tarjeta \"Asesoría personalizada\" con su imagen"
         },
         {
           "archivo": "features/fase-1-servicios-y-demo-segura.feature",
-          "gherkin": "Escenario: El visitante ve el detalle de un servicio\n  Dado que la demo tiene el servicio \"Asesoría contable\"\n  Cuando entro a /services/asesoria-contable\n  Entonces veo el título \"Asesoría contable\" y su descripción"
+          "gherkin": "Escenario: El visitante ve el detalle de un servicio\n  Dado que la demo tiene el servicio \"Asesoría personalizada\"\n  Cuando entro a /services/asesoria-personalizada\n  Entonces veo el título \"Asesoría personalizada\" y su descripción"
         }
       ],
       "que": "Primer módulo completo según `docs/convenciones.md`: migración de `services` (y `sections`), repository/mapper/model/schema con sus pruebas, tipos generados, semilla de la demo con datos inventados e imágenes originales en el repo. Las páginas públicas de T1 pasan a leer de MySQL, con `generateMetadata` en el detalle.",
@@ -125,7 +125,7 @@
       "escenarios": [
         {
           "archivo": "features/fase-1-servicios-y-demo-segura.feature",
-          "gherkin": "Escenario: El cliente edita un servicio y lo ve en el sitio\n  Dado que inicié sesión con el usuario demo\n  Cuando cambio el título de \"Asesoría contable\" a \"Contabilidad para pymes\" y guardo\n  Entonces en /services veo la tarjeta \"Contabilidad para pymes\""
+          "gherkin": "Escenario: El cliente edita un servicio y lo ve en el sitio\n  Dado que inicié sesión con el usuario demo\n  Cuando cambio el título de \"Asesoría personalizada\" a \"AsesorÃ­a para empresas\" y guardo\n  Entonces en /services veo la tarjeta \"AsesorÃ­a para empresas\""
         },
         {
           "archivo": "features/fase-1-servicios-y-demo-segura.feature",
@@ -171,7 +171,7 @@
       "escenarios": [
         {
           "archivo": "features/fase-1-servicios-y-demo-segura.feature",
-          "gherkin": "Escenario: Restaurar la demo\n  Dado que el servicio \"Asesoría contable\" se renombró a \"Prueba\" y se subió una imagen nueva\n  Cuando pulso \"Restaurar demo\" y confirmo\n  Entonces en /services veo otra vez \"Asesoría contable\" con su imagen original, no veo \"Prueba\"\n  Y la imagen subida ya no existe"
+          "gherkin": "Escenario: Restaurar la demo\n  Dado que el servicio \"Asesoría personalizada\" se renombró a \"Prueba\" y se subió una imagen nueva\n  Cuando pulso \"Restaurar demo\" y confirmo\n  Entonces en /services veo otra vez \"Asesoría personalizada\" con su imagen original, no veo \"Prueba\"\n  Y la imagen subida ya no existe"
         }
       ],
       "que": "Acción del admin, con confirmación, que vuelve a cargar la semilla de la demo, borra todos los blobs subidos y pone en cero el contador de imágenes. No toca el usuario demo ni su clave. Queda como una función reutilizable para la restauración nocturna (T16).",
@@ -213,7 +213,7 @@
       "escenarios": [
         {
           "archivo": "features/fase-2-portada-y-proyectos.feature",
-          "gherkin": "Escenario: El visitante ve un proyecto\n  Dado que la demo tiene el proyecto \"Auditoría Grupo Andino\"\n  Cuando entro a /projects y lo abro\n  Entonces veo el título \"Auditoría Grupo Andino\", su descripción y sus imágenes"
+          "gherkin": "Escenario: El visitante ve un proyecto\n  Dado que la demo tiene el proyecto \"Proyecto Grupo Andino\"\n  Cuando entro a /projects y lo abro\n  Entonces veo el título \"Proyecto Grupo Andino\", su descripción y sus imágenes"
         }
       ],
       "que": "Módulo `projects` copiado de servicios, con varias imágenes por proyecto: /projects y /projects/[slug] con datos de la semilla. La restauración de la demo incluye los proyectos.",
@@ -227,7 +227,7 @@
       "escenarios": [
         {
           "archivo": "features/fase-2-portada-y-proyectos.feature",
-          "gherkin": "Escenario: El cliente edita un proyecto\n  Dado que inicié sesión con el usuario demo\n  Cuando cambio el título de \"Auditoría Grupo Andino\" a \"Auditoría Andina\" y guardo\n  Entonces en /projects veo \"Auditoría Andina\""
+          "gherkin": "Escenario: El cliente edita un proyecto\n  Dado que inicié sesión con el usuario demo\n  Cuando cambio el título de \"Proyecto Grupo Andino\" a \"Proyecto Andino\" y guardo\n  Entonces en /projects veo \"Proyecto Andino\""
         }
       ],
       "que": "Lista, creación y edición de proyectos en /admin/projects, con sus imágenes, copiando el admin de servicios. Las subidas cuentan para el tope de 30.",
@@ -269,7 +269,7 @@
       "escenarios": [
         {
           "archivo": "features/fase-4-lista-para-mostrar.feature",
-          "gherkin": "Escenario: La demo amanece limpia\n  Dado que ayer un cliente borró el servicio \"Asesoría contable\"\n  Cuando pasa la restauración de la noche\n  Entonces en /services veo otra vez \"Asesoría contable\""
+          "gherkin": "Escenario: La demo amanece limpia\n  Dado que ayer un cliente borró el servicio \"Asesoría personalizada\"\n  Cuando pasa la restauración de la noche\n  Entonces en /services veo otra vez \"Asesoría personalizada\""
         }
       ],
       "que": "Función programada de Netlify que todas las noches (hora de Lima) llama a la restauración de T10. Lo que no se puede probar en local (el horario real de Netlify) se explica en el PR, con el paso para comprobarlo en staging.",
@@ -283,7 +283,7 @@
       "escenarios": [
         {
           "archivo": "features/fase-4-lista-para-mostrar.feature",
-          "gherkin": "Escenario: Cada página tiene su título para buscadores\n  Cuando entro a /services/asesoria-contable\n  Entonces el título de la pestaña es el meta título del servicio"
+          "gherkin": "Escenario: Cada página tiene su título para buscadores\n  Cuando entro a /services/asesoria-personalizada\n  Entonces el título de la pestaña es el meta título del servicio"
         }
       ],
       "que": "`generateMetadata` en todas las páginas públicas (meta título y meta descripción desde la base, con un valor por defecto), Open Graph básico, `sitemap.ts` y `robots.ts` (el admin no se indexa).",

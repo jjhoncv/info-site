@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ButtonLink } from "@/src/components/Button";
-import { ServiceIllustration } from "@/src/module/services/components/web/ServiceIllustration";
+import { EMPRESA } from "@/src/components/empresa";
 import { getServicioBySlug } from "@/src/module/services/services/demo";
 
 type Props = Readonly<{ params: Promise<{ slug: string }> }>;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const servicio = getServicioBySlug((await params).slug);
-  return { title: servicio ? `${servicio.title} · Info Site` : "No encontramos esta página" };
+  return { title: servicio ? `${servicio.title} · ${EMPRESA.nombre}` : "No encontramos esta página" };
 }
 
 export default async function ServiceDetailPage({ params }: Props) {
@@ -17,29 +18,50 @@ export default async function ServiceDetailPage({ params }: Props) {
   if (!servicio) notFound();
 
   return (
-    <main>
-      <section className="bg-marca-900">
-        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-          <Link href="/services" className="text-sm text-marca-100 hover:text-white">
-            ← Todos los servicios
-          </Link>
-          <h1 className="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">{servicio.title}</h1>
-          <p className="mt-4 max-w-2xl text-lg text-marca-100">{servicio.summary}</p>
-        </div>
-      </section>
-      <div className="mx-auto grid max-w-6xl items-start gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.5fr_1fr]">
-        <div className="flex flex-col gap-6">
-          <div className="overflow-hidden rounded-tarjeta shadow-tarjeta">
-            <ServiceIllustration type={servicio.illustration} label={`Ilustración de ${servicio.title}`} />
+    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 md:py-14">
+      <nav aria-label="Ruta" className="text-sm text-tinta-suave">
+        <Link href="/services" className="hover:text-marca-700">
+          Servicios
+        </Link>{" "}
+        / <span className="text-tinta">{servicio.title}</span>
+      </nav>
+      <div className="mt-6 grid items-start gap-10 md:grid-cols-[1.6fr_1fr]">
+        <article className="flex flex-col gap-6">
+          <h1 className="text-4xl font-bold leading-tight text-marca-900 sm:text-5xl">{servicio.title}</h1>
+          <p className="text-xl leading-relaxed text-tinta-suave">{servicio.summary}</p>
+          <div className="relative aspect-[3/2] overflow-hidden rounded-tarjeta">
+            <Image
+              src={servicio.image}
+              alt={servicio.imageAlt}
+              fill
+              priority
+              sizes="(min-width: 768px) 640px, 100vw"
+              className="object-cover"
+            />
           </div>
-          <p className="text-lg text-tinta-suave">{servicio.description}</p>
-        </div>
-        <aside className="rounded-tarjeta bg-marca-50 p-7">
-          <h2 className="text-xl font-bold text-marca-900">¿Te interesa?</h2>
-          <p className="mb-5 mt-2 text-tinta-suave">Cuéntanos tu caso y te respondemos en un día hábil.</p>
-          <ButtonLink href="/services" variant="secundario">
-            Ver otros servicios
+          <p className="text-lg leading-relaxed">{servicio.description}</p>
+          <div>
+            <h2 className="text-2xl font-bold text-marca-900">Qué incluye</h2>
+            <ul className="mt-4 flex flex-col gap-3">
+              {servicio.includes.map((item) => (
+                <li key={item} className="flex gap-3">
+                  <span aria-hidden="true" className="mt-2.5 size-1.5 shrink-0 rounded-full bg-acento-600" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </article>
+        <aside className="flex flex-col gap-4 rounded-tarjeta bg-fondo-calido p-7 md:sticky md:top-6">
+          <h2 className="text-2xl font-bold text-marca-900">¿Te interesa?</h2>
+          <p className="leading-relaxed text-tinta-suave">Cuéntanos tu caso y te enviamos una propuesta en un día hábil.</p>
+          <ButtonLink href="#contacto">Solicitar cotización</ButtonLink>
+          <ButtonLink href={`https://wa.me/${EMPRESA.whatsapp}`} variant="secundario">
+            Escríbenos por WhatsApp
           </ButtonLink>
+          <p className="border-t border-linea pt-4 text-sm text-tinta-suave">
+            {EMPRESA.telefono} · {EMPRESA.horario}
+          </p>
         </aside>
       </div>
     </main>

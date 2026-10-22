@@ -1,54 +1,67 @@
 import type { Servicio } from "./types";
 
-// Datos inventados del boceto (T1). El módulo con MySQL (T2) reemplaza este archivo.
+// Datos inventados del boceto (T1), pensados para que calcen en cualquier negocio (ADR 0008).
+// El módulo con MySQL (T2) reemplaza este archivo. Fotos CC0 de StockSnap (docs/creditos.md).
 const SERVICIOS: Servicio[] = [
   {
-    slug: "asesoria-contable",
-    title: "Asesoría contable",
-    summary: "Libros al día y números claros para decidir con calma.",
+    slug: "asesoria-personalizada",
+    title: "Asesoría personalizada",
+    summary: "Escuchamos tu caso y te proponemos la solución que de verdad necesitas.",
     description:
-      "Llevamos la contabilidad de tu empresa de forma ordenada: registro mensual, balances y reportes que se entienden sin ser contador. Te acompañamos para que cada decisión tenga un número que la respalde.",
-    illustration: "contabilidad",
+      "Antes de ofrecerte algo, entendemos cómo funciona tu negocio. Te explicamos las opciones en lenguaje simple, con costos y plazos claros, para que decidas con calma.",
+    includes: ["Diagnóstico inicial sin costo", "Propuesta por escrito", "Un asesor asignado"],
+    image: "/demo/servicios/asesoria-personalizada.jpg",
+    imageAlt: "Dos asesores revisan una propuesta frente a una laptop",
   },
   {
-    slug: "asesoria-legal",
-    title: "Asesoría legal",
-    summary: "Contratos y trámites sin sorpresas.",
+    slug: "atencion-en-tu-local",
+    title: "Atención en tu local",
+    summary: "Vamos hasta donde estás, con el equipo y las herramientas necesarias.",
     description:
-      "Revisamos y redactamos contratos, constituimos sociedades y resolvemos trámites ante entidades públicas. Prevenir cuesta menos que litigar, y lo hacemos con lenguaje simple.",
-    illustration: "legal",
+      "Coordinamos una visita en el horario que te acomode. Llegamos puntuales, trabajamos con orden y dejamos todo como lo encontramos.",
+    includes: ["Visita en el día acordado", "Equipo identificado", "Informe al terminar"],
+    image: "/demo/servicios/atencion-en-tu-local.jpg",
+    imageAlt: "Técnicos con chaleco revisan un plano sobre la mesa",
   },
   {
-    slug: "consultoria-de-gestion",
-    title: "Consultoría de gestión",
-    summary: "Procesos más simples para equipos que crecen.",
+    slug: "planes-para-empresas",
+    title: "Planes para empresas",
+    summary: "Precios fijos y atención prioritaria para clientes que trabajan con nosotros todo el año.",
     description:
-      "Analizamos cómo trabaja tu empresa, detectamos cuellos de botella y definimos un plan de mejora con metas medibles. Trabajamos junto a tu equipo hasta que el cambio se sostiene solo.",
-    illustration: "consultoria",
+      "Armamos un plan a la medida de tu volumen de trabajo, con una tarifa mensual que no cambia y un canal directo para tus pedidos.",
+    includes: ["Tarifa mensual fija", "Atención prioritaria", "Reporte mensual"],
+    image: "/demo/servicios/planes-para-empresas.jpg",
+    imageAlt: "Equipo reunido conversando alrededor de una mesa",
   },
   {
-    slug: "planificacion-tributaria",
-    title: "Planificación tributaria",
-    summary: "Cumple a tiempo y paga solo lo justo.",
+    slug: "capacitacion",
+    title: "Capacitación",
+    summary: "Enseñamos a tu equipo a sacarle el máximo provecho, paso a paso.",
     description:
-      "Preparamos tus declaraciones, calendarizamos vencimientos y buscamos la mejor estructura dentro de la ley. Sin multas, sin urgencias de último día.",
-    illustration: "impuestos",
+      "Talleres prácticos, presenciales o en línea, con material que tu equipo puede consultar después. Medimos lo aprendido al final de cada sesión.",
+    includes: ["Talleres de 2 a 4 horas", "Material descargable", "Constancia de participación"],
+    image: "/demo/servicios/capacitacion.jpg",
+    imageAlt: "Un instructor explica un tema a un grupo de personas",
   },
   {
-    slug: "planillas-y-nomina",
-    title: "Planillas y nómina",
-    summary: "Pagos puntuales y boletas en regla.",
+    slug: "soporte-y-mantenimiento",
+    title: "Soporte y mantenimiento",
+    summary: "Nos ocupamos de que todo siga funcionando, antes de que falle.",
     description:
-      "Calculamos sueldos, beneficios y aportes, y emitimos las boletas de tu equipo cada mes. Tus colaboradores cobran a tiempo y tú duermes tranquilo.",
-    illustration: "nomina",
+      "Revisiones periódicas y una línea de soporte para resolver dudas e incidencias. Respondemos el mismo día hábil.",
+    includes: ["Revisión programada", "Soporte por teléfono y WhatsApp", "Respuesta el mismo día hábil"],
+    image: "/demo/servicios/soporte-y-mantenimiento.jpg",
+    imageAlt: "Personas trabajando con varias laptops sobre una mesa",
   },
   {
-    slug: "auditoria-interna",
-    title: "Auditoría interna",
-    summary: "Una mirada externa antes de que lo haga alguien más.",
+    slug: "garantia-y-postventa",
+    title: "Garantía y postventa",
+    summary: "Respondemos por nuestro trabajo también después de entregarlo.",
     description:
-      "Revisamos controles, inventarios y registros para encontrar riesgos a tiempo. Entregamos un informe claro con prioridades y pasos concretos para corregir.",
-    illustration: "auditoria",
+      "Todo lo que hacemos tiene garantía por escrito. Si algo no queda como acordamos, lo resolvemos sin costo y sin vueltas.",
+    includes: ["Garantía por escrito", "Seguimiento a los 30 días", "Atención de reclamos en 48 horas"],
+    image: "/demo/servicios/garantia-y-postventa.jpg",
+    imageAlt: "Dos personas se dan la mano sobre un escritorio",
   },
 ];
 

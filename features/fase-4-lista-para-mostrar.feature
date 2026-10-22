@@ -5,13 +5,13 @@ Característica: Lista para mostrar
 
   @fase-4
   Escenario: La demo amanece limpia
-    Dado que ayer un cliente borró el servicio "Asesoría contable"
+    Dado que ayer un cliente borró el servicio "Asesoría personalizada"
     Cuando pasa la restauración de la noche
-    Entonces en /services veo otra vez "Asesoría contable"
+    Entonces en /services veo otra vez "Asesoría personalizada"
 
   @fase-4
   Escenario: Cada página tiene su título para buscadores
-    Cuando entro a /services/asesoria-contable
+    Cuando entro a /services/asesoria-personalizada
     Entonces el título de la pestaña es el meta título del servicio
 
   @fase-4

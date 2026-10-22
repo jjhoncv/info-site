@@ -7,15 +7,15 @@ Característica: Servicios y demo segura
 
   @fase-1
   Escenario: El visitante ve los servicios
-    Dado que la demo tiene el servicio "Asesoría contable"
+    Dado que la demo tiene el servicio "Asesoría personalizada"
     Cuando entro a /services
-    Entonces veo la tarjeta "Asesoría contable" con su imagen
+    Entonces veo la tarjeta "Asesoría personalizada" con su imagen
 
   @fase-1
   Escenario: El visitante ve el detalle de un servicio
-    Dado que la demo tiene el servicio "Asesoría contable"
-    Cuando entro a /services/asesoria-contable
-    Entonces veo el título "Asesoría contable" y su descripción
+    Dado que la demo tiene el servicio "Asesoría personalizada"
+    Cuando entro a /services/asesoria-personalizada
+    Entonces veo el título "Asesoría personalizada" y su descripción
 
   @fase-1 @smoke
   Escenario: Un servicio que no existe
@@ -45,8 +45,8 @@ Característica: Servicios y demo segura
   @fase-1
   Escenario: El cliente edita un servicio y lo ve en el sitio
     Dado que inicié sesión con el usuario demo
-    Cuando cambio el título de "Asesoría contable" a "Contabilidad para pymes" y guardo
-    Entonces en /services veo la tarjeta "Contabilidad para pymes"
+    Cuando cambio el título de "Asesoría personalizada" a "AsesorÃ­a para empresas" y guardo
+    Entonces en /services veo la tarjeta "AsesorÃ­a para empresas"
 
   @fase-1
   Escenario: El formulario avisa lo que falta
@@ -79,7 +79,7 @@ Característica: Servicios y demo segura
 
   @fase-1
   Escenario: Restaurar la demo
-    Dado que el servicio "Asesoría contable" se renombró a "Prueba" y se subió una imagen nueva
+    Dado que el servicio "Asesoría personalizada" se renombró a "Prueba" y se subió una imagen nueva
     Cuando pulso "Restaurar demo" y confirmo
-    Entonces en /services veo otra vez "Asesoría contable" con su imagen original, no veo "Prueba"
+    Entonces en /services veo otra vez "Asesoría personalizada" con su imagen original, no veo "Prueba"
     Y la imagen subida ya no existe
