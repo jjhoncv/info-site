@@ -4,17 +4,24 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ButtonLink } from "@/src/components/Button";
 import { EMPRESA } from "@/src/components/empresa";
-import { getServicioBySlug } from "@/src/module/services/services/demo";
+import { serviceModel } from "@/src/module/services/core";
+
+// Lee de MySQL en cada visita: lo que se edita en el admin se ve de inmediato.
+export const dynamic = "force-dynamic";
 
 type Props = Readonly<{ params: Promise<{ slug: string }> }>;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const servicio = getServicioBySlug((await params).slug);
-  return { title: servicio ? `${servicio.title} · ${EMPRESA.nombre}` : "No encontramos esta página" };
+  const servicio = await serviceModel.getServiceBySlug((await params).slug);
+  if (!servicio) return { title: "No encontramos esta página" };
+  return {
+    title: `${servicio.metaTitle ?? servicio.title} · ${EMPRESA.nombre}`,
+    description: servicio.metaDescription ?? servicio.summary,
+  };
 }
 
 export default async function ServiceDetailPage({ params }: Props) {
-  const servicio = getServicioBySlug((await params).slug);
+  const servicio = await serviceModel.getServiceBySlug((await params).slug);
   if (!servicio) notFound();
 
   return (
@@ -29,16 +36,18 @@ export default async function ServiceDetailPage({ params }: Props) {
         <article className="flex flex-col gap-6">
           <h1 className="text-4xl font-bold leading-tight text-marca-900 sm:text-5xl">{servicio.title}</h1>
           <p className="text-xl leading-relaxed text-tinta-suave">{servicio.summary}</p>
-          <div className="relative aspect-[3/2] overflow-hidden rounded-tarjeta">
-            <Image
-              src={servicio.image}
-              alt={servicio.imageAlt}
-              fill
-              priority
-              sizes="(min-width: 768px) 640px, 100vw"
-              className="object-cover"
-            />
-          </div>
+          {servicio.imageUrl && (
+            <div className="relative aspect-[3/2] overflow-hidden rounded-tarjeta">
+              <Image
+                src={servicio.imageUrl}
+                alt={servicio.imageAlt ?? ""}
+                fill
+                priority
+                sizes="(min-width: 768px) 640px, 100vw"
+                className="object-cover"
+              />
+            </div>
+          )}
           <p className="text-lg leading-relaxed">{servicio.description}</p>
           <div>
             <h2 className="text-2xl font-bold text-marca-900">Qué incluye</h2>

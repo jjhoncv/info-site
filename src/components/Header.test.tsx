@@ -1,8 +1,12 @@
 // @vitest-environment jsdom
 import { render, screen } from "@testing-library/react";
-import { expect, it } from "vitest";
+import { expect, it, vi } from "vitest";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
+
+vi.mock("@/src/module/services/core", () => ({
+  serviceModel: { getServices: async () => [{ slug: "capacitacion", title: "Capacitación" }] },
+}));
 
 it("el encabezado tiene navegación con Servicios y la acción de cotizar", () => {
   render(<Header />);
@@ -11,9 +15,10 @@ it("el encabezado tiene navegación con Servicios y la acción de cotizar", () =
   expect(screen.getByRole("link", { name: "Solicitar cotización" })).toBeTruthy();
 });
 
-it("el pie tiene el nombre de la empresa, el contacto y la marca de demostración", () => {
-  render(<Footer />);
+it("el pie tiene el nombre de la empresa, los servicios, el contacto y la marca de demostración", async () => {
+  render(await Footer());
   const pie = screen.getByRole("contentinfo").textContent ?? "";
+  expect(pie).toContain("Capacitación");
   expect(pie).toContain("Tu Empresa");
   expect(pie).toContain("+51 999 888 777");
   expect(pie).toContain("Sitio de demostración");

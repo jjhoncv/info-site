@@ -1,26 +1,18 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { getServicioBySlug, getServicios } from "../services/demo";
 
-describe("servicios de demo", () => {
+// La semilla de la demo es la migración 002: sus fotos tienen que existir en public/.
+const semilla = readFileSync(join(process.cwd(), "db/migraciones/002-semilla-servicios.sql"), "utf8");
+
+describe("semilla de servicios de la demo", () => {
   it("incluye «Asesoría personalizada» con su slug", () => {
-    expect(getServicios().map((s) => s.slug)).toContain("asesoria-personalizada");
-    expect(getServicioBySlug("asesoria-personalizada")?.title).toBe("Asesoría personalizada");
+    expect(semilla).toContain("'Asesoría personalizada', 'asesoria-personalizada'");
   });
 
-  it("devuelve undefined si el servicio no existe", () => {
-    expect(getServicioBySlug("no-existe")).toBeUndefined();
-  });
-
-  it("cada servicio tiene slug único, descripción, qué incluye y una foto que existe con su texto alternativo", () => {
-    const servicios = getServicios();
-    expect(new Set(servicios.map((s) => s.slug)).size).toBe(servicios.length);
-    for (const s of servicios) {
-      expect(s.description.length).toBeGreaterThan(20);
-      expect(s.includes.length).toBeGreaterThan(0);
-      expect(s.imageAlt.length).toBeGreaterThan(10);
-      expect(existsSync(join(process.cwd(), "public", s.image)), s.image).toBe(true);
-    }
+  it("cada foto de la semilla existe en public/", () => {
+    const fotos = semilla.match(/'\/demo\/[^']+'/g)?.map((f) => f.slice(1, -1)) ?? [];
+    expect(fotos.length).toBeGreaterThanOrEqual(6);
+    for (const foto of fotos) expect(existsSync(join(process.cwd(), "public", foto)), foto).toBe(true);
   });
 });

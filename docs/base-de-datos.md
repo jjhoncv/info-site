@@ -15,6 +15,10 @@
 3. **Netlify** → *Site configuration → Environment variables*: las mismas variables más `MYSQL_SSL=1`, **marcadas como secretas** y con un valor distinto por contexto (*Production* = producción; *Deploy previews* y *Branch deploys* = staging). Las usa la página.
 4. Permisos mínimos: la página, con un usuario que solo lee y escribe datos; las migraciones, con uno que puede cambiar tablas.
 
+## Tipos de la base
+
+Después de cada migración: `npm run db:types` (con la base local migrada y las variables `MYSQL_*`) regenera `src/types/database` (snake_case) y `src/types/domain` (camelCase). No se editan a mano.
+
 ## Archivos subidos (imágenes del admin)
 
 No se guardan en `public/` (Netlify no conserva archivos subidos): van a **Netlify Blobs** (`@netlify/blobs`), que viene con el sitio, sin cuenta extra.
