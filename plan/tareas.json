@@ -216,7 +216,7 @@
         "Tiene botones «Anterior» y «Siguiente» con etiqueta y se maneja con el teclado.",
         "La imagen del primer banner carga con prioridad (es lo primero que se ve); cada imagen tiene su descripción."
       ],
-      "diseno": "Sitio público: igual a la maqueta `docs/maquetas/sitio.html` (#portada) y a `docs/diseno.md` (encabezado, pie, tokens y fuentes del sitio). Si la maqueta del sitio todavía no está en el repo, no inventes el diseño: pídela en el ticket y termina sin PR.",
+      "diseno": "Sitio público: igual a la maqueta `docs/maquetas/sitio.html` (#portada) y a `docs/diseno.md` (encabezado, pie, tokens y fuentes del sitio). Sección «Sitio público» de `docs/diseno.md`.",
       "datos": "Tabla `banners` (migración nueva): id, title (≤ 120), subtitle (≤ 160), image_url, image_alt (≤ 200), position, visible, fechas. Semilla con los 3 banners de la maqueta: «Tu empresa, en buenas manos» (visible), «Planes para empresas» (visible), «Capacítate con nosotros» (oculto), con fotos de `public/demo/`.",
       "pruebas": "Unitarias del modelo y del mapper; los 5 escenarios en BDD y E2E; captura de la portada en computadora y celular comparada con la maqueta; axe sin errores.",
       "fuera": "El admin de banners (T12). Enlaces o botones dentro del banner. Proyectos en la portada.",
@@ -306,7 +306,7 @@
         "La primera foto de la galería es la portada del proyecto (tarjeta y encabezado del detalle).",
         "Cada foto tiene su descripción; la galería se puede recorrer con el teclado."
       ],
-      "diseno": "Sitio público: igual a la maqueta `docs/maquetas/sitio.html` (#proyectos y #proyecto) y a `docs/diseno.md` (encabezado, pie, tokens y fuentes del sitio). Si la maqueta del sitio todavía no está en el repo, no inventes el diseño: pídela en el ticket y termina sin PR.",
+      "diseno": "Sitio público: igual a la maqueta `docs/maquetas/sitio.html` (#proyectos y #proyecto) y a `docs/diseno.md` (encabezado, pie, tokens y fuentes del sitio). Sección «Sitio público» de `docs/diseno.md`.",
       "datos": "Tablas nuevas (migración): `projects` (id, title, slug único, summary, description, status «published»/«draft», position, meta_title, meta_description, fechas) y `project_images` (id, project_id, image_url, image_alt, position). Semilla con los 4 proyectos de la maqueta («Proyecto Grupo Andino» 4 fotos, «Renovación de sede central» 6, «Programa de capacitación anual» 3 en borrador, «Soporte a 40 sucursales» 5), con fotos de `public/demo/`.",
       "pruebas": "Unitarias del modelo y del mapper; los 5 escenarios en BDD y E2E; captura de /projects y del detalle en computadora y celular comparada con la maqueta; axe sin errores.",
       "fuera": "El admin de proyectos (T13b). Filtros o categorías de proyectos. Proyectos en la portada.",
@@ -439,13 +439,13 @@
           "gherkin": "Escenario: La página de contacto se ve como el diseño aprobado\n  Cuando entro a /contact en la computadora y en el celular\n  Entonces la página se ve igual al diseño que aprobé"
         }
       ],
-      "que": "/contact con los datos de la empresa (teléfono, correo, dirección y horario) y el botón «Escríbenos por WhatsApp» (`https://wa.me/<número>`, abre en otra pestaña). «Contacto» entra al menú y el botón «Cotizar» del encabezado lleva aquí.",
+      "que": "/contact con los datos de la empresa (teléfono, correo, dirección y horario) y el botón «Escríbenos por WhatsApp» (`https://wa.me/<número>`, abre en otra pestaña). «Contacto» entra al menú y el botón «Solicitar cotización» del encabezado (y los de las páginas) lleva aquí.",
       "reglas": [
         "Teléfono como enlace `tel:` con el número sin espacios; correo como enlace `mailto:`.",
         "Un dato vacío no deja una fila vacía: no se muestra.",
         "El enlace de WhatsApp abre en otra pestaña con `rel=\"noopener\"`."
       ],
-      "diseno": "Sitio público: igual a la maqueta `docs/maquetas/sitio.html` (#contacto) y a `docs/diseno.md` (encabezado, pie, tokens y fuentes del sitio). Si la maqueta del sitio todavía no está en el repo, no inventes el diseño: pídela en el ticket y termina sin PR.",
+      "diseno": "Sitio público: igual a la maqueta `docs/maquetas/sitio.html` (#contacto) y a `docs/diseno.md` (encabezado, pie, tokens y fuentes del sitio). Sección «Sitio público» de `docs/diseno.md`.",
       "datos": "Lee la tabla `company` (de T14). Sin migración.",
       "pruebas": "Unitarias del armado de enlaces (`tel:`, `wa.me`); los 5 escenarios en BDD y E2E; captura en computadora y celular; axe sin errores.",
       "fuera": "Formulario que envía correo y mapa (Parking lot).",
