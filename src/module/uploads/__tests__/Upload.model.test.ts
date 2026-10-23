@@ -50,16 +50,17 @@ describe("tope de imágenes", () => {
   });
 });
 
-describe("uploadModel.deleteAll", () => {
-  it("borra todas las imágenes y pone el contador en cero", async () => {
-    await uploadModel.deleteAll();
-    expect(storage.deleteAllBlobs).toHaveBeenCalledOnce();
-    expect(repo.reset).toHaveBeenCalledOnce();
+describe("restaurar", () => {
+  it("resetCounter pone el contador en cero con la consulta de la transacción", async () => {
+    const consulta = vi.fn();
+    await uploadModel.resetCounter(consulta);
+    expect(repo.reset).toHaveBeenCalledWith(consulta);
+    expect(storage.deleteAllBlobs).not.toHaveBeenCalled();
   });
 
-  it("si no se pueden borrar las imágenes, no toca el contador", async () => {
-    storage.deleteAllBlobs.mockRejectedValue(new Error("sin red"));
-    await expect(uploadModel.deleteAll()).rejects.toThrow("sin red");
+  it("deleteImages borra todas las imágenes y no toca el contador", async () => {
+    await uploadModel.deleteImages();
+    expect(storage.deleteAllBlobs).toHaveBeenCalledOnce();
     expect(repo.reset).not.toHaveBeenCalled();
   });
 });

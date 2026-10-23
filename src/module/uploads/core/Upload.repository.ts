@@ -1,4 +1,4 @@
-import { executeQuery } from "@/src/lib/db";
+import { executeQuery, type Consulta } from "@/src/lib/db";
 
 type Escritura = { affectedRows: number; insertId: number };
 
@@ -14,8 +14,9 @@ class UploadRepository {
     await executeQuery<Escritura>("UPDATE upload_counter SET total = total - 1 WHERE id = 1 AND total > 0");
   }
 
-  async reset(): Promise<void> {
-    await executeQuery<Escritura>("UPDATE upload_counter SET total = 0 WHERE id = 1");
+  // Corre con la `consulta` de una transacción: el que llama decide el commit.
+  async reset(consulta: Consulta): Promise<void> {
+    await consulta("UPDATE upload_counter SET total = 0 WHERE id = 1");
   }
 
   async count(): Promise<number> {

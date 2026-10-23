@@ -1,3 +1,4 @@
+import type { Consulta } from "@/src/lib/db";
 import type { Service } from "@/src/types/domain";
 import repository from "./Service.repository";
 import { ServiceMapper, ServicesMapper } from "./Service.mapper";
@@ -43,8 +44,8 @@ export class ServiceModel {
   }
 
   // «Restaurar demo»: deja los servicios como en la semilla.
-  async restoreSeed(): Promise<void> {
-    await repository.restoreSeed(SERVICES_SEED);
+  async restoreSeed(consulta: Consulta): Promise<void> {
+    await repository.restoreSeed(SERVICES_SEED, consulta);
   }
 }
 

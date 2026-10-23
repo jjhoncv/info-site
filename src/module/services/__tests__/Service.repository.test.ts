@@ -49,10 +49,11 @@ describe("ServiceRepository", () => {
   });
 
   it("restoreSeed vacía la tabla y vuelve a insertar la semilla en su orden", async () => {
-    db.executeQuery.mockResolvedValue({ affectedRows: 6 });
-    await repository.restoreSeed(SERVICES_SEED);
-    expect(db.executeQuery.mock.calls[0][0]).toBe("DELETE FROM services");
-    const [sql, params] = db.executeQuery.mock.calls[1];
+    const consulta = vi.fn().mockResolvedValue({ affectedRows: 6 });
+    await repository.restoreSeed(SERVICES_SEED, consulta);
+    expect(db.executeQuery).not.toHaveBeenCalled();
+    expect(consulta.mock.calls[0][0]).toBe("DELETE FROM services");
+    const [sql, params] = consulta.mock.calls[1];
     expect(sql).toMatch(/^INSERT INTO services \(id, .*position\) VALUES/);
     expect(sql.match(/\(\?, \?, \?, \?, \?, \?, \?, \?, \?\)/g)).toHaveLength(SERVICES_SEED.length);
     expect(params).toHaveLength(SERVICES_SEED.length * 9);

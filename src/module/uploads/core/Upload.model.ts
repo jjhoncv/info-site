@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import type { Consulta } from "@/src/lib/db";
 import { validateImage } from "./image";
 import uploadRepository from "./Upload.repository";
 import { deleteAllBlobs, readBlob, saveBlob, type StoredImage } from "./storage";
@@ -32,10 +33,14 @@ class UploadModel {
     return uploadRepository.count();
   }
 
-  // Primero las imágenes y luego el contador: si borrar falla, el contador sigue mostrando lo que hay.
-  async deleteAll(): Promise<void> {
+  // Contador en cero, dentro de la transacción de «Restaurar demo».
+  async resetCounter(consulta: Consulta): Promise<void> {
+    await uploadRepository.reset(consulta);
+  }
+
+  // Se llama solo después del commit de la restauración.
+  async deleteImages(): Promise<void> {
     await deleteAllBlobs();
-    await uploadRepository.reset();
   }
 
   async readImage(key: string): Promise<StoredImage | null> {

@@ -57,8 +57,9 @@ describe("ServiceModel", () => {
   });
 
   it("restoreSeed vuelve a cargar la semilla", async () => {
-    await new ServiceModel().restoreSeed();
-    expect(repo.restoreSeed).toHaveBeenCalledWith(SERVICES_SEED);
+    const consulta = vi.fn();
+    await new ServiceModel().restoreSeed(consulta);
+    expect(repo.restoreSeed).toHaveBeenCalledWith(SERVICES_SEED, consulta);
   });
 
   describe("updateService", () => {
