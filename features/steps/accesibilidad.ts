@@ -8,7 +8,7 @@ const { When, Then } = createBdd();
 // Reglas WCAG 2.1 AA: contraste, `alt` en imágenes y `label` en campos (ADR 0003).
 const ETIQUETAS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"];
 
-const PAGINAS = ["/services", "/admin/services", "/admin"];
+const PAGINAS = ["/", "/services", "/admin/services", "/admin"];
 
 // Se guarda por ruta lo que axe encontró; el «Entonces» lo comprueba.
 let problemas: Record<string, string[]> = {};

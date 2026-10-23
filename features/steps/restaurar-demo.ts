@@ -1,4 +1,4 @@
-import { expect } from "@playwright/test";
+import { expect, type Page } from "@playwright/test";
 import { createBdd } from "playwright-bdd";
 import { SIN_SMOKE } from "./ganchos";
 import { executeQuery } from "../../src/lib/db";
@@ -35,11 +35,16 @@ Given(
   },
 );
 
-When("pulso {string} y confirmo", async ({ page }, boton: string) => {
+// Con la sesión ya iniciada: pulsa «Restaurar demo», confirma y espera el aviso.
+export const restaurarDemo = async (page: Page, boton = "Restaurar demo") => {
   await page.goto("/admin");
   await page.getByRole("button", { name: boton }).click();
   await page.getByRole("dialog").getByRole("button", { name: "Sí, restaurar" }).click();
   await expect(page.getByRole("status")).toHaveText("La demo volvió a su contenido original");
+};
+
+When("pulso {string} y confirmo", async ({ page }, boton: string) => {
+  await restaurarDemo(page, boton);
 });
 
 Then(

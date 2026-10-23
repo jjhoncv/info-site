@@ -2,12 +2,14 @@ import { beforeEach, expect, it, vi } from "vitest";
 
 const m = vi.hoisted(() => ({
   restoreSeed: vi.fn(),
+  restoreBanners: vi.fn(),
   resetCounter: vi.fn(),
   deleteImages: vi.fn(),
   cookie: vi.fn(),
   revalidatePath: vi.fn(),
 }));
 vi.mock("@/src/module/services/core", () => ({ serviceModel: { restoreSeed: m.restoreSeed } }));
+vi.mock("@/src/module/banners/core", () => ({ bannerModel: { restoreSeed: m.restoreBanners } }));
 vi.mock("@/src/module/uploads/core", () => ({ uploadModel: { resetCounter: m.resetCounter, deleteImages: m.deleteImages } }));
 vi.mock("@/src/lib/db", () => ({ withTransaction: async (trabajo: (c: unknown) => Promise<void>) => trabajo(vi.fn()) }));
 vi.mock("next/headers", () => ({ cookies: async () => ({ get: m.cookie }) }));
@@ -26,6 +28,7 @@ beforeEach(() => {
 it("restoreDemo borra lo subido y vuelve a cargar la semilla", async () => {
   await restoreDemo();
   expect(m.restoreSeed).toHaveBeenCalledOnce();
+  expect(m.restoreBanners).toHaveBeenCalledOnce();
   expect(m.resetCounter).toHaveBeenCalledOnce();
   expect(m.deleteImages).toHaveBeenCalledOnce();
 });
