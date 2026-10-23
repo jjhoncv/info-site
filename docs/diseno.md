@@ -58,3 +58,14 @@ Fotos CC0 de StockSnap en `public/demo/` (créditos en `docs/creditos.md`), serv
 - **Misma marca que el sitio:** el admin y el sitio son la misma empresa. Usan los **mismos tokens** de `app/globals.css` (`@theme`: colores, radios), las **mismas fuentes** (Source Serif 4 en títulos, Public Sans en texto) y el **mismo logo** (`LogoMark` / `Logo` de `src/components/Logo.tsx`). Nada de colores, fuentes ni estilos propios del admin fuera de los tokens.
 - **Mismos componentes base, misma forma de usarlos:** los botones del admin son el mismo `Button` del sitio (primario = acento cálido para la acción principal, secundario = `marca-50`), con la misma API de variantes. Lo que solo existe en el admin (tabla, campos de formulario, zona de imagen, modal, aviso) va en `src/module/shared/components/` y se construye con esos mismos tokens. Si un componente sirve a los dos, se comparte; no se duplica.
 - El acento cálido solo para la acción principal de cada pantalla (Entrar, Guardar cambios, Nuevo…).
+
+## Sitio público (maqueta del 2026-10-23, pendiente de aprobación)
+
+**Referencia visual: `docs/maquetas/sitio.html`** (ábrela en el navegador; la barra «Maqueta» de abajo cambia de vista y no es parte del sitio). Portada, proyectos, detalle de proyecto y contacto se construyen igual a esa maqueta, con los componentes que ya existen (`DemoBar`, `Header`, `Footer`, `Logo`, `Button`, `ServiceCard`).
+
+- **Encabezado:** Servicios · Proyectos · Contacto (oculto en celular) · «Solicitar cotización», que lleva a `/contact`. La sección actual se marca con un subrayado del acento.
+- **Portada (`#portada`):** arriba, el carrusel de banners a todo el ancho: foto con un velo `marca-900` de izquierda a derecha, título en serif blanco y frase en `marca-100`. Abajo, controles «Anterior», «Siguiente», «Pausar», una barra por banner y «1 / 2». Sin botones dentro del banner. Debajo va lo mismo que `/services` hoy: cifras, servicios, «Cómo trabajamos» y el llamado final.
+- **Proyectos (`#proyectos`):** cabecera sobre `fondo-calido` (ceja, título y bajada), rejilla de tarjetas como la de servicios, con la etiqueta «N fotos» sobre la foto y «Ver proyecto →». Abajo, el llamado «¿Tienes un proyecto parecido?».
+- **Detalle (`#proyecto`):** ruta, título, resumen, foto grande con «1 / 4» y su descripción debajo, miniaturas (la primera es la portada; se recorren con las flechas del teclado) y la descripción. A la derecha, el mismo panel «¿Quieres un proyecto así?» del detalle de servicio.
+- **Contacto (`#contacto`):** cabecera, lista de datos (Teléfono como enlace `tel:`, Correo como `mailto:`, Dirección y Horario), cada uno con su ícono en un cuadro `marca-50`, y el bloque `marca-900` «¿Prefieres WhatsApp?» con «Escríbenos por WhatsApp». Sin WhatsApp, ese bloque no aparece. Sin formulario ni mapa.
+
