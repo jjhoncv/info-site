@@ -83,3 +83,21 @@ Característica: Servicios y demo segura
     Cuando pulso "Restaurar demo" y confirmo
     Entonces en /services veo otra vez "Asesoría personalizada" con su imagen original, no veo "Prueba"
     Y la imagen subida ya no existe
+
+  @fase-1
+  Escenario: Restaurar en staging no toca las imágenes de producción
+    Dado que en producción hay un servicio con una imagen subida
+    Cuando restauro la demo en staging
+    Entonces en producción esa imagen se sigue viendo
+
+  @fase-1
+  Escenario: Un preview ve las imágenes de staging
+    Dado que subí una imagen en staging
+    Cuando abro esa imagen desde un preview
+    Entonces la veo, porque el preview usa la base y las imágenes de staging
+
+  @fase-1
+  Escenario: Sin el almacén configurado no se sube nada
+    Dado que falta la variable UPLOADS_STORE
+    Cuando subo una imagen válida
+    Entonces veo el mensaje "No se pudo guardar la imagen. Intenta de nuevo." y no se guarda nada
