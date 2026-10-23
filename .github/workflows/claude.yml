@@ -20,6 +20,12 @@ permissions:
   id-token: write
   actions: read
 
+# Candado: las sesiones de «siguiente ticket» (merge o cierre de fase) van de a una, así dos no toman el mismo
+# ticket (Info Site #39 y #42). Un @claude del dueño no espera: cada comentario va en su propio grupo.
+concurrency:
+  group: ${{ github.event_name == 'issue_comment' && format('claude-comentario-{0}', github.run_id) || 'claude-siguiente' }}
+  cancel-in-progress: false
+
 jobs:
   claude:
     uses: jjhoncv/guardian/.github/workflows/guardian-claude.yml@v0.21.0
