@@ -2,6 +2,7 @@
 
 import { Button, ButtonLink } from "@/src/components/Button";
 import { FieldRenderer } from "./fields/FieldRenderer";
+import { ImageField } from "./fields/ImageField";
 import type { Field, FormValues, PayloadSchema } from "./types";
 import { useFormCreate } from "./useFormCreate";
 
@@ -27,15 +28,24 @@ export function FormCreate({ method = "POST", ...config }: Readonly<Props>) {
       {porSeccion(config.fields).map(({ titulo, campos }) => (
         <section key={titulo} className="flex flex-col gap-5 rounded-tarjeta bg-white p-5">
           <h2 className="text-xl font-bold text-marca-900">{titulo}</h2>
-          {campos.map((field) => (
-            <FieldRenderer
-              key={field.key}
-              field={field}
-              register={register(field.key)}
-              error={formState.errors[field.key]}
-              length={valores[field.key]?.length ?? 0}
-            />
-          ))}
+          {campos.map((field) =>
+            field.type === "image" ? (
+              <ImageField
+                key={field.key}
+                field={field}
+                value={valores[field.key] ?? ""}
+                onChange={(url) => form.setValue(field.key, url, { shouldDirty: true })}
+              />
+            ) : (
+              <FieldRenderer
+                key={field.key}
+                field={field}
+                register={register(field.key)}
+                error={formState.errors[field.key]}
+                length={valores[field.key]?.length ?? 0}
+              />
+            ),
+          )}
         </section>
       ))}
       <div className="sticky bottom-0 flex flex-wrap items-center justify-end gap-3 border-t border-linea bg-[#f4f6f9]/95 py-3 backdrop-blur-sm">

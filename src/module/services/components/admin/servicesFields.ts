@@ -30,7 +30,16 @@ export const servicesFields: Field[] = [
     section: "Información básica",
     help: "Una cosa por línea (hasta 10).",
   },
-  // Imágenes: el campo de imagen llega con el ticket de subida de imágenes.
+  // Imágenes
+  { key: "imageUrl", label: "Imagen del servicio", type: "image", section: "Imagen", help: "Se ve en la tarjeta y en el detalle." },
+  {
+    key: "imageAlt",
+    label: "Descripción de la imagen",
+    type: "text",
+    section: "Imagen",
+    maxLength: 200,
+    help: "La leen quienes no pueden ver la imagen.",
+  },
   // SEO
   { key: "metaTitle", label: "Título para buscadores", type: "text", section: "Buscadores", maxLength: 70 },
   { key: "metaDescription", label: "Descripción para buscadores", type: "textarea", section: "Buscadores", maxLength: 160 },
