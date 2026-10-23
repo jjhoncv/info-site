@@ -10,7 +10,11 @@ const ACCESOS = [
 
 // Resumen del admin (docs/maquetas/admin.html, vista #resumen). Hoy cuenta servicios: las demás cifras
 // llegan con sus secciones.
-export function SummaryView({ servicesCount }: Readonly<{ servicesCount: number }>) {
+export function SummaryView({
+  servicesCount,
+  uploadsCount,
+  uploadsLimit,
+}: Readonly<{ servicesCount: number; uploadsCount: number; uploadsLimit: number }>) {
   return (
     <PageUI
       title="Hola, bienvenido"
@@ -21,6 +25,13 @@ export function SummaryView({ servicesCount }: Readonly<{ servicesCount: number 
         <div className="flex flex-col gap-1 rounded-tarjeta bg-white p-5">
           <dt className="order-1 text-sm text-tinta-suave">Servicios publicados</dt>
           <dd className="order-2 font-titulo text-3xl font-bold text-marca-900">{servicesCount}</dd>
+        </div>
+        <div className="flex flex-col gap-1 rounded-tarjeta bg-white p-5">
+          <dt className="order-1 text-sm text-tinta-suave">Imágenes subidas</dt>
+          <dd className="order-2 font-titulo text-3xl font-bold text-marca-900">
+            {uploadsCount} / {uploadsLimit}
+          </dd>
+          <dd className="order-3 text-sm text-tinta-suave">Tope de la demo</dd>
         </div>
       </dl>
       <div className="grid gap-4 lg:grid-cols-2">

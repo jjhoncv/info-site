@@ -1,6 +1,10 @@
 import { randomUUID } from "node:crypto";
 import { validateImage } from "./image";
+import uploadRepository from "./Upload.repository";
 import { readBlob, saveBlob, type StoredImage } from "./storage";
+
+export const MAX_UPLOADS = 30;
+export const LIMIT_MESSAGE = "La demo llegó al límite de imágenes; restáurala para seguir probando";
 
 export type SaveResult = { ok: true; url: string } | { ok: false; error: string };
 
@@ -12,9 +16,20 @@ class UploadModel {
   async saveImage(bytes: Uint8Array): Promise<SaveResult> {
     const check = validateImage(bytes);
     if (!check.ok) return check;
+    // El cupo se reserva con un UPDATE atómico; si el guardado falla se devuelve.
+    if (!(await uploadRepository.reserve(MAX_UPLOADS))) return { ok: false, error: LIMIT_MESSAGE };
     const key = `${randomUUID()}.${check.ext}`;
-    await saveBlob(key, bytes, check.type);
+    try {
+      await saveBlob(key, bytes, check.type);
+    } catch (error) {
+      await uploadRepository.release();
+      throw error;
+    }
     return { ok: true, url: `/media/${key}` };
+  }
+
+  countImages(): Promise<number> {
+    return uploadRepository.count();
   }
 
   async readImage(key: string): Promise<StoredImage | null> {
