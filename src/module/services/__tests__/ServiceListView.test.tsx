@@ -32,6 +32,7 @@ it("lista los servicios con su dirección y un enlace para verlos en el sitio", 
   expect(screen.getByText("Alfa")).toBeTruthy();
   expect(screen.getByText("/services/beta")).toBeTruthy();
   expect(screen.getByRole("link", { name: "Ver Alfa en el sitio" }).getAttribute("href")).toBe("/services/alfa");
+  expect(screen.getByRole("link", { name: "Editar Alfa" }).getAttribute("href")).toBe("/admin/services/1");
 });
 
 it("no borra si el usuario no confirma", () => {

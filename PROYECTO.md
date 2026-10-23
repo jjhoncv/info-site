@@ -85,8 +85,8 @@ Escenario: Sin sesión no se entra al admin
 
 Escenario: El cliente edita un servicio y lo ve en el sitio
   Dado que inicié sesión con el usuario demo
-  Cuando cambio el título de "Asesoría personalizada" a "AsesorÃ­a para empresas" y guardo
-  Entonces en /services veo la tarjeta "AsesorÃ­a para empresas"
+  Cuando cambio el título de "Asesoría personalizada" a "Asesoría para empresas" y guardo
+  Entonces en /services veo la tarjeta "Asesoría para empresas"
 
 Escenario: El formulario avisa lo que falta
   Dado que inicié sesión con el usuario demo

@@ -125,7 +125,7 @@
       "escenarios": [
         {
           "archivo": "features/fase-1-servicios-y-demo-segura.feature",
-          "gherkin": "Escenario: El cliente edita un servicio y lo ve en el sitio\n  Dado que inicié sesión con el usuario demo\n  Cuando cambio el título de \"Asesoría personalizada\" a \"AsesorÃ­a para empresas\" y guardo\n  Entonces en /services veo la tarjeta \"AsesorÃ­a para empresas\""
+          "gherkin": "Escenario: El cliente edita un servicio y lo ve en el sitio\n  Dado que inicié sesión con el usuario demo\n  Cuando cambio el título de \"Asesoría personalizada\" a \"Asesoría para empresas\" y guardo\n  Entonces en /services veo la tarjeta \"Asesoría para empresas\""
         },
         {
           "archivo": "features/fase-1-servicios-y-demo-segura.feature",

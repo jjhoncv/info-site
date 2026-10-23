@@ -55,6 +55,9 @@ export function ServiceListView({ services }: Readonly<{ services: Service[] }>)
           <Link href={`/services/${s.slug}`} aria-label={`Ver ${s.title} en el sitio`} className={ACCION}>
             Ver
           </Link>
+          <Link href={`/admin/services/${s.id}`} aria-label={`Editar ${s.title}`} className={ACCION}>
+            Editar
+          </Link>
           <button type="button" aria-label={`Eliminar ${s.title}`} onClick={() => eliminar(s)} className={`${ACCION} text-error`}>
             Eliminar
           </button>

@@ -3,6 +3,9 @@ import { unsealData, type SessionOptions } from "iron-session";
 export const COOKIE_NAME = "info-site-sesion";
 const DURACION_SEGUNDOS = 60 * 60 * 8;
 
+// Hay un solo usuario (el demo): su id es el que queda en created_by / updated_by.
+export const DEMO_USER_ID = 1;
+
 export type SessionData = { isAdmin?: boolean };
 
 // La opción se arma al usarla: SESSION_SECRET se lee en ejecución, no en el build.

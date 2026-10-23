@@ -8,8 +8,14 @@ const texto = (nombre: string, max: number, obligatorio: string) =>
     .min(1, obligatorio)
     .max(max, `${nombre} admite hasta ${max} caracteres`);
 
+// Un campo opcional en blanco es «sin valor»: se guarda NULL, no una cadena vacía.
 const opcional = (nombre: string, max: number) =>
-  z.string().trim().max(max, `${nombre} admite hasta ${max} caracteres`).optional();
+  z
+    .string()
+    .trim()
+    .max(max, `${nombre} admite hasta ${max} caracteres`)
+    .transform((valor) => valor || undefined)
+    .optional();
 
 export const ServiceSchema = z.object({
   title: texto("El título", 150, "El título es obligatorio"),

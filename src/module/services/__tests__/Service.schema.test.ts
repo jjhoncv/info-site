@@ -43,4 +43,10 @@ describe("ServiceSchema", () => {
     expect(r).not.toHaveProperty("createdBy");
     expect(r).not.toHaveProperty("id");
   });
+
+  it("un opcional en blanco queda sin valor, pero con la clave presente (para poder borrarlo en un PATCH)", () => {
+    const r = ServiceSchema.partial().parse({ metaTitle: "  " });
+    expect(r.metaTitle).toBeUndefined();
+    expect(Object.hasOwn(r, "metaTitle")).toBe(true);
+  });
 });
