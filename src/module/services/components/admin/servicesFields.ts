@@ -11,8 +11,7 @@ export const servicesFields: Field[] = [
     section: "Información básica",
     required: true,
     maxLength: 150,
-    slugFrom: "title",
-    help: "Solo minúsculas, números y guiones. Se arma sola con el título.",
+    help: "Solo minúsculas, números y guiones (por ejemplo, asesoria-personalizada).",
   },
   {
     key: "summary",

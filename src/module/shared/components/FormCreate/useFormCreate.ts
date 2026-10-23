@@ -1,9 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { slugify } from "./slugify";
 import { toPayload } from "./toPayload";
 import type { Field, FormValues, PayloadSchema } from "./types";
 import { zodResolver } from "./zodResolver";
@@ -25,16 +24,7 @@ export function useFormCreate({ api, method, fields, schema, redirect, initialVa
   const [aviso, setAviso] = useState<string>();
   const form = useForm<FormValues>({ defaultValues: initialValues, resolver: zodResolver(schema, fields) });
 
-  // En «crear», la dirección sigue al título hasta que la persona la edite.
-  const origen = fields.find((f) => f.slugFrom);
   const valores = useWatch({ control: form.control });
-  const texto = valores[origen?.slugFrom ?? ""];
-  const destino = origen?.key ?? "";
-  useEffect(() => {
-    if (method === "POST" && origen && !form.getFieldState(destino).isDirty) {
-      form.setValue(destino, slugify(texto ?? ""), { shouldDirty: false });
-    }
-  }, [texto]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const guardar = form.handleSubmit(async (values) => {
     setAviso(undefined);

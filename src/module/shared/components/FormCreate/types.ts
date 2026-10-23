@@ -11,8 +11,6 @@ export type Field = {
   maxLength?: number;
   help?: string;
   placeholder?: string;
-  // Solo en «crear»: mientras no se edite este campo, se llena con el texto de otro (p. ej. slug ← título).
-  slugFrom?: string;
 };
 
 // Todo lo que escribe la persona es texto; `toPayload` lo convierte a lo que espera el esquema.

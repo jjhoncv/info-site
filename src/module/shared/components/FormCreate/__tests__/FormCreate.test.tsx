@@ -48,23 +48,23 @@ it("cada campo tiene su etiqueta y los obligatorios se marcan", () => {
   }
 });
 
-it("en «crear», la dirección se arma con el título", () => {
+it("escribir el título no toca la dirección", () => {
   formulario();
   escribir(/^Título \*/, "Asesoría para empresas");
-  expect((screen.getByLabelText(/Dirección/) as HTMLInputElement).value).toBe("asesoria-para-empresas");
+  expect((screen.getByLabelText(/Dirección/) as HTMLInputElement).value).toBe("");
 });
 
 it("el contador cuenta los caracteres", () => {
   formulario();
   escribir(/^Título \*/, "Hola");
-  // Dos campos llevan 4 caracteres: el título y la dirección que se armó con él.
-  expect(screen.getAllByText("4 / 150")).toHaveLength(2);
+  expect(screen.getAllByText("4 / 150")).toHaveLength(1);
 });
 
 it("envía lo escrito (con «Qué incluye» como lista) y vuelve a la lista", async () => {
   fetchMock.mockResolvedValue(new Response("{}", { status: 201 }));
   formulario();
   escribir(/^Título \*/, "Servicio nuevo");
+  escribir(/Dirección/, "servicio-nuevo");
   escribir(/Resumen/, "Resumen");
   escribir(/^Descripción \*/, "Descripción");
   escribir(/Qué incluye/, "Uno\nDos");

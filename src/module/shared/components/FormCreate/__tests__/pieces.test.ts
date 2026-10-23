@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { slugify } from "../slugify";
 import { toFormValues, toPayload } from "../toPayload";
 import type { Field, PayloadSchema } from "../types";
 import { zodResolver } from "../zodResolver";
@@ -24,13 +23,6 @@ describe("toFormValues", () => {
     expect(toFormValues(fields, { title: "T", includes: ["Uno", "Dos"], otro: 1 })).toEqual({ title: "T", includes: "Uno\nDos" });
     expect(toFormValues(fields, { title: undefined })).toEqual({ title: "", includes: "" });
     expect(toFormValues(fields)).toEqual({ title: "", includes: "" });
-  });
-});
-
-describe("slugify", () => {
-  it("quita tildes y signos, y une con guiones", () => {
-    expect(slugify("  Asesoría para empresas! ")).toBe("asesoria-para-empresas");
-    expect(slugify("")).toBe("");
   });
 });
 
