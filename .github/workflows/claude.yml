@@ -2,6 +2,7 @@
 # Claude en la nube (ADR 0024 del Guardián): «@claude» del dueño en un ticket → PR; al fusionar un PR, Claude
 # toma solo el siguiente ticket de la fase; al cerrar el dueño una fase (milestone), el primero de la siguiente (máximo 2 PRs suyos esperando revisión).
 name: Claude
+run-name: "${{ github.event_name == 'milestone' && '🤖 Claude · primer ticket de la fase siguiente' || github.event_name == 'pull_request' && format('🤖 Claude · siguiente ticket (tras el PR #{0})', github.event.pull_request.number) || (contains(github.event.comment.body, '@claude') && github.event.comment.user.login == github.repository_owner) && format('🤖 Claude · @claude en #{0}', github.event.issue.number) || format('💤 Claude · comentario en #{0} (ignorado)', github.event.issue.number) }}"
 
 on:
   issue_comment:

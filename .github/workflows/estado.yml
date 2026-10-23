@@ -1,5 +1,6 @@
 # Llama al workflow del Guardián (v0.19.1): fase, avance y salud del proyecto → rama `estado` y badges del README.
 name: Estado
+run-name: "📊 Estado · fase, avance y salud (badges)"
 
 on:
   workflow_run:
