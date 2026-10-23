@@ -7,6 +7,8 @@ import { deleteAllBlobs, readBlob, saveBlob, type StoredImage } from "./storage"
 export const MAX_UPLOADS = 30;
 export const LIMIT_MESSAGE = "La demo llegó al límite de imágenes; restáurala para seguir probando";
 
+export const SAVE_ERROR = "No se pudo guardar la imagen. Intenta de nuevo.";
+
 export type SaveResult = { ok: true; url: string } | { ok: false; error: string };
 
 // Las claves son las que generamos nosotros: nada que venga de la URL llega al disco ni a Blobs.
@@ -24,7 +26,8 @@ class UploadModel {
       await saveBlob(key, bytes, check.type);
     } catch (error) {
       await uploadRepository.release();
-      throw error;
+      console.error("No se pudo guardar la imagen:", error);
+      return { ok: false, error: SAVE_ERROR };
     }
     return { ok: true, url: `/media/${key}` };
   }
