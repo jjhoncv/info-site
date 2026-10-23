@@ -57,13 +57,14 @@ class ServiceRepository {
     return affectedRows > 0;
   }
 
-  // Vacía la tabla (los ids vuelven a empezar en 1) y carga la semilla en su orden.
+  // Vacía la tabla y carga la semilla en su orden, con ids 1..n fijos. DELETE y no TRUNCATE:
+  // TRUNCATE es DDL y puede fallar con la conexión de la app en la base real (TiDB).
   async restoreSeed(semilla: ServiceSeed[]): Promise<void> {
-    await executeQuery("TRUNCATE TABLE services");
-    const fila = "(?, ?, ?, ?, ?, ?, ?, ?)";
-    const params = semilla.flatMap((s, i) => [s.title, s.slug, s.summary, s.description, JSON.stringify(s.includes), s.imageUrl, s.imageAlt, i + 1]);
+    await executeQuery("DELETE FROM services");
+    const fila = "(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    const params = semilla.flatMap((s, i) => [i + 1, s.title, s.slug, s.summary, s.description, JSON.stringify(s.includes), s.imageUrl, s.imageAlt, i + 1]);
     await executeQuery(
-      `INSERT INTO services (title, slug, summary, description, includes, image_url, image_alt, position) VALUES ${semilla.map(() => fila).join(", ")}`,
+      `INSERT INTO services (id, title, slug, summary, description, includes, image_url, image_alt, position) VALUES ${semilla.map(() => fila).join(", ")}`,
       params,
     );
   }

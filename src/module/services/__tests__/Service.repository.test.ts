@@ -51,12 +51,13 @@ describe("ServiceRepository", () => {
   it("restoreSeed vacía la tabla y vuelve a insertar la semilla en su orden", async () => {
     db.executeQuery.mockResolvedValue({ affectedRows: 6 });
     await repository.restoreSeed(SERVICES_SEED);
-    expect(db.executeQuery.mock.calls[0][0]).toBe("TRUNCATE TABLE services");
+    expect(db.executeQuery.mock.calls[0][0]).toBe("DELETE FROM services");
     const [sql, params] = db.executeQuery.mock.calls[1];
-    expect(sql).toMatch(/^INSERT INTO services \(.*position\) VALUES/);
-    expect(sql.match(/\(\?, \?, \?, \?, \?, \?, \?, \?\)/g)).toHaveLength(SERVICES_SEED.length);
-    expect(params).toHaveLength(SERVICES_SEED.length * 8);
-    expect(params.slice(0, 8)).toEqual([
+    expect(sql).toMatch(/^INSERT INTO services \(id, .*position\) VALUES/);
+    expect(sql.match(/\(\?, \?, \?, \?, \?, \?, \?, \?, \?\)/g)).toHaveLength(SERVICES_SEED.length);
+    expect(params).toHaveLength(SERVICES_SEED.length * 9);
+    expect(params.slice(0, 9)).toEqual([
+      1,
       "Asesoría personalizada",
       "asesoria-personalizada",
       expect.any(String),
