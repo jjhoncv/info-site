@@ -1,7 +1,26 @@
 import { expect } from "@playwright/test";
 import { createBdd } from "playwright-bdd";
 
-const { When, Then } = createBdd();
+import { executeQuery } from "../../src/lib/db";
+import { iniciarSesionDemo } from "./admin";
+
+const { Given, When, Then, After } = createBdd();
+
+// El contador es de toda la demo: se vuelve a cero al terminar para no afectar a los demás escenarios.
+const fijarSubidas = (total: number) => executeQuery("UPDATE upload_counter SET total = ? WHERE id = 1", [total]);
+After(() => fijarSubidas(0));
+
+const pngValido = { name: "valida.png", mimeType: "image/png", buffer: Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0]) };
+
+Given("que ya se subieron {int} imágenes desde la última restauración", async ({}, total: number) => {
+  await fijarSubidas(total);
+});
+
+When("intento subir otra", async ({ page }) => {
+  await iniciarSesionDemo(page);
+  await page.goto("/admin/services/new");
+  await page.getByLabel(/Imagen del servicio/).setInputFiles(pngValido);
+});
 
 const MB = 1024 * 1024;
 const RECHAZOS = /No se aceptó (el archivo|la imagen)/;
