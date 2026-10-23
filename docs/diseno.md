@@ -16,7 +16,7 @@
 | `marca-900` | `#0e2a47` | Títulos, franja superior, pie, banda final |
 | `marca-700` / `marca-600` | `#1f4a75` / `#2a5a8c` | Enlaces y hover |
 | `marca-50` / `marca-100` | `#eef3f8` / `#d5e1ee` | Fondos suaves, botón secundario, texto sobre oscuro |
-| `acento-600` / `acento-700` | `#c4652a` / `#a85420` | **Solo** la acción principal y detalles (números del proceso, viñetas) |
+| `acento-600` / `acento-700` | `#b4571f` / `#a85420` | **Solo** la acción principal y detalles (números del proceso, viñetas) |
 | `fondo-calido` | `#f6f4f0` | Portada y tarjeta de contacto del detalle |
 | `tinta` / `tinta-suave` | `#16202c` / `#4f5b69` | Texto principal / secundario |
 | `linea` | `#e3e7ec` | Separadores |

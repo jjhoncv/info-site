@@ -15,7 +15,7 @@ const BLOQUEADO = "Demasiados intentos; espera 15 minutos";
 const ERROR_VERIFICACION = "No pudimos verificar tu acceso; intenta en unos minutos";
 
 // Destino fijo: nunca se redirige a una URL que venga del visitante.
-const DESTINO = "/admin/services";
+const DESTINO = "/admin";
 
 export async function login(_previo: LoginState, formData: FormData): Promise<LoginState> {
   const datos = loginSchema.safeParse({ username: formData.get("username"), password: formData.get("password") });

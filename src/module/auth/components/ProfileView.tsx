@@ -4,7 +4,7 @@ const CAMPO = "w-full rounded-tarjeta border border-linea bg-marca-50 px-4 py-3 
 // formulario ni ruta de API para cambiar la clave.
 export function ProfileView({ username }: Readonly<{ username: string }>) {
   return (
-    <main className="mx-auto flex max-w-2xl flex-col gap-5 px-4 py-8">
+    <div className="flex max-w-2xl flex-col gap-5">
       <header className="flex flex-col gap-1">
         <h1 className="text-3xl font-bold text-marca-900">Mi perfil</h1>
         <p className="text-tinta-suave">Tus datos de acceso al panel.</p>
@@ -23,6 +23,6 @@ export function ProfileView({ username }: Readonly<{ username: string }>) {
           propio usuario y podrás cambiarla aquí.
         </p>
       </section>
-    </main>
+    </div>
   );
 }

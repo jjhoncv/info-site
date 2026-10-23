@@ -7,7 +7,6 @@ export function ServiceCard({ service }: Readonly<{ service: Service }>) {
     <article className="group flex flex-col">
       <Link
         href={`/services/${service.slug}`}
-        aria-label={`Ver ${service.title}`}
         className="flex flex-1 flex-col gap-4 rounded-tarjeta focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-acento-600"
       >
         <div className="relative aspect-[3/2] overflow-hidden rounded-tarjeta bg-marca-50">
