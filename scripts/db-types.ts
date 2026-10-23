@@ -30,8 +30,8 @@ for (const { carpeta, config, dominio } of SALIDAS) {
     .fetchDatabase()
     .mapSchemas((s) => ({ ...s, tables: s.tables.filter((t) => !/^guardian/i.test(t.name.replaceAll("_", ""))) }))
     .mapColumns((c) => {
-      // JSON llega como arreglo de textos (mysql2 lo convierte solo).
-      const propertyType = c.name === "includes" ? "string[]" : c.propertyType;
+      // JSON llega como arreglo de textos (mysql2 lo convierte solo); `visible` (0/1 en la BD) es booleano en el dominio.
+      const propertyType = c.name === "includes" ? "string[]" : dominio && c.name === "visible" ? "boolean" : c.propertyType;
       return dominio && c.nullable ? { ...c, propertyType, nullable: false, optional: true } : { ...c, propertyType };
     })
     .toTypescript();
