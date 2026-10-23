@@ -1,12 +1,13 @@
 import { expect } from "@playwright/test";
 import { createBdd } from "playwright-bdd";
+import { SIN_SMOKE } from "./ganchos";
 import { executeQuery } from "../../src/lib/db";
 
 const { When, Then, After } = createBdd();
 
 // Lo que el escenario cambió, para devolverlo al terminar y no afectar a los demás.
 let renombrado: { id: number; titulo: string } | undefined;
-After(async () => {
+After(SIN_SMOKE, async () => {
   if (!renombrado) return;
   await executeQuery("UPDATE services SET title = ? WHERE id = ?", [renombrado.titulo, renombrado.id]);
   renombrado = undefined;

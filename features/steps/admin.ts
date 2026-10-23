@@ -1,5 +1,6 @@
 import { expect, type Page } from "@playwright/test";
 import { createBdd } from "playwright-bdd";
+import { SIN_SMOKE } from "./ganchos";
 import { executeQuery } from "../../src/lib/db";
 
 const { Given, When, Then, After } = createBdd();
@@ -10,7 +11,7 @@ const CLAVE_DEMO_E2E = "clave-de-prueba-e2e";
 
 // Los fallos quedan en la base: se borran para que otros escenarios puedan iniciar sesión.
 const limpiarIntentos = () => executeQuery("DELETE FROM login_attempts WHERE username = ?", [USUARIO_DEMO]);
-After(limpiarIntentos);
+After(SIN_SMOKE, limpiarIntentos);
 
 // El aviso del formulario (Next trae otro role="alert" para anunciar rutas).
 const aviso = (page: Page) => page.locator("form").getByRole("alert");

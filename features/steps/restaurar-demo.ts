@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
 import { createBdd } from "playwright-bdd";
+import { SIN_SMOKE } from "./ganchos";
 import { executeQuery } from "../../src/lib/db";
 import { iniciarSesionDemo } from "./admin";
 
@@ -10,7 +11,7 @@ const png = { name: "nueva.png", mimeType: "image/png", buffer: Buffer.from([0x8
 
 // Si el escenario falla antes de restaurar, no deja el cambio en la base para los demás.
 let imagenSubida: string | undefined;
-After(async () => {
+After(SIN_SMOKE, async () => {
   imagenSubida = undefined;
   await executeQuery("UPDATE services SET title = ? WHERE title = 'Prueba'", [ORIGINAL]);
   await executeQuery("UPDATE upload_counter SET total = 0 WHERE id = 1");

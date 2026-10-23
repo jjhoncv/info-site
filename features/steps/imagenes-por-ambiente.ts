@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { expect } from "@playwright/test";
 import { createBdd } from "playwright-bdd";
+import { SIN_SMOKE } from "./ganchos";
 import { executeQuery } from "../../src/lib/db";
 import { deleteAllBlobs, readBlob, saveBlob } from "../../src/module/uploads/core/storage";
 import { iniciarSesionDemo } from "./admin";
@@ -27,7 +28,7 @@ const enAlmacen = async <T>(nombre: string, accion: () => Promise<T>): Promise<T
 
 let claveProduccion: string | undefined;
 let urlStaging: string | undefined;
-After(async () => {
+After(SIN_SMOKE, async () => {
   claveProduccion = urlStaging = undefined;
   await enAlmacen(PRODUCCION, deleteAllBlobs);
   await executeQuery("UPDATE upload_counter SET total = 0 WHERE id = 1");
