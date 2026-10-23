@@ -1,8 +1,8 @@
 {
   "proyecto": "info-site",
   "fase": {
-    "titulo": "Fase 1 — Servicios y demo segura",
-    "vence": "2026-11-01T00:00:00Z"
+    "titulo": "Fase 2 — Portada y proyectos",
+    "vence": "2026-11-11T00:00:00Z"
   },
   "avance": {
     "verdes": 19,
@@ -17,7 +17,7 @@
     "diasAtraso": 0,
     "pausa": false
   },
-  "actualizado": "2026-10-23T13:23:21.648Z",
+  "actualizado": "2026-10-23T15:41:14.992Z",
   "vencimientos": [
     {
       "secreto": "ANTHROPIC_API_KEY",
