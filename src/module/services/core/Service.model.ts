@@ -1,7 +1,9 @@
+import type { Consulta } from "@/src/lib/db";
 import type { Service } from "@/src/types/domain";
 import repository from "./Service.repository";
 import { ServiceMapper, ServicesMapper } from "./Service.mapper";
 import { ServiceSchema, type ServiceInput } from "./Service.schema";
+import { SERVICES_SEED } from "./Service.seed";
 
 export class ServiceModel {
   async getServices(): Promise<Service[]> {
@@ -39,6 +41,11 @@ export class ServiceModel {
 
   async deleteService(id: number): Promise<boolean> {
     return repository.deleteService(id);
+  }
+
+  // «Restaurar demo»: deja los servicios como en la semilla.
+  async restoreSeed(consulta: Consulta): Promise<void> {
+    await repository.restoreSeed(SERVICES_SEED, consulta);
   }
 }
 

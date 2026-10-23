@@ -1,6 +1,7 @@
-import { executeQuery } from "@/src/lib/db";
+import { executeQuery, type Consulta } from "@/src/lib/db";
 import type { ServiceRow } from "@/src/types/database";
 import type { ServiceInput } from "./Service.schema";
+import type { ServiceSeed } from "./Service.seed";
 
 type Escritura = { affectedRows: number; insertId: number };
 
@@ -54,6 +55,19 @@ class ServiceRepository {
   async deleteService(id: number): Promise<boolean> {
     const { affectedRows } = await executeQuery<Escritura>("DELETE FROM services WHERE id = ?", [id]);
     return affectedRows > 0;
+  }
+
+  // Vacía la tabla y carga la semilla en su orden, con ids 1..n fijos. DELETE y no TRUNCATE:
+  // TRUNCATE es DDL y puede fallar con la conexión de la app en la base real (TiDB).
+  // Corre con la `consulta` de una transacción: el que llama decide el commit.
+  async restoreSeed(semilla: ServiceSeed[], consulta: Consulta): Promise<void> {
+    await consulta("DELETE FROM services");
+    const fila = "(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    const params = semilla.flatMap((s, i) => [i + 1, s.title, s.slug, s.summary, s.description, JSON.stringify(s.includes), s.imageUrl, s.imageAlt, i + 1]);
+    await consulta(
+      `INSERT INTO services (id, title, slug, summary, description, includes, image_url, image_alt, position) VALUES ${semilla.map(() => fila).join(", ")}`,
+      params,
+    );
   }
 }
 

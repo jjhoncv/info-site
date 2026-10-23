@@ -4,6 +4,7 @@ const db = vi.hoisted(() => ({ executeQuery: vi.fn() }));
 vi.mock("@/src/lib/db", () => db);
 
 import repository from "../core/Service.repository";
+import { SERVICES_SEED } from "../core/Service.seed";
 
 describe("ServiceRepository", () => {
   beforeEach(() => vi.resetAllMocks());
@@ -45,5 +46,27 @@ describe("ServiceRepository", () => {
     db.executeQuery.mockResolvedValue({ affectedRows: 1 });
     expect(await repository.deleteService(2)).toBe(true);
     expect(db.executeQuery).toHaveBeenCalledWith("DELETE FROM services WHERE id = ?", [2]);
+  });
+
+  it("restoreSeed vacía la tabla y vuelve a insertar la semilla en su orden", async () => {
+    const consulta = vi.fn().mockResolvedValue({ affectedRows: 6 });
+    await repository.restoreSeed(SERVICES_SEED, consulta);
+    expect(db.executeQuery).not.toHaveBeenCalled();
+    expect(consulta.mock.calls[0][0]).toBe("DELETE FROM services");
+    const [sql, params] = consulta.mock.calls[1];
+    expect(sql).toMatch(/^INSERT INTO services \(id, .*position\) VALUES/);
+    expect(sql.match(/\(\?, \?, \?, \?, \?, \?, \?, \?, \?\)/g)).toHaveLength(SERVICES_SEED.length);
+    expect(params).toHaveLength(SERVICES_SEED.length * 9);
+    expect(params.slice(0, 9)).toEqual([
+      1,
+      "Asesoría personalizada",
+      "asesoria-personalizada",
+      expect.any(String),
+      expect.any(String),
+      JSON.stringify(SERVICES_SEED[0].includes),
+      "/demo/servicios/asesoria-personalizada.jpg",
+      expect.any(String),
+      1,
+    ]);
   });
 });

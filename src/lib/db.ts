@@ -27,3 +27,21 @@ export async function executeQuery<T = mysql.RowDataPacket[]>(sql: string, param
     throw new Error("Error de base de datos");
   }
 }
+
+export type Consulta = (sql: string, params?: unknown[]) => Promise<unknown>;
+
+/** Ejecuta `trabajo` en una transacción: todo o nada. Si algo lanza, hace rollback y relanza un error genérico. */
+export async function withTransaction(trabajo: (consulta: Consulta) => Promise<void>): Promise<void> {
+  const conexion = await getPool().getConnection();
+  try {
+    await conexion.beginTransaction();
+    await trabajo((sql, params = []) => conexion.execute(sql, params as (string | number | null)[]));
+    await conexion.commit();
+  } catch (error) {
+    await conexion.rollback().catch(() => undefined);
+    console.error("Error de base de datos (transacción revertida):", error);
+    throw new Error("Error de base de datos");
+  } finally {
+    conexion.release();
+  }
+}

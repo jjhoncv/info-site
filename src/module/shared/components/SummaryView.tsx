@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ButtonLink } from "@/src/components/Button";
+import { RestoreDemo } from "@/src/module/demo/components/admin/RestoreDemo";
 import { PageUI } from "./PageUI";
 
 const ACCESOS = [
@@ -53,9 +54,7 @@ export function SummaryView({
             Vuelve todo el contenido a como estaba al inicio y borra las imágenes subidas. Útil antes de mostrarla a otro
             cliente.
           </p>
-          <ButtonLink href="/admin/restore" variant="secundario">
-            Restaurar demo
-          </ButtonLink>
+          <RestoreDemo />
         </section>
       </div>
     </PageUI>
