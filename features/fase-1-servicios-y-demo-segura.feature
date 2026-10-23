@@ -45,8 +45,8 @@ Característica: Servicios y demo segura
   @fase-1
   Escenario: El cliente edita un servicio y lo ve en el sitio
     Dado que inicié sesión con el usuario demo
-    Cuando cambio el título de "Asesoría personalizada" a "AsesorÃ­a para empresas" y guardo
-    Entonces en /services veo la tarjeta "AsesorÃ­a para empresas"
+    Cuando cambio el título de "Asesoría personalizada" a "Asesoría para empresas" y guardo
+    Entonces en /services veo la tarjeta "Asesoría para empresas"
 
   @fase-1
   Escenario: El formulario avisa lo que falta

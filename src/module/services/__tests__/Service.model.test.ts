@@ -12,6 +12,7 @@ const repo = vi.hoisted(() => ({
 vi.mock("../core/Service.repository", () => ({ default: repo }));
 
 import { ServiceModel } from "../core/Service.model";
+import { ServiceSchema } from "../core/Service.schema";
 
 const fila = { id: 1, title: "Asesoría personalizada", slug: "asesoria-personalizada", includes: [], image_url: null } as unknown as ServiceRow;
 
@@ -51,5 +52,48 @@ describe("ServiceModel", () => {
     const creado = await new ServiceModel().createService(datos, 3);
     expect(repo.createService).toHaveBeenCalledWith(datos, 3);
     expect(creado.id).toBe(1);
+  });
+
+  describe("updateService", () => {
+    const completa = {
+      ...fila,
+      slug: "a",
+      title: "A",
+      summary: "r",
+      description: "d",
+      image_url: "/demo/a.jpg",
+      image_alt: "Foto",
+      meta_title: "Meta",
+    } as unknown as ServiceRow;
+
+    it("conserva lo que no llega (imagen) y guarda con el usuario de la sesión", async () => {
+      repo.getServiceById.mockResolvedValue(completa);
+      repo.updateService.mockResolvedValue(completa);
+      await new ServiceModel().updateService(1, { title: "Nuevo" }, 3);
+      expect(repo.updateService).toHaveBeenCalledWith(
+        1,
+        expect.objectContaining({ title: "Nuevo", slug: "a", imageUrl: "/demo/a.jpg", imageAlt: "Foto" }),
+        3,
+      );
+    });
+
+    it("un opcional que llega en blanco se borra", async () => {
+      repo.getServiceById.mockResolvedValue(completa);
+      repo.updateService.mockResolvedValue(completa);
+      await new ServiceModel().updateService(1, ServiceSchema.partial().parse({ metaTitle: "" }), 3);
+      expect(repo.updateService.mock.calls[0][1].metaTitle).toBeUndefined();
+    });
+
+    it("devuelve null si el servicio no existe", async () => {
+      repo.getServiceById.mockResolvedValue(null);
+      expect(await new ServiceModel().updateService(9, { title: "X" }, 3)).toBeNull();
+      expect(repo.updateService).not.toHaveBeenCalled();
+    });
+
+    it("rechaza cambios que el esquema no admite", async () => {
+      repo.getServiceById.mockResolvedValue(completa);
+      await expect(new ServiceModel().updateService(1, { title: "" }, 3)).rejects.toThrow();
+      expect(repo.updateService).not.toHaveBeenCalled();
+    });
   });
 });

@@ -24,8 +24,16 @@ export class ServiceModel {
     return ServiceMapper(fila);
   }
 
-  async updateService(id: number, datos: ServiceInput, userId: number): Promise<Service | null> {
-    const fila = await repository.updateService(id, ServiceSchema.parse(datos), userId);
+  // PATCH: solo cambia lo que llega; lo demás (p. ej. la imagen, que el formulario aún no toca) se conserva.
+  async updateService(id: number, cambios: Partial<ServiceInput>, userId: number): Promise<Service | null> {
+    const actual = await this.getServiceById(id);
+    if (!actual) return null;
+    const { title, slug, summary, description, includes, imageUrl, imageAlt, metaTitle, metaDescription } = actual;
+    const datos = ServiceSchema.parse({
+      title, slug, summary, description, includes, imageUrl, imageAlt, metaTitle, metaDescription,
+      ...cambios,
+    });
+    const fila = await repository.updateService(id, datos, userId);
     return fila ? ServiceMapper(fila) : null;
   }
 
