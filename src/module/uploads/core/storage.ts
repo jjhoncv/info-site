@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { getStore } from "@netlify/blobs";
@@ -27,6 +27,18 @@ export async function readBlob(key: string): Promise<StoredImage | null> {
   }
   const data = await readFile(join(carpetaLocal, key)).catch(() => null);
   return data ? { data, type: TIPOS[key.split(".").pop() ?? ""] ?? "application/octet-stream" } : null;
+}
+
+// Borra todo lo subido (restaurar demo). Pagina la lista del store hasta vaciarlo.
+export async function deleteAllBlobs(): Promise<void> {
+  if (enNetlify()) {
+    const s = store();
+    for await (const pagina of s.list({ paginate: true })) {
+      await Promise.all(pagina.blobs.map((b) => s.delete(b.key)));
+    }
+    return;
+  }
+  await rm(carpetaLocal, { recursive: true, force: true });
 }
 
 const TIPOS: Record<string, string> = { jpg: "image/jpeg", png: "image/png", webp: "image/webp" };

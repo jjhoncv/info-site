@@ -14,6 +14,10 @@ class UploadRepository {
     await executeQuery<Escritura>("UPDATE upload_counter SET total = total - 1 WHERE id = 1 AND total > 0");
   }
 
+  async reset(): Promise<void> {
+    await executeQuery<Escritura>("UPDATE upload_counter SET total = 0 WHERE id = 1");
+  }
+
   async count(): Promise<number> {
     const filas = await executeQuery<{ total: number }[]>("SELECT total FROM upload_counter WHERE id = 1");
     return Number(filas[0]?.total ?? 0);

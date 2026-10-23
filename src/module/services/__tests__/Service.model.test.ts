@@ -8,11 +8,13 @@ const repo = vi.hoisted(() => ({
   createService: vi.fn(),
   updateService: vi.fn(),
   deleteService: vi.fn(),
+  restoreSeed: vi.fn(),
 }));
 vi.mock("../core/Service.repository", () => ({ default: repo }));
 
 import { ServiceModel } from "../core/Service.model";
 import { ServiceSchema } from "../core/Service.schema";
+import { SERVICES_SEED } from "../core/Service.seed";
 
 const fila = { id: 1, title: "Asesoría personalizada", slug: "asesoria-personalizada", includes: [], image_url: null } as unknown as ServiceRow;
 
@@ -52,6 +54,11 @@ describe("ServiceModel", () => {
     const creado = await new ServiceModel().createService(datos, 3);
     expect(repo.createService).toHaveBeenCalledWith(datos, 3);
     expect(creado.id).toBe(1);
+  });
+
+  it("restoreSeed vuelve a cargar la semilla", async () => {
+    await new ServiceModel().restoreSeed();
+    expect(repo.restoreSeed).toHaveBeenCalledWith(SERVICES_SEED);
   });
 
   describe("updateService", () => {

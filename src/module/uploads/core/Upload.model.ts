@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { validateImage } from "./image";
 import uploadRepository from "./Upload.repository";
-import { readBlob, saveBlob, type StoredImage } from "./storage";
+import { deleteAllBlobs, readBlob, saveBlob, type StoredImage } from "./storage";
 
 export const MAX_UPLOADS = 30;
 export const LIMIT_MESSAGE = "La demo llegó al límite de imágenes; restáurala para seguir probando";
@@ -30,6 +30,12 @@ class UploadModel {
 
   countImages(): Promise<number> {
     return uploadRepository.count();
+  }
+
+  // Primero las imágenes y luego el contador: si borrar falla, el contador sigue mostrando lo que hay.
+  async deleteAll(): Promise<void> {
+    await deleteAllBlobs();
+    await uploadRepository.reset();
   }
 
   async readImage(key: string): Promise<StoredImage | null> {

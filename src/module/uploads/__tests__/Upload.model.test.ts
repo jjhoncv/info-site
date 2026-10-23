@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const storage = vi.hoisted(() => ({ saveBlob: vi.fn(), readBlob: vi.fn() }));
+const storage = vi.hoisted(() => ({ saveBlob: vi.fn(), readBlob: vi.fn(), deleteAllBlobs: vi.fn() }));
 vi.mock("../core/storage", () => storage);
-const repo = vi.hoisted(() => ({ reserve: vi.fn(), release: vi.fn(), count: vi.fn() }));
+const repo = vi.hoisted(() => ({ reserve: vi.fn(), release: vi.fn(), count: vi.fn(), reset: vi.fn() }));
 vi.mock("../core/Upload.repository", () => ({ default: repo }));
 
 import uploadModel from "../core/Upload.model";
@@ -47,6 +47,20 @@ describe("tope de imágenes", () => {
     storage.saveBlob.mockRejectedValue(new Error("sin disco"));
     await expect(uploadModel.saveImage(JPG)).rejects.toThrow("sin disco");
     expect(repo.release).toHaveBeenCalledOnce();
+  });
+});
+
+describe("uploadModel.deleteAll", () => {
+  it("borra todas las imágenes y pone el contador en cero", async () => {
+    await uploadModel.deleteAll();
+    expect(storage.deleteAllBlobs).toHaveBeenCalledOnce();
+    expect(repo.reset).toHaveBeenCalledOnce();
+  });
+
+  it("si no se pueden borrar las imágenes, no toca el contador", async () => {
+    storage.deleteAllBlobs.mockRejectedValue(new Error("sin red"));
+    await expect(uploadModel.deleteAll()).rejects.toThrow("sin red");
+    expect(repo.reset).not.toHaveBeenCalled();
   });
 });
 

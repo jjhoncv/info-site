@@ -1,7 +1,10 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from "@testing-library/react";
-import { afterEach, expect, it } from "vitest";
+import { afterEach, expect, it, vi } from "vitest";
 import { SummaryView } from "../SummaryView";
+
+vi.mock("next/navigation", () => ({ useRouter: () => ({ refresh: vi.fn() }) }));
+vi.mock("@/src/module/demo/core/restore.action", () => ({ restoreDemoAction: vi.fn() }));
 
 afterEach(cleanup);
 
@@ -15,7 +18,8 @@ it("muestra el saludo, la cifra de servicios y los accesos rápidos", () => {
   expect(screen.getByRole("link", { name: "Agregar un servicio" }).getAttribute("href")).toBe("/admin/services/new");
 });
 
-it("deja «Restaurar la demo» como enlace hasta que exista el botón", () => {
+it("ofrece el botón «Restaurar demo»", () => {
   render(<SummaryView servicesCount={0} uploadsCount={0} uploadsLimit={30} />);
   expect(screen.getByRole("heading", { name: "Restaurar la demo" })).toBeTruthy();
+  expect(screen.getByRole("button", { name: "Restaurar demo" })).toBeTruthy();
 });

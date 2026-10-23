@@ -1,6 +1,7 @@
 import { executeQuery } from "@/src/lib/db";
 import type { ServiceRow } from "@/src/types/database";
 import type { ServiceInput } from "./Service.schema";
+import type { ServiceSeed } from "./Service.seed";
 
 type Escritura = { affectedRows: number; insertId: number };
 
@@ -54,6 +55,17 @@ class ServiceRepository {
   async deleteService(id: number): Promise<boolean> {
     const { affectedRows } = await executeQuery<Escritura>("DELETE FROM services WHERE id = ?", [id]);
     return affectedRows > 0;
+  }
+
+  // Vacía la tabla (los ids vuelven a empezar en 1) y carga la semilla en su orden.
+  async restoreSeed(semilla: ServiceSeed[]): Promise<void> {
+    await executeQuery("TRUNCATE TABLE services");
+    const fila = "(?, ?, ?, ?, ?, ?, ?, ?)";
+    const params = semilla.flatMap((s, i) => [s.title, s.slug, s.summary, s.description, JSON.stringify(s.includes), s.imageUrl, s.imageAlt, i + 1]);
+    await executeQuery(
+      `INSERT INTO services (title, slug, summary, description, includes, image_url, image_alt, position) VALUES ${semilla.map(() => fila).join(", ")}`,
+      params,
+    );
   }
 }
 
