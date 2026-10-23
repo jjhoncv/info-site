@@ -22,3 +22,16 @@ Después de cada migración: `npm run db:types` (con la base local migrada y las
 ## Archivos subidos (imágenes del admin)
 
 No se guardan en `public/` (Netlify no conserva archivos subidos): van a **Netlify Blobs** (`@netlify/blobs`), que viene con el sitio, sin cuenta extra.
+
+### Un almacén por ambiente (`UPLOADS_STORE`)
+
+El nombre del almacén sale **solo** de la variable `UPLOADS_STORE` (no es secreta), con un valor por contexto en Netlify (*Site configuration → Environment variables*), igual que las `MYSQL_*`: así cada base tiene sus imágenes y «Restaurar demo» en staging o en un preview no toca las de producción.
+
+| Contexto de Netlify | `UPLOADS_STORE` |
+|---|---|
+| Production | `uploads-prod` |
+| Deploy previews y Branch deploys (staging) | `uploads` |
+
+- Sin la variable, en Netlify no se lee ni se escribe ningún almacén: subir una imagen falla con «No se pudo guardar la imagen. Intenta de nuevo.» y queda registrado.
+- Fuera de Netlify (local y CI) se usa una carpeta temporal con el nombre del almacén (`uploads` si no hay variable).
+- Mover o copiar imágenes entre ambientes queda fuera de alcance.

@@ -12,6 +12,13 @@ const testDir = defineBddConfig({
 // BASE_URL apunta a un ambiente publicado (smoke test); sin ella, se levanta el build local.
 const baseURL = process.env.BASE_URL ?? "http://localhost:3000";
 
+// Usuario de prueba solo para los servidores locales de los E2E (la clave es CLAVE_DEMO_E2E en features/steps/admin.ts).
+const entorno = {
+  DEMO_USER: "demo",
+  DEMO_PASSWORD_HASH: "$2b$12$y5S3GD9yaKY8INg9frQm0O.eWXliRCR4mwreLpjKh6FINE/Pdr45C",
+  SESSION_SECRET: process.env.SESSION_SECRET ?? "secreto-solo-para-pruebas-e2e-32-caracteres",
+};
+
 export default defineConfig({
   testDir,
   forbidOnly: !!process.env.CI,
@@ -26,16 +33,9 @@ export default defineConfig({
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: process.env.BASE_URL
     ? undefined
-    : {
-        command: "npm start",
-        url: baseURL,
-        reuseExistingServer: !process.env.CI,
-        timeout: 60_000,
-        // Usuario de prueba solo para el servidor local de los E2E (la clave es CLAVE_DEMO_E2E en features/steps/admin.ts).
-        env: {
-          DEMO_USER: "demo",
-          DEMO_PASSWORD_HASH: "$2b$12$y5S3GD9yaKY8INg9frQm0O.eWXliRCR4mwreLpjKh6FINE/Pdr45C",
-          SESSION_SECRET: process.env.SESSION_SECRET ?? "secreto-solo-para-pruebas-e2e-32-caracteres",
-        },
-      },
+    : [
+        { command: "npm start", url: baseURL, env: { ...entorno, UPLOADS_STORE: "uploads" } },
+        // Simula Netlify sin UPLOADS_STORE (puerto 3001): ahí no se puede guardar ninguna imagen.
+        { command: "npm start -- -p 3001", url: "http://localhost:3001", env: { ...entorno, NETLIFY: "true", UPLOADS_STORE: "" } },
+      ].map((s) => ({ ...s, reuseExistingServer: !process.env.CI, timeout: 60_000 })),
 });

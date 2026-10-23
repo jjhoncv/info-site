@@ -43,10 +43,13 @@ describe("tope de imágenes", () => {
     expect(repo.reserve).not.toHaveBeenCalled();
   });
 
-  it("devuelve el cupo si el guardado falla", async () => {
+  it("si el guardado falla (p. ej. sin UPLOADS_STORE) devuelve el cupo, lo registra y avisa", async () => {
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
     storage.saveBlob.mockRejectedValue(new Error("sin disco"));
-    await expect(uploadModel.saveImage(JPG)).rejects.toThrow("sin disco");
+    expect(await uploadModel.saveImage(JPG)).toEqual({ ok: false, error: "No se pudo guardar la imagen. Intenta de nuevo." });
     expect(repo.release).toHaveBeenCalledOnce();
+    expect(log).toHaveBeenCalled();
+    log.mockRestore();
   });
 });
 
