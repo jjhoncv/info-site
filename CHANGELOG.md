@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/jjhoncv/info-site/compare/v0.1.0...v0.1.1) (2026-10-23)
+
+
+### Correcciones
+
+* **#57:** el smoke de producción no toca la base ([#58](https://github.com/jjhoncv/info-site/issues/58)) ([ca1ca0b](https://github.com/jjhoncv/info-site/commit/ca1ca0bd2b145f844bbaa75f99f5a3b84ae3470c))
+
 ## 0.1.0 (2026-10-23)
 
 
