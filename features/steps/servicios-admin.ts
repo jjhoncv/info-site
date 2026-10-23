@@ -35,6 +35,19 @@ When("intento crear un servicio sin título", async ({ page }) => {
   await page.getByRole("button", GUARDAR).click();
 });
 
+When("subo un archivo que no es JPG, PNG ni WebP, o que pesa más de 2 MB", async ({ page }) => {
+  await page.goto("/admin/services/new");
+  // Dice ser PNG, pero su contenido es texto: el servidor lo rechaza por lo que contiene.
+  const falso = { name: "nota.png", mimeType: "image/png", buffer: Buffer.from("esto no es una imagen") };
+  await page.getByLabel("Imagen", { exact: true }).setInputFiles(falso);
+});
+
+Then("veo un mensaje que explica por qué no se aceptó y la imagen no se guarda", async ({ page }) => {
+  await expect(page.getByRole("alert").filter({ hasText: /JPG, PNG o WebP/ })).toBeVisible();
+  await expect(page.getByRole("img", { name: "Vista previa de la imagen" })).toHaveCount(0);
+  await expect(page.getByLabel("Imagen", { exact: true })).toHaveAttribute("aria-invalid", "true");
+});
+
 Then("veo el mensaje {string}", async ({ page }, mensaje: string) => {
   await expect(page.getByText(mensaje, { exact: true })).toBeVisible();
   await expect(page).toHaveURL(/\/admin\/services\/new$/);

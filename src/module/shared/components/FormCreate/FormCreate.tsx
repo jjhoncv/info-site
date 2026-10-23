@@ -33,7 +33,8 @@ export function FormCreate({ method = "POST", ...config }: Readonly<Props>) {
               field={field}
               register={register(field.key)}
               error={formState.errors[field.key]}
-              length={valores[field.key]?.length ?? 0}
+              value={valores[field.key] ?? ""}
+              onValue={(valor) => form.setValue(field.key, valor, { shouldDirty: true })}
             />
           ))}
         </section>

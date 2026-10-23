@@ -17,6 +17,7 @@
     "e2e": "bddgen && playwright test"
   },
   "dependencies": {
+    "@netlify/blobs": "11.1.6",
     "@tailwindcss/postcss": "4.3.3",
     "bcryptjs": "3.0.3",
     "iron-session": "9.0.1",

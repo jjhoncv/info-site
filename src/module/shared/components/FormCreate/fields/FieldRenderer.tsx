@@ -1,5 +1,6 @@
 import type { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import type { Field, FieldType } from "../types";
+import { ImageField } from "./ImageField";
 
 const CONTROL =
   "w-full rounded-tarjeta border border-linea bg-white px-4 py-3 text-base text-tinta focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-acento-600 aria-[invalid=true]:border-error";
@@ -7,17 +8,25 @@ const CONTROL =
 type Control = (props: React.ComponentProps<"input"> & React.ComponentProps<"textarea">) => React.ReactNode;
 
 // Registro tipo de campo → control (en vez de un switch).
-const CONTROLES: Record<FieldType, Control> = {
+const CONTROLES: Record<Exclude<FieldType, "image">, Control> = {
   text: (props) => <input type="text" className={CONTROL} {...props} />,
   textarea: (props) => <textarea rows={6} className={CONTROL} {...props} />,
   lines: (props) => <textarea rows={4} className={CONTROL} {...props} />,
 };
 
-type Props = { field: Field; register: UseFormRegisterReturn; error?: FieldError; length: number };
+type Props = {
+  field: Field;
+  register: UseFormRegisterReturn;
+  error?: FieldError;
+  value: string;
+  onValue: (valor: string) => void;
+};
 
 // Etiqueta, control, ayuda con contador y el error bajo el campo.
-export function FieldRenderer({ field, register, error, length }: Readonly<Props>) {
+export function FieldRenderer({ field, register, error, value, onValue }: Readonly<Props>) {
   const { key, label, type, required, maxLength, help, placeholder } = field;
+  if (type === "image") return <ImageField field={field} value={value} onValue={onValue} />;
+  const length = value.length;
   const Control = CONTROLES[type];
   const ayuda = `${key}-ayuda`;
   const errorId = `${key}-error`;

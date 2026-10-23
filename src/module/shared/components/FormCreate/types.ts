@@ -1,5 +1,5 @@
 // Formulario configurable del admin (convenciones §4): cada módulo declara sus campos y su esquema zod.
-export type FieldType = "text" | "textarea" | "lines";
+export type FieldType = "text" | "textarea" | "lines" | "image";
 
 export type Field = {
   key: string;
