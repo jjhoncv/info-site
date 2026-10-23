@@ -175,6 +175,7 @@
         }
       ],
       "que": "Acción del admin, con confirmación, que vuelve a cargar la semilla de la demo, borra todos los blobs subidos y pone en cero el contador de imágenes. No toca el usuario demo ni su clave. Queda como una función reutilizable para la restauración nocturna (T16).",
+      "diseno": "Igual a la maqueta aprobada `docs/maquetas/admin.html` → Resumen: tarjeta «Restaurar la demo» y su confirmación (#resumen): «¿Restaurar la demo?», «Todo el contenido vuelve a como estaba al inicio y se borran las imágenes subidas. No se puede deshacer.», botones «Cancelar» y «Sí, restaurar»; al terminar, aviso «La demo volvió a su contenido original». Todo el admin igual a la maqueta aprobada `docs/maquetas/admin.html` y a la sección «Admin» de `docs/diseno.md` (layout propio, mismos tokens, fuentes, `Logo` y `Button` que el sitio).",
       "hecho": "El escenario «Restaurar la demo» en verde.",
       "necesita": ""
     },
@@ -182,126 +183,394 @@
       "id": "T11",
       "fase": 2,
       "titulo": "Portada con banners",
+      "historia": "Como dueño de una empresa que mira la demo, quiero que la portada me reciba con banners grandes y claros, para imaginar cómo se vería la mía.",
+      "depende": [
+        "T10"
+      ],
       "escenarios": [
         {
           "archivo": "features/fase-2-portada-y-proyectos.feature",
           "gherkin": "Escenario: La portada muestra los banners\n  Dado que la demo tiene el banner \"Tu empresa, en buenas manos\"\n  Cuando entro a la portada\n  Entonces veo el banner \"Tu empresa, en buenas manos\""
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: Los banners se muestran en su orden\n  Dado que la demo tiene los banners visibles \"Tu empresa, en buenas manos\" y \"Planes para empresas\", en ese orden\n  Cuando entro a la portada\n  Entonces veo primero \"Tu empresa, en buenas manos\"\n  Y al pasar al siguiente veo \"Planes para empresas\""
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: Un banner oculto no aparece en la portada\n  Dado que el banner \"Capacítate con nosotros\" está oculto\n  Cuando entro a la portada\n  Entonces no veo \"Capacítate con nosotros\""
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: La portada sin banners visibles\n  Dado que todos los banners están ocultos\n  Cuando entro a la portada\n  Entonces no veo el carrusel de banners\n  Y veo los servicios de la demo"
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: Restaurar la demo devuelve los banners\n  Dado que el banner \"Tu empresa, en buenas manos\" se renombró a \"Prueba\"\n  Cuando restauro la demo\n  Entonces en la portada veo otra vez \"Tu empresa, en buenas manos\" y no veo \"Prueba\""
         }
       ],
-      "que": "Módulo `banners` copiado del módulo de servicios (migración, core, semilla) y portada con los banners en el diseño aprobado en T1. La restauración de la demo incluye los banners.",
-      "hecho": "El escenario «La portada muestra los banners» en verde.",
+      "que": "Módulo `banners` copiado del módulo de servicios (migración, semilla, Model-Repository-Mapper) y portada: arriba el carrusel de banners visibles por posición (título, frase e imagen), debajo lo que hoy muestra el inicio (servicios). La restauración de la demo (T10) incluye los banners.",
+      "reglas": [
+        "Solo se muestran los banners visibles, ordenados por posición.",
+        "El carrusel no cambia solo más rápido que cada 6 segundos, se pausa al pasar el mouse o enfocarlo, y no se mueve si el sistema pide menos movimiento (`prefers-reduced-motion`).",
+        "Tiene botones «Anterior» y «Siguiente» con etiqueta y se maneja con el teclado.",
+        "La imagen del primer banner carga con prioridad (es lo primero que se ve); cada imagen tiene su descripción."
+      ],
+      "diseno": "Sitio público: igual a la maqueta `docs/maquetas/sitio.html` (#portada) y a `docs/diseno.md` (encabezado, pie, tokens y fuentes del sitio). Si la maqueta del sitio todavía no está en el repo, no inventes el diseño: pídela en el ticket y termina sin PR.",
+      "datos": "Tabla `banners` (migración nueva): id, title (≤ 120), subtitle (≤ 160), image_url, image_alt (≤ 200), position, visible, fechas. Semilla con los 3 banners de la maqueta: «Tu empresa, en buenas manos» (visible), «Planes para empresas» (visible), «Capacítate con nosotros» (oculto), con fotos de `public/demo/`.",
+      "pruebas": "Unitarias del modelo y del mapper; los 5 escenarios en BDD y E2E; captura de la portada en computadora y celular comparada con la maqueta; axe sin errores.",
+      "fuera": "El admin de banners (T12). Enlaces o botones dentro del banner. Proyectos en la portada.",
+      "hecho": "Los 5 escenarios de la portada en verde.",
       "necesita": ""
     },
     {
       "id": "T12",
       "fase": 2,
       "titulo": "Admin de banners",
+      "historia": "Como cliente que prueba la demo, quiero cambiar los banners de la portada yo mismo, para comprobar que mantener mi sitio es fácil.",
+      "depende": [
+        "T11"
+      ],
       "escenarios": [
         {
           "archivo": "features/fase-2-portada-y-proyectos.feature",
           "gherkin": "Escenario: El cliente cambia un banner\n  Dado que inicié sesión con el usuario demo\n  Cuando cambio el título del banner a \"Crecemos contigo\" y guardo\n  Entonces en la portada veo \"Crecemos contigo\""
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: El cliente oculta un banner\n  Dado que inicié sesión con el usuario demo\n  Cuando apago «Visible» en el banner \"Planes para empresas\"\n  Entonces en la portada ya no veo \"Planes para empresas\""
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: El cliente cambia el orden de los banners\n  Dado que inicié sesión con el usuario demo\n  Cuando muevo el banner \"Planes para empresas\" a la posición 1 y guardo\n  Entonces en la portada el primer banner es \"Planes para empresas\""
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: Un banner necesita título\n  Dado que inicié sesión con el usuario demo\n  Cuando intento crear un banner sin título\n  Entonces veo el mensaje \"El título es obligatorio\" y el banner no se crea"
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: Eliminar un banner pide confirmación\n  Dado que inicié sesión con el usuario demo\n  Cuando elimino el banner \"Capacítate con nosotros\" y pulso \"Cancelar\"\n  Entonces el banner sigue en la lista\n  Y si lo elimino y confirmo, ya no aparece en la lista"
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: Sin sesión no se administran banners\n  Cuando entro a /admin/banners sin iniciar sesión\n  Entonces veo el formulario de login"
         }
       ],
-      "que": "Lista, creación y edición de banners en /admin/banners, con imagen, copiando el admin de servicios.",
-      "hecho": "El escenario «El cliente cambia un banner» en verde.",
+      "que": "En /admin/banners: lista en tarjetas, crear, editar, ocultar/mostrar, cambiar posición y eliminar, copiando el admin de servicios. La tarjeta «Banners en portada» del Resumen muestra cuántos hay visibles y cuántos ocultos.",
+      "reglas": [
+        "La imagen usa la misma subida validada (JPG, PNG o WebP, máximo 2 MB) y cuenta para el tope de 30 imágenes de la demo.",
+        "Las acciones del servidor verifican la sesión; sin sesión no se guarda nada aunque se llame directo.",
+        "Cambiar la posición reordena los demás sin dejar huecos ni repetidos."
+      ],
+      "diseno": "Maqueta `docs/maquetas/admin.html` → Banners de portada (#banners): título «Banners de portada», bajada «Rotan en la parte de arriba de la portada, en este orden.», botón «Nuevo banner», tarjetas con «Posición N», interruptor «Visible»/«Oculto», editar y eliminar. Formulario igual al de servicios: secciones, error en rojo bajo el campo, contadores de caracteres, zona para arrastrar la imagen y barra «Guardar cambios» fija abajo. Al guardar: aviso «Cambios guardados». Eliminar abre la confirmación de la maqueta: «¿Eliminar este elemento?», «Se quita del sitio de inmediato.», botones «Cancelar» y «Eliminar». Todo el admin igual a la maqueta aprobada `docs/maquetas/admin.html` y a la sección «Admin» de `docs/diseno.md` (layout propio, mismos tokens, fuentes, `Logo` y `Button` que el sitio).",
+      "datos": "Tabla `banners` (de T11). Sin migración nueva, salvo que falte un índice.",
+      "pruebas": "Unitarias del modelo (orden sin huecos, validaciones Zod); los 6 escenarios en BDD y E2E; captura de /admin/banners comparada con la maqueta; axe sin errores.",
+      "fuera": "Programar banners por fecha. Arrastrar para ordenar (se cambia la posición con un campo o botones).",
+      "hecho": "Los 6 escenarios del admin de banners en verde.",
       "necesita": ""
     },
     {
       "id": "T13",
       "fase": 2,
       "titulo": "Proyectos en lista y en detalle",
+      "historia": "Como dueño de una empresa que mira la demo, quiero ver proyectos con fotos, para imaginar cómo mostraría mis trabajos a mis clientes.",
+      "depende": [
+        "T10"
+      ],
       "escenarios": [
         {
           "archivo": "features/fase-2-portada-y-proyectos.feature",
           "gherkin": "Escenario: El visitante ve un proyecto\n  Dado que la demo tiene el proyecto \"Proyecto Grupo Andino\"\n  Cuando entro a /projects y lo abro\n  Entonces veo el título \"Proyecto Grupo Andino\", su descripción y sus imágenes"
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: La galería del proyecto\n  Dado que el proyecto \"Proyecto Grupo Andino\" tiene 4 fotos\n  Cuando entro a /projects/proyecto-grupo-andino\n  Entonces veo las 4 fotos en su orden y la primera es la portada del proyecto"
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: Un proyecto en borrador no se publica\n  Dado que el proyecto \"Programa de capacitación anual\" está en borrador\n  Cuando entro a /projects\n  Entonces no veo \"Programa de capacitación anual\"\n  Y en /projects/programa-de-capacitacion-anual veo la página \"No encontramos esta página\""
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: Un proyecto que no existe\n  Cuando entro a /projects/no-existe\n  Entonces veo la página \"No encontramos esta página\""
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: Restaurar la demo devuelve los proyectos\n  Dado que el proyecto \"Proyecto Grupo Andino\" se renombró a \"Prueba\"\n  Cuando restauro la demo\n  Entonces en /projects veo otra vez \"Proyecto Grupo Andino\" y no veo \"Prueba\""
         }
       ],
-      "que": "Módulo `projects` copiado de servicios, con varias imágenes por proyecto: /projects y /projects/[slug] con datos de la semilla. La restauración de la demo incluye los proyectos.",
-      "hecho": "El escenario «El visitante ve un proyecto» en verde.",
+      "que": "Módulo `projects` copiado de servicios, con galería de varias fotos por proyecto y estado Publicado/Borrador: /projects (tarjetas de los publicados) y /projects/[slug] (título, descripción y galería). «Proyectos» entra al menú del encabezado. La restauración (T10) incluye proyectos y fotos.",
+      "reglas": [
+        "Solo los proyectos publicados aparecen en /projects y tienen página; un borrador da 404.",
+        "La primera foto de la galería es la portada del proyecto (tarjeta y encabezado del detalle).",
+        "Cada foto tiene su descripción; la galería se puede recorrer con el teclado."
+      ],
+      "diseno": "Sitio público: igual a la maqueta `docs/maquetas/sitio.html` (#proyectos y #proyecto) y a `docs/diseno.md` (encabezado, pie, tokens y fuentes del sitio). Si la maqueta del sitio todavía no está en el repo, no inventes el diseño: pídela en el ticket y termina sin PR.",
+      "datos": "Tablas nuevas (migración): `projects` (id, title, slug único, summary, description, status «published»/«draft», position, meta_title, meta_description, fechas) y `project_images` (id, project_id, image_url, image_alt, position). Semilla con los 4 proyectos de la maqueta («Proyecto Grupo Andino» 4 fotos, «Renovación de sede central» 6, «Programa de capacitación anual» 3 en borrador, «Soporte a 40 sucursales» 5), con fotos de `public/demo/`.",
+      "pruebas": "Unitarias del modelo y del mapper; los 5 escenarios en BDD y E2E; captura de /projects y del detalle en computadora y celular comparada con la maqueta; axe sin errores.",
+      "fuera": "El admin de proyectos (T13b). Filtros o categorías de proyectos. Proyectos en la portada.",
+      "hecho": "Los 5 escenarios de proyectos en verde.",
       "necesita": ""
     },
     {
       "id": "T13b",
       "fase": 2,
       "titulo": "Admin de proyectos",
+      "historia": "Como cliente que prueba la demo, quiero publicar y ordenar las fotos de un proyecto yo mismo, para comprobar que puedo mostrar mis trabajos sin ayuda.",
+      "depende": [
+        "T13"
+      ],
       "escenarios": [
         {
           "archivo": "features/fase-2-portada-y-proyectos.feature",
           "gherkin": "Escenario: El cliente edita un proyecto\n  Dado que inicié sesión con el usuario demo\n  Cuando cambio el título de \"Proyecto Grupo Andino\" a \"Proyecto Andino\" y guardo\n  Entonces en /projects veo \"Proyecto Andino\""
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: El cliente cambia la portada del proyecto\n  Dado que inicié sesión con el usuario demo\n  Cuando muevo la tercera foto de \"Proyecto Grupo Andino\" al primer lugar y guardo\n  Entonces en /projects/proyecto-grupo-andino esa foto es la portada"
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: El cliente pasa un proyecto a borrador\n  Dado que inicié sesión con el usuario demo\n  Cuando cambio \"Proyecto Grupo Andino\" a Borrador y guardo\n  Entonces en /projects ya no veo \"Proyecto Grupo Andino\""
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: La galería respeta el tope de imágenes\n  Dado que inicié sesión con el usuario demo\n  Y que ya se subieron 30 imágenes desde la última restauración\n  Cuando agrego una foto a la galería de \"Proyecto Grupo Andino\"\n  Entonces veo el mensaje \"La demo llegó al límite de imágenes; restáurala para seguir probando\""
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: Un proyecto necesita título\n  Dado que inicié sesión con el usuario demo\n  Cuando intento crear un proyecto sin título\n  Entonces veo el mensaje \"El título es obligatorio\" y el proyecto no se crea"
+        },
+        {
+          "archivo": "features/fase-2-portada-y-proyectos.feature",
+          "gherkin": "Escenario: Eliminar un proyecto pide confirmación\n  Dado que inicié sesión con el usuario demo\n  Cuando elimino el proyecto \"Soporte a 40 sucursales\" y confirmo\n  Entonces ya no aparece en la lista ni en /projects"
         }
       ],
-      "que": "Lista, creación y edición de proyectos en /admin/projects, con sus imágenes, copiando el admin de servicios. Las subidas cuentan para el tope de 30.",
-      "hecho": "El escenario «El cliente edita un proyecto» en verde.",
+      "que": "En /admin/projects: lista en tarjetas, crear, editar, Publicado/Borrador, eliminar y galería (agregar, quitar y ordenar fotos), copiando el admin de servicios. La tarjeta «Proyectos» del Resumen muestra cuántos hay.",
+      "reglas": [
+        "Cada foto usa la misma subida validada y cuenta para el tope de 30 imágenes.",
+        "Ordenar la galería funciona arrastrando y también con botones «Subir»/«Bajar» (teclado y celular).",
+        "Quitar una foto de la galería no borra las de la semilla del disco; las subidas se borran con la restauración.",
+        "Las acciones del servidor verifican la sesión."
+      ],
+      "diseno": "Maqueta `docs/maquetas/admin.html` → Proyectos (#proyectos): título «Proyectos», bajada «Trabajos que muestras como referencia, con su galería de fotos.», botón «Nuevo proyecto», tarjetas con «N fotos · Publicado/Borrador», y el panel «Galería · <proyecto>» con «Arrastra para ordenar. La primera es la portada del proyecto.». Formulario igual al de servicios: secciones, error en rojo bajo el campo, contadores de caracteres, zona para arrastrar la imagen y barra «Guardar cambios» fija abajo. Al guardar: aviso «Cambios guardados». Eliminar abre la confirmación de la maqueta: «¿Eliminar este elemento?», «Se quita del sitio de inmediato.», botones «Cancelar» y «Eliminar». Todo el admin igual a la maqueta aprobada `docs/maquetas/admin.html` y a la sección «Admin» de `docs/diseno.md` (layout propio, mismos tokens, fuentes, `Logo` y `Button` que el sitio).",
+      "datos": "Tablas `projects` y `project_images` (de T13). Sin migración nueva.",
+      "pruebas": "Unitarias del modelo (orden de la galería, estados, validaciones); los 6 escenarios en BDD y E2E; captura de /admin/projects comparada con la maqueta; axe sin errores.",
+      "fuera": "Recortar o editar fotos. Galerías de más de 12 fotos por proyecto.",
+      "hecho": "Los 6 escenarios del admin de proyectos en verde.",
       "necesita": ""
     },
     {
       "id": "T14",
       "fase": 3,
       "titulo": "Datos de la empresa y logo",
+      "historia": "Como cliente que prueba la demo, quiero poner mi logo y mis datos de contacto, para ver el sitio como si ya fuera mío.",
+      "depende": [
+        "T10"
+      ],
       "escenarios": [
         {
           "archivo": "features/fase-3-empresa-y-contacto.feature",
           "gherkin": "Escenario: El cliente cambia el logo\n  Dado que inicié sesión con el usuario demo\n  Cuando subo un logo nuevo en \"Empresa\" y guardo\n  Entonces el encabezado del sitio muestra el logo nuevo"
+        },
+        {
+          "archivo": "features/fase-3-empresa-y-contacto.feature",
+          "gherkin": "Escenario: El teléfono nuevo se ve en todo el sitio\n  Dado que inicié sesión con el usuario demo\n  Cuando cambio el teléfono a \"+51 911 222 333\" en \"Datos de la empresa\" y guardo\n  Entonces el encabezado y el pie del sitio muestran \"+51 911 222 333\""
+        },
+        {
+          "archivo": "features/fase-3-empresa-y-contacto.feature",
+          "gherkin": "Escenario: Un teléfono que no es válido\n  Dado que inicié sesión con el usuario demo\n  Cuando escribo el teléfono \"abc\" en \"Datos de la empresa\" y guardo\n  Entonces veo el mensaje \"Escribe un teléfono válido, con código de país.\" y no se guarda nada"
+        },
+        {
+          "archivo": "features/fase-3-empresa-y-contacto.feature",
+          "gherkin": "Escenario: Un logo que no es una imagen válida\n  Dado que inicié sesión con el usuario demo\n  Cuando subo como logo un archivo SVG\n  Entonces veo un mensaje que explica por qué no se aceptó y el logo no cambia"
+        },
+        {
+          "archivo": "features/fase-3-empresa-y-contacto.feature",
+          "gherkin": "Escenario: El cliente quita su logo\n  Dado que inicié sesión con el usuario demo\n  Y que subí un logo nuevo\n  Cuando pulso \"Quitar\" en el logo y guardo\n  Entonces el encabezado del sitio muestra otra vez el logo de la demo"
+        },
+        {
+          "archivo": "features/fase-3-empresa-y-contacto.feature",
+          "gherkin": "Escenario: Restaurar la demo devuelve los datos de la empresa\n  Dado que el nombre comercial se cambió a \"Prueba SAC\"\n  Cuando restauro la demo\n  Entonces el encabezado del sitio muestra otra vez \"Tu Empresa\""
         }
       ],
-      "que": "Sección «Empresa» en el admin (nombre, logo, teléfono, correo, dirección, WhatsApp), con un solo registro. El encabezado y el pie leen esos datos. El logo usa la misma subida validada de T8, y la restauración devuelve los datos originales.",
-      "hecho": "El escenario «El cliente cambia el logo» en verde.",
+      "que": "Sección «Datos de la empresa» en /admin/company (un solo registro): logo, nombre comercial, frase, teléfono, WhatsApp, correo, horario y dirección, con la vista previa «Así se verá». El encabezado, el pie y la franja superior del sitio leen esos datos de la base en vez de `src/components/empresa.ts`. La restauración (T10) devuelve los datos originales.",
+      "reglas": [
+        "El logo usa la subida validada de T8 (PNG, JPG o WebP, máximo 2 MB) y cuenta para el tope de 30. **SVG no se acepta**: puede llevar código. El texto de ayuda pasa a «PNG o WebP con fondo transparente, cuadrado, mínimo 200 px».",
+        "Sin logo subido se usa el de la demo (`LogoMark`).",
+        "Nombre comercial obligatorio (≤ 80). Teléfono y WhatsApp con código de país (`+51 …`); el WhatsApp se guarda solo con dígitos para el enlace `wa.me`. Correo válido: «Escribe un correo válido.».",
+        "El sitio sigue cargando si la base falla: usa los datos de la demo por defecto y lo registra."
+      ],
+      "diseno": "Maqueta `docs/maquetas/admin.html` → Datos de la empresa (#empresa): bajada «Se ven en el encabezado, el pie y la página de contacto.», secciones «Marca» (Logo con «Cambiar logo» y «Quitar», «Nombre comercial *», «Frase bajo el nombre») y «Contacto» (Teléfono, WhatsApp con prefijo «wa.me/», Correo, Horario, Dirección), y el panel «Así se verá» con la vista previa del encabezado. Barra «Guardar cambios» fija abajo. Todo el admin igual a la maqueta aprobada `docs/maquetas/admin.html` y a la sección «Admin» de `docs/diseno.md` (layout propio, mismos tokens, fuentes, `Logo` y `Button` que el sitio).",
+      "datos": "Tabla `company` (migración nueva, una fila): name, tagline, logo_url, logo_alt, phone, whatsapp, email, schedule, address, fechas. Semilla con los datos de hoy de `src/components/empresa.ts` (que pasa a ser solo el valor por defecto).",
+      "pruebas": "Unitarias del modelo y de las validaciones Zod; los 6 escenarios en BDD y E2E; captura de /admin/company comparada con la maqueta; axe sin errores.",
+      "fuera": "Colores configurables (Parking lot). Redes sociales. Varias sedes.",
+      "hecho": "Los 6 escenarios de datos de la empresa en verde.",
       "necesita": ""
     },
     {
       "id": "T15",
       "fase": 3,
       "titulo": "Página de contacto",
+      "historia": "Como visitante del sitio, quiero encontrar cómo contactar a la empresa y escribirle por WhatsApp con un toque, para pedir una cotización desde el celular.",
+      "depende": [
+        "T14"
+      ],
       "escenarios": [
         {
           "archivo": "features/fase-3-empresa-y-contacto.feature",
           "gherkin": "Escenario: Los datos de contacto se ven en el sitio\n  Dado que el teléfono de la empresa es \"+51 999 888 777\"\n  Cuando entro a /contact\n  Entonces veo \"+51 999 888 777\" y un botón de WhatsApp"
+        },
+        {
+          "archivo": "features/fase-3-empresa-y-contacto.feature",
+          "gherkin": "Escenario: El botón de WhatsApp abre la conversación\n  Dado que el WhatsApp de la empresa es \"51999888777\"\n  Cuando entro a /contact\n  Entonces el botón \"Escríbenos por WhatsApp\" lleva a \"https://wa.me/51999888777\""
+        },
+        {
+          "archivo": "features/fase-3-empresa-y-contacto.feature",
+          "gherkin": "Escenario: El teléfono y el correo se pueden tocar\n  Cuando entro a /contact\n  Entonces el teléfono es un enlace para llamar y el correo un enlace para escribir un correo"
+        },
+        {
+          "archivo": "features/fase-3-empresa-y-contacto.feature",
+          "gherkin": "Escenario: Sin WhatsApp no hay botón\n  Dado que la empresa no tiene WhatsApp\n  Cuando entro a /contact\n  Entonces no veo el botón \"Escríbenos por WhatsApp\"\n  Y sí veo el teléfono y el correo"
+        },
+        {
+          "archivo": "features/fase-3-empresa-y-contacto.feature",
+          "gherkin": "Escenario: La página de contacto se ve como el diseño aprobado\n  Cuando entro a /contact en la computadora y en el celular\n  Entonces la página se ve igual al diseño que aprobé"
         }
       ],
-      "que": "/contact con los datos de la empresa y un botón de WhatsApp (enlace `wa.me` con el número). Sin formulario de correo (Parking lot).",
-      "hecho": "El escenario «Los datos de contacto se ven en el sitio» en verde.",
+      "que": "/contact con los datos de la empresa (teléfono, correo, dirección y horario) y el botón «Escríbenos por WhatsApp» (`https://wa.me/<número>`, abre en otra pestaña). «Contacto» entra al menú y el botón «Cotizar» del encabezado lleva aquí.",
+      "reglas": [
+        "Teléfono como enlace `tel:` con el número sin espacios; correo como enlace `mailto:`.",
+        "Un dato vacío no deja una fila vacía: no se muestra.",
+        "El enlace de WhatsApp abre en otra pestaña con `rel=\"noopener\"`."
+      ],
+      "diseno": "Sitio público: igual a la maqueta `docs/maquetas/sitio.html` (#contacto) y a `docs/diseno.md` (encabezado, pie, tokens y fuentes del sitio). Si la maqueta del sitio todavía no está en el repo, no inventes el diseño: pídela en el ticket y termina sin PR.",
+      "datos": "Lee la tabla `company` (de T14). Sin migración.",
+      "pruebas": "Unitarias del armado de enlaces (`tel:`, `wa.me`); los 5 escenarios en BDD y E2E; captura en computadora y celular; axe sin errores.",
+      "fuera": "Formulario que envía correo y mapa (Parking lot).",
+      "hecho": "Los 5 escenarios de contacto en verde.",
       "necesita": ""
     },
     {
       "id": "T16",
       "fase": 4,
       "titulo": "Restauración nocturna de la demo",
+      "historia": "Como vendedor de la demo, quiero que cada mañana amanezca limpia, para mostrársela a un cliente nuevo sin acordarme de restaurarla.",
+      "depende": [
+        "T10"
+      ],
       "escenarios": [
         {
           "archivo": "features/fase-4-lista-para-mostrar.feature",
           "gherkin": "Escenario: La demo amanece limpia\n  Dado que ayer un cliente borró el servicio \"Asesoría personalizada\"\n  Cuando pasa la restauración de la noche\n  Entonces en /services veo otra vez \"Asesoría personalizada\""
+        },
+        {
+          "archivo": "features/fase-4-lista-para-mostrar.feature",
+          "gherkin": "Escenario: La restauración de la noche borra las imágenes subidas\n  Dado que ayer un cliente subió una imagen nueva\n  Cuando pasa la restauración de la noche\n  Entonces esa imagen ya no existe\n  Y el Resumen del admin muestra \"0 / 30\" imágenes subidas"
+        },
+        {
+          "archivo": "features/fase-4-lista-para-mostrar.feature",
+          "gherkin": "Escenario: El usuario demo sigue entrando después de la restauración\n  Dado que pasó la restauración de la noche\n  Cuando inicio sesión con el usuario demo y su clave de siempre\n  Entonces entro al admin"
         }
       ],
-      "que": "Función programada de Netlify que todas las noches (hora de Lima) llama a la restauración de T10. Lo que no se puede probar en local (el horario real de Netlify) se explica en el PR, con el paso para comprobarlo en staging.",
-      "hecho": "El escenario «La demo amanece limpia» en verde.",
+      "que": "Función programada de Netlify que cada noche a las 3:00 de Lima (`0 8 * * *` en UTC) llama a la misma restauración de T10. Lo que no se puede probar en local (el horario real de Netlify) se explica en el PR, con el paso para comprobarlo en staging.",
+      "reglas": [
+        "Usa la misma función de T10: no se duplica la lógica.",
+        "Todo o nada: si algo falla, la demo queda como estaba y el error queda en el log de la función.",
+        "No se puede llamar desde internet: las funciones programadas de Netlify no tienen URL pública en los deploys publicados.",
+        "No toca al usuario demo ni sus intentos de login."
+      ],
+      "diseno": "Sin pantalla.",
+      "datos": "Las mismas tablas y Blobs que restaura T10.",
+      "pruebas": "Unitarias del manejador (llama a la restauración; si falla, registra y no deja nada a medias); los 3 escenarios en BDD (la «noche» se simula llamando al manejador).",
+      "fuera": "Avisar por Telegram cuando se restaura. Elegir la hora desde el admin.",
+      "hecho": "Los 3 escenarios de la restauración nocturna en verde.",
       "necesita": ""
     },
     {
       "id": "T17",
       "fase": 4,
       "titulo": "SEO básico por página",
+      "historia": "Como dueño de la empresa, quiero que cada página tenga su título y su descripción para buscadores y redes, para que el sitio se vea profesional cuando lo comparto.",
+      "depende": [
+        "T13",
+        "T15"
+      ],
       "escenarios": [
         {
           "archivo": "features/fase-4-lista-para-mostrar.feature",
           "gherkin": "Escenario: Cada página tiene su título para buscadores\n  Cuando entro a /services/asesoria-personalizada\n  Entonces el título de la pestaña es el meta título del servicio"
+        },
+        {
+          "archivo": "features/fase-4-lista-para-mostrar.feature",
+          "gherkin": "Escenario: Sin meta título se usa el título de la página\n  Dado que el servicio \"Capacitación\" no tiene meta título\n  Cuando entro a /services/capacitacion\n  Entonces el título de la pestaña es \"Capacitación · Tu Empresa\""
+        },
+        {
+          "archivo": "features/fase-4-lista-para-mostrar.feature",
+          "gherkin": "Escenario: El mapa del sitio tiene solo las páginas públicas\n  Cuando entro a /sitemap.xml\n  Entonces veo la portada, /services, cada servicio, /projects, cada proyecto publicado y /contact\n  Y no veo /admin, /login ni los proyectos en borrador"
+        },
+        {
+          "archivo": "features/fase-4-lista-para-mostrar.feature",
+          "gherkin": "Escenario: Los buscadores no indexan el admin\n  Cuando entro a /robots.txt\n  Entonces /admin y /login están bloqueados"
+        },
+        {
+          "archivo": "features/fase-4-lista-para-mostrar.feature",
+          "gherkin": "Escenario: Al compartir un servicio se ve su vista previa\n  Cuando reviso las etiquetas de /services/asesoria-personalizada\n  Entonces tiene título, descripción e imagen para redes (Open Graph)"
         }
       ],
-      "que": "`generateMetadata` en todas las páginas públicas (meta título y meta descripción desde la base, con un valor por defecto), Open Graph básico, `sitemap.ts` y `robots.ts` (el admin no se indexa).",
-      "hecho": "El escenario «Cada página tiene su título para buscadores» en verde.",
+      "que": "`generateMetadata` en todas las páginas públicas (meta título y descripción desde la base, con valor por defecto), plantilla «<título> · <nombre comercial>», Open Graph básico, `sitemap.ts` y `robots.ts`.",
+      "reglas": [
+        "Meta título ≤ 70 y descripción ≤ 160 (los mismos límites del formulario).",
+        "La URL base sale de una variable (`URL` de Netlify), nunca escrita en el código.",
+        "Todas las páginas del admin y el login llevan `noindex`."
+      ],
+      "diseno": "Sin pantalla nueva.",
+      "datos": "Lee `meta_title`/`meta_description` de `services` y `projects`, y el nombre de `company`. Sin migración.",
+      "pruebas": "Unitarias del armado de metadatos y del sitemap; los 5 escenarios en BDD y E2E.",
+      "fuera": "Datos estructurados (JSON-LD), Search Console, varios idiomas.",
+      "hecho": "Los 5 escenarios de SEO en verde.",
       "necesita": ""
     },
     {
       "id": "T18",
       "fase": 4,
       "titulo": "Contenido profesional y calidad ≥ 90",
+      "historia": "Como vendedor de la demo, quiero que se vea terminada y cargue rápido en el celular, para que el cliente confíe en lo que le ofrezco.",
+      "depende": [
+        "T11",
+        "T13",
+        "T15",
+        "T17"
+      ],
       "escenarios": [
         {
           "archivo": "features/fase-4-lista-para-mostrar.feature",
           "gherkin": "Escenario: El sitio carga rápido y con buena calidad\n  Cuando reviso la portada, /services y /projects\n  Entonces cada una saca 90 o más en rendimiento, accesibilidad, buenas prácticas y SEO"
+        },
+        {
+          "archivo": "features/fase-4-lista-para-mostrar.feature",
+          "gherkin": "Escenario: No hay textos de relleno\n  Cuando reviso la portada, /services, /projects y /contact\n  Entonces no veo \"Lorem ipsum\", \"TODO\", \"Texto de ejemplo\" ni imágenes de marcador"
+        },
+        {
+          "archivo": "features/fase-4-lista-para-mostrar.feature",
+          "gherkin": "Escenario: Las páginas nuevas se pueden leer y usar\n  Cuando reviso la portada, /projects, /projects/proyecto-grupo-andino y /contact\n  Entonces los textos se leen bien, las imágenes tienen descripción y cada control tiene su etiqueta"
+        },
+        {
+          "archivo": "features/fase-4-lista-para-mostrar.feature",
+          "gherkin": "Escenario: Todo el sitio se ve como el diseño aprobado\n  Cuando entro a la portada, /projects y /contact en la computadora y en el celular\n  Entonces cada página se ve igual al diseño que aprobé"
         }
       ],
-      "que": "Contenido de ejemplo profesional en todas las secciones (textos e imágenes propias, sin marcadores de posición) y Lighthouse CI (ADR 0007) sobre la portada, /services y /projects, con 90 o más en rendimiento, accesibilidad, buenas prácticas y SEO; se corrige lo que baje de 90.",
-      "hecho": "El escenario «El sitio carga rápido y con buena calidad» en verde.",
+      "que": "Contenido de ejemplo profesional en todas las secciones (textos revisados e imágenes propias CC0, con créditos en `docs/creditos.md`) y Lighthouse CI (ADR 0007) sobre la portada, /services y /projects, con 90 o más en rendimiento, accesibilidad, buenas prácticas y SEO; se corrige lo que baje de 90.",
+      "reglas": [
+        "Las fotos se sirven comprimidas (WebP o JPG optimizado, ancho máximo 1600 px).",
+        "Si una nota no llega a 90 por algo del hosting, se explica en el PR con la medición; no se baja el umbral."
+      ],
+      "diseno": "Igual a las maquetas aprobadas (`docs/maquetas/sitio.html` y `admin.html`) y a `docs/diseno.md`.",
+      "datos": "Actualiza las semillas de contenido con una migración nueva (no edita las ya aplicadas).",
+      "pruebas": "Lighthouse CI en el CI; los 4 escenarios en BDD y E2E; capturas actualizadas solo si el dueño aprueba el cambio.",
+      "fuera": "Dominio propio, analítica, varios idiomas.",
+      "hecho": "Los 4 escenarios de calidad en verde.",
       "necesita": ""
     }
   ]
