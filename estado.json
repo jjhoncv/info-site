@@ -17,7 +17,7 @@
     "diasAtraso": 0,
     "pausa": false
   },
-  "actualizado": "2026-10-23T02:52:48.407Z",
+  "actualizado": "2026-10-23T03:19:58.166Z",
   "vencimientos": [
     {
       "secreto": "ANTHROPIC_API_KEY",
@@ -30,6 +30,10 @@
     {
       "secreto": "NETLIFY_AUTH_TOKEN",
       "vence": "2026-11-07"
+    },
+    {
+      "secreto": "PROJECT_TOKEN",
+      "vence": "2027-01-20"
     },
     {
       "secreto": "RELEASE_PLEASE_TOKEN",
