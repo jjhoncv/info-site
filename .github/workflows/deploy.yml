@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   deploy:
-    uses: jjhoncv/guardian/.github/workflows/guardian-deploy.yml@v0.21.0
+    uses: jjhoncv/guardian/.github/workflows/guardian-deploy.yml@v0.22.0
     with:
       base_de_datos: mysql
     secrets: inherit

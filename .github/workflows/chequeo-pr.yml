@@ -13,4 +13,4 @@ permissions:
 
 jobs:
   chequeo:
-    uses: jjhoncv/guardian/.github/workflows/guardian-chequeo-pr.yml@v0.21.0
+    uses: jjhoncv/guardian/.github/workflows/guardian-chequeo-pr.yml@v0.22.0

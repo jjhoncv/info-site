@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   release:
-    uses: jjhoncv/guardian/.github/workflows/guardian-release.yml@v0.21.0
+    uses: jjhoncv/guardian/.github/workflows/guardian-release.yml@v0.22.0
     with:
       base_de_datos: mysql
     secrets: inherit
