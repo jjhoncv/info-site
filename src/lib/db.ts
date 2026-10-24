@@ -3,13 +3,18 @@ import mysql from "mysql2/promise";
 // Pool único (ADR 0004). TLS cuando MYSQL_SSL=1 (TiDB Cloud). Se crea al primer uso, no al importar.
 let pool: mysql.Pool | undefined;
 
+/** En un preview, la base propia del PR (Guardián, ADR 0014); en staging y producción, MYSQL_DATABASE. */
+export function nombreDeLaBase(): string | undefined {
+  return process.env.MYSQL_DATABASE_PREVIEW || process.env.MYSQL_DATABASE;
+}
+
 function getPool(): mysql.Pool {
   pool ??= mysql.createPool({
     host: process.env.MYSQL_HOST,
     port: Number(process.env.MYSQL_PORT ?? 3306),
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
+    database: nombreDeLaBase(),
     ssl: process.env.MYSQL_SSL === "1" ? { minVersion: "TLSv1.2", rejectUnauthorized: true } : undefined,
     connectionLimit: 5,
   });
