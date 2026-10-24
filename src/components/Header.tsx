@@ -13,6 +13,9 @@ export function Header() {
           <Link href="/services" className="hover:text-marca-700">
             Servicios
           </Link>
+          <Link href="/projects" className="hover:text-marca-700">
+            Proyectos
+          </Link>
           <Link href="#contacto" className="hidden hover:text-marca-700 sm:inline">
             Contacto
           </Link>
