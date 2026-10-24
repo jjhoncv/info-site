@@ -13,6 +13,7 @@ const repo = vi.hoisted(() => ({
 vi.mock("../core/Service.repository", () => ({ default: repo }));
 
 import { ServiceModel } from "../core/Service.model";
+import { ServiceMapper } from "../core/Service.mapper";
 import { ServiceSchema } from "../core/Service.schema";
 import { SERVICES_SEED } from "../core/Service.seed";
 
@@ -90,6 +91,17 @@ describe("ServiceModel", () => {
       repo.updateService.mockResolvedValue(completa);
       await new ServiceModel().updateService(1, ServiceSchema.partial().parse({ metaTitle: "" }), 3);
       expect(repo.updateService.mock.calls[0][1].metaTitle).toBeUndefined();
+    });
+
+    it("conserva TODOS los campos del esquema que no llegan (un campo nuevo no se borra al editar)", async () => {
+      repo.getServiceById.mockResolvedValue(completa);
+      repo.updateService.mockResolvedValue(completa);
+      await new ServiceModel().updateService(1, {}, 3);
+      const guardado = repo.updateService.mock.calls[0][1];
+      const actual = ServiceMapper(completa);
+      for (const campo of Object.keys(ServiceSchema.shape)) {
+        expect(guardado[campo], `se perdió «${campo}» al editar`).toEqual(actual[campo as keyof typeof actual]);
+      }
     });
 
     it("devuelve null si el servicio no existe", async () => {

@@ -44,6 +44,7 @@ src/app/<ruta-publica>/[slug]/page.tsx  # detalle con SEO (generateMetadata)
   concatenar valores). Devuelve `null` si no hay filas. Exporta una instancia por defecto.
 - **Mapper:** `<Entidad>Mapper(raw)` y `<Entidad>sMapper(raws)`; `null` de BD → `undefined`.
 - **Model:** mismos métodos que el repository, devolviendo tipos de dominio. Exporta una instancia.
+- **Editar (PATCH) sin perder campos:** `Schema.parse({ ...soloCamposDelEsquema(Schema, actual), ...cambios })` (`src/lib/esquema.ts`), nunca la lista de campos a mano; y una prueba que recorre `Object.keys(Schema.shape)` y verifica que todos se conservan al editar.
 - **Tipos generados** de la BD (`src/types/database` y `src/types/domain`); se regeneran después
   de cada cambio de tabla. No se escriben a mano.
 
