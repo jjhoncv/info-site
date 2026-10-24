@@ -10,14 +10,23 @@
     "porcentaje": 29
   },
   "salud": {
-    "color": "verde",
-    "emoji": "🟢",
-    "motivos": [],
-    "alertas": [],
+    "color": "amarillo",
+    "emoji": "🟡",
+    "motivos": [
+      "El PR #61 espera tu revisión hace más de 24 h"
+    ],
+    "alertas": [
+      {
+        "gravedad": "amarillo",
+        "texto": "El PR #61 espera tu revisión hace más de 24 h",
+        "accion": "Revisa el preview y aprueba o comenta el PR #61",
+        "pr": 61
+      }
+    ],
     "diasAtraso": 0,
     "pausa": false
   },
-  "actualizado": "2026-10-24T01:22:44.860Z",
+  "actualizado": "2026-10-24T14:23:47.752Z",
   "vencimientos": [
     {
       "secreto": "ANTHROPIC_API_KEY",
