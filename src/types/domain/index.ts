@@ -7,6 +7,28 @@ export interface LoginAttempt {
   'id': number;
   'username': string;
 }
+export interface ProjectImage {
+  'id': number;
+  'imageAlt': string;
+  'imageUrl': string;
+  'position': number;
+  'projectId': number;
+}
+export interface Project {
+  'createdAt': Date;
+  'createdBy'?: number;
+  'description': string;
+  'id': number;
+  'metaDescription'?: string;
+  'metaTitle'?: string;
+  'position': number;
+  'slug': string;
+  'status': string;
+  'summary': string;
+  'title': string;
+  'updatedAt': Date;
+  'updatedBy'?: number;
+}
 export interface Section {
   'createdAt': Date;
   'id': number;

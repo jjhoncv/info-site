@@ -7,6 +7,28 @@ export interface LoginAttemptRow {
   'id': number;
   'username': string;
 }
+export interface ProjectImageRow {
+  'id': number;
+  'image_alt': string;
+  'image_url': string;
+  'position': number;
+  'project_id': number;
+}
+export interface ProjectRow {
+  'created_at': Date;
+  'created_by': number | null;
+  'description': string;
+  'id': number;
+  'meta_description': string | null;
+  'meta_title': string | null;
+  'position': number;
+  'slug': string;
+  'status': string;
+  'summary': string;
+  'title': string;
+  'updated_at': Date;
+  'updated_by': number | null;
+}
 export interface SectionRow {
   'created_at': Date;
   'id': number;

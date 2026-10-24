@@ -15,6 +15,11 @@ it("el encabezado tiene navegación con Servicios y la acción de cotizar", () =
   expect(screen.getByRole("link", { name: "Solicitar cotización" })).toBeTruthy();
 });
 
+it("el encabezado enlaza a Proyectos", () => {
+  render(<Header />);
+  expect(screen.getByRole("link", { name: "Proyectos" }).getAttribute("href")).toBe("/projects");
+});
+
 it("el pie tiene el nombre de la empresa, los servicios, el contacto y la marca de demostración", async () => {
   render(await Footer());
   const pie = screen.getByRole("contentinfo").textContent ?? "";

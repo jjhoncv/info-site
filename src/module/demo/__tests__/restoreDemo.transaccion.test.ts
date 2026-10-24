@@ -1,7 +1,7 @@
 import { beforeEach, expect, it, vi } from "vitest";
 
 // Base falsa con transacciones: los cambios se aplican a una copia y solo se publican en el commit.
-const bd = vi.hoisted(() => ({ servicios: ["original"] as string[], contador: 1, fallaInsert: false }));
+const bd = vi.hoisted(() => ({ servicios: ["original"] as string[], contador: 1, fallaInsert: false, fallaProyectos: false }));
 vi.mock("@/src/lib/db", () => ({
   executeQuery: vi.fn(),
   withTransaction: async (trabajo: (c: (sql: string) => Promise<void>) => Promise<void>) => {
@@ -11,7 +11,8 @@ vi.mock("@/src/lib/db", () => ({
       else if (sql.startsWith("INSERT INTO services")) {
         if (bd.fallaInsert) throw new Error("falla el INSERT");
         copia.servicios = ["semilla"];
-      } else if (sql.startsWith("UPDATE upload_counter")) copia.contador = 0;
+      } else if (sql.startsWith("INSERT INTO project_images") && bd.fallaProyectos) throw new Error("fallan las fotos de proyectos");
+      else if (sql.startsWith("UPDATE upload_counter")) copia.contador = 0;
     });
     bd.servicios = copia.servicios;
     bd.contador = copia.contador;
@@ -24,7 +25,15 @@ import { restoreDemo } from "../core/restoreDemo";
 
 beforeEach(() => {
   vi.clearAllMocks();
-  Object.assign(bd, { servicios: ["original"], contador: 1, fallaInsert: false });
+  Object.assign(bd, { servicios: ["original"], contador: 1, fallaInsert: false, fallaProyectos: false });
+});
+
+it("si fallan los proyectos, todo se revierte: servicios, contador e imágenes quedan como estaban", async () => {
+  bd.fallaProyectos = true;
+  await expect(restoreDemo()).rejects.toThrow("fallan las fotos de proyectos");
+  expect(bd.servicios).toEqual(["original"]);
+  expect(bd.contador).toBe(1);
+  expect(storage.deleteAllBlobs).not.toHaveBeenCalled();
 });
 
 it("si falla el INSERT, los servicios, el contador y las imágenes quedan como estaban", async () => {
