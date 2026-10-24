@@ -25,6 +25,7 @@
 
 - **Títulos:** Source Serif 4 (600/700), con `text-wrap: balance`. Transmite trayectoria y seriedad.
 - **Texto:** Public Sans (400–700), muy legible en celular.
+- Las dos son variables y viven en `app/fonts/` (subconjunto latin, licencia OFL), cargadas con `next/font/local` (ADR 0013).
 - Escala: `h1` 4xl→5xl · `h2` 3xl · `h3` lg · texto base/lg con `leading-relaxed` · etiquetas xs/sm en mayúsculas con `tracking-widest`.
 
 ## Espaciado y forma

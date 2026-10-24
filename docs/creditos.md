@@ -12,3 +12,10 @@ Todas las fotos de la demo son de [StockSnap](https://stocksnap.io), con licenci
 | `public/demo/servicios/capacitacion.jpg` | https://stocksnap.io/photo/W6PNBNYHM6 |
 | `public/demo/servicios/soporte-y-mantenimiento.jpg` | https://stocksnap.io/photo/Q1OSKR7D42 |
 | `public/demo/servicios/garantia-y-postventa.jpg` | https://stocksnap.io/photo/J5LXKNDREC |
+
+# Créditos de fuentes
+
+| Archivo | Fuente | Licencia |
+|---|---|---|
+| `app/fonts/public-sans-latin.woff2` | [Public Sans](https://fonts.google.com/specimen/Public+Sans) (USWDS), variable 400–700, subconjunto latin | SIL Open Font License 1.1 |
+| `app/fonts/source-serif-4-latin.woff2` | [Source Serif 4](https://fonts.google.com/specimen/Source+Serif+4) (Adobe), variable, subconjunto latin | SIL Open Font License 1.1 |
