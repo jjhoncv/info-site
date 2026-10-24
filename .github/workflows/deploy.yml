@@ -1,9 +1,11 @@
 # Llama al workflow del Guardián (v0.19.1). Para subir de versión, cambia el @vX.Y.Z (Dependabot lo propone).
 name: Deploy
-run-name: "${{ github.event_name == 'push' && '🚀 Staging · migraciones y publicación de main' || format('🚀 Preview · PR #{0} · {1}', github.event.pull_request.number, github.event.pull_request.title) }}"
+run-name: "${{ github.event_name == 'push' && '🚀 Staging · migraciones y publicación de main' || github.event.action == 'closed' && format('🧹 Preview · PR #{0} cerrado: borra su base', github.event.pull_request.number) || format('🚀 Preview · PR #{0} · {1}', github.event.pull_request.number, github.event.pull_request.title) }}"
 
 on:
   pull_request:
+    # closed: al cerrar el PR se borra su base de preview (Guardián #282).
+    types: [opened, synchronize, reopened, closed]
   push:
     branches: [main]
 
