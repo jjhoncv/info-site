@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/jjhoncv/info-site/compare/v0.1.1...v0.1.2) (2026-10-24)
+
+
+### Correcciones
+
+* **#62:** fuentes dentro del repo (el build no depende de Google Fonts) ([#63](https://github.com/jjhoncv/info-site/issues/63)) ([cb80c78](https://github.com/jjhoncv/info-site/commit/cb80c784eaa3a1bbdeef35f8d5ee7b88f5b4906c))
+
 ## [0.1.1](https://github.com/jjhoncv/info-site/compare/v0.1.0...v0.1.1) (2026-10-23)
 
 
