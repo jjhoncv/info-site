@@ -1,4 +1,5 @@
 import type { Consulta } from "@/src/lib/db";
+import { soloCamposDelEsquema } from "@/src/lib/esquema";
 import type { Service } from "@/src/types/domain";
 import repository from "./Service.repository";
 import { ServiceMapper, ServicesMapper } from "./Service.mapper";
@@ -26,15 +27,11 @@ export class ServiceModel {
     return ServiceMapper(fila);
   }
 
-  // PATCH: solo cambia lo que llega; lo demás (p. ej. la imagen, que el formulario aún no toca) se conserva.
+  // PATCH: solo cambia lo que llega; lo demás se conserva. Los campos salen del esquema, no de una lista a mano.
   async updateService(id: number, cambios: Partial<ServiceInput>, userId: number): Promise<Service | null> {
     const actual = await this.getServiceById(id);
     if (!actual) return null;
-    const { title, slug, summary, description, includes, imageUrl, imageAlt, metaTitle, metaDescription } = actual;
-    const datos = ServiceSchema.parse({
-      title, slug, summary, description, includes, imageUrl, imageAlt, metaTitle, metaDescription,
-      ...cambios,
-    });
+    const datos = ServiceSchema.parse({ ...soloCamposDelEsquema(ServiceSchema, actual), ...cambios });
     const fila = await repository.updateService(id, datos, userId);
     return fila ? ServiceMapper(fila) : null;
   }
