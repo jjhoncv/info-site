@@ -13,9 +13,16 @@
     "color": "amarillo",
     "emoji": "🟡",
     "motivos": [
+      "El PR #64 espera tu revisión hace más de 24 h",
       "El PR #61 espera tu revisión hace más de 24 h"
     ],
     "alertas": [
+      {
+        "gravedad": "amarillo",
+        "texto": "El PR #64 espera tu revisión hace más de 24 h",
+        "accion": "Revisa el preview y aprueba o comenta el PR #64",
+        "pr": 64
+      },
       {
         "gravedad": "amarillo",
         "texto": "El PR #61 espera tu revisión hace más de 24 h",
@@ -26,7 +33,7 @@
     "diasAtraso": 0,
     "pausa": false
   },
-  "actualizado": "2026-10-24T14:23:47.752Z",
+  "actualizado": "2026-10-25T14:54:51.161Z",
   "vencimientos": [
     {
       "secreto": "ANTHROPIC_API_KEY",
