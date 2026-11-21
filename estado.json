@@ -13,14 +13,14 @@
     "color": "rojo",
     "emoji": "🔴",
     "motivos": [
-      "«Fase 2 — Portada y proyectos» lleva 9 días de atraso",
+      "«Fase 2 — Portada y proyectos» lleva 10 días de atraso",
       "El PR #64 espera tu revisión hace más de 24 h",
       "El PR #61 espera tu revisión hace más de 24 h"
     ],
     "alertas": [
       {
         "gravedad": "rojo",
-        "texto": "«Fase 2 — Portada y proyectos» lleva 9 días de atraso",
+        "texto": "«Fase 2 — Portada y proyectos» lleva 10 días de atraso",
         "accion": "Decide: achicar el alcance de la fase o reprogramar su fecha"
       },
       {
@@ -36,10 +36,10 @@
         "pr": 61
       }
     ],
-    "diasAtraso": 9,
+    "diasAtraso": 10,
     "pausa": false
   },
-  "actualizado": "2026-11-20T19:01:11.360Z",
+  "actualizado": "2026-11-21T17:55:16.994Z",
   "vencimientos": [
     {
       "secreto": "ANTHROPIC_API_KEY",
